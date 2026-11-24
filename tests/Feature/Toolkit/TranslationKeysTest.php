@@ -61,7 +61,7 @@ test('finds supported translation calls recursively in supported source files', 
 });
 
 test('reads escaped quotes and multiline literals and returns unique sorted keys', function (): void {
-    (new Filesystem)->put($this->translationDirectory . '/source.php', <<<'SOURCE'
+    $source = <<<'SOURCE'
         <?php
         __('Zulu');
         __('It\'s ready');
@@ -72,7 +72,9 @@ test('reads escaped quotes and multiline literals and returns unique sorted keys
         ");
         __('Alpha');
         __('Zulu');
-        SOURCE);
+        SOURCE;
+
+    (new Filesystem)->put($this->translationDirectory . '/source.php', str_replace("\r\n", "\n", $source));
 
     $keys = ['Alpha', "It's ready", "Multiple\nlines", 'Say "Hello"', 'Zulu'];
 

@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 use App\Models\SomeTranslation;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Foundation\Console\ModelMakeCommand as LaravelMakeModel;
+use Illuminate\Support\Str;
 use LaravelLang\Config\Services\ModelLangConfig;
 use LaravelLang\Exceptions\InvalidModelCommandInputException;
 use LaravelLang\Exceptions\UnknownModelPathException;
@@ -29,11 +30,19 @@ beforeEach($cleanUp);
 afterEach($cleanUp);
 
 test('from scratch', function (): void {
-    artisan(LaravelMakeModel::class, [
-        'name' => 'Some',
-    ])->assertSuccessful()->run();
+    $source     = app_path('Models/Some.php');
+    $filesystem = new Filesystem;
+    $filesystem->ensureDirectoryExists(dirname($source));
+    $filesystem->put($source, <<<'PHP'
+        <?php
 
-    require_once app_path('Models/Some.php');
+        namespace App\Models;
+
+        use Illuminate\Database\Eloquent\Model;
+
+        class Sibling extends Model {} class Some extends Model {}
+        PHP);
+    require_once $source;
 
     artisan(PackageMakeModel::class, [
         'model'     => '\App\Models\Some',
@@ -60,7 +69,7 @@ test('from scratch', function (): void {
 
     expect($helper)->toBeReadableFile()
         ->and(file_get_contents(app_path('Models/Some.php')))
-        ->toContain('use ' . HasTranslations::class . ';', 'use HasTranslations;');
+        ->toContain('class Sibling extends Model {} class Some extends Model {', 'use \\' . HasTranslations::class . ';');
 });
 
 test('rejects invalid models before generating translations', function (string $model, string $message): void {
@@ -71,6 +80,7 @@ test('rejects invalid models before generating translations', function (string $
 })->with([
     'unknown model'              => ['App\\Models\\Missing', 'was not found.'],
     'non-model class'            => [stdClass::class, 'was not found.'],
+    'abstract model'             => [Model::class, 'cannot be instantiated.'],
     'existing translation model' => [TestModel::class, 'already has a translation repository.'],
 ]);
 
@@ -94,3 +104,35 @@ test('reports when the selected model is outside the configured directories', fu
 
     artisan('make:model-translation', ['model' => User::class, '--columns' => ['title']])->run();
 })->throws(UnknownModelPathException::class, 'Could not find path to model file `\\' . User::class . '`.');
+
+test('preserves a model source when it no longer matches the loaded declaration', function (string $model, bool $moved): void {
+    $files    = new Filesystem;
+    $path     = sys_get_temp_dir() . '/mona-model-source-' . Str::uuid();
+    $source   = $path . '/original/' . $model . '.php';
+    $target   = $moved ? $path . '/other/' . $model . '.php' : $source;
+    $original = "<?php\nnamespace App\\Models;\nclass $model extends \\Illuminate\\Database\\Eloquent\\Model {}";
+    $updated  = str_replace('class ', "\nclass ", $original);
+
+    try {
+        $files->ensureDirectoryExists(dirname($source));
+        $files->put($source, $original);
+        require $source;
+
+        $files->ensureDirectoryExists(dirname($target));
+        $files->put($target, $updated);
+        config(['localization_models.directories' => [dirname($target)]]);
+
+        expect(fn () => artisan('make:model-translation', [
+            'model'     => 'App\\Models\\' . $model,
+            '--columns' => ['title'],
+        ])->run())->toThrow(UnknownModelPathException::class);
+
+        expect($files->get($target))->toBe($updated)
+            ->and($files->exists(dirname($target) . '/' . $model . 'Translation.php'))->toBeFalse();
+    } finally {
+        $files->deleteDirectory($path);
+    }
+})->with([
+    'class moved within the source'            => ['MovedModelSource', false],
+    'a different file declares the same class' => ['CopiedModelSource', true],
+]);

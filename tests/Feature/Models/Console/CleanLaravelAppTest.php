@@ -36,7 +36,8 @@ function withCleanModelApplication(Closure $scenario): void
         $database = $path . '/database/database.sqlite';
         $files->put($database, '');
 
-        $run = static fn (string ...$arguments): string => (new Process([PHP_BINARY, ...$arguments], $path, [
+        // Each child must read the latest generated PHP files from disk.
+        $run = static fn (string ...$arguments): string => (new Process([PHP_BINARY, '-d', 'opcache.enable_cli=0', ...$arguments], $path, [
             'APP_ENV'             => 'local',
             'APP_LOCALE'          => 'en',
             'APP_FALLBACK_LOCALE' => 'de',
@@ -108,5 +109,96 @@ test('a clean Laravel application can generate, use and roll back a translation 
         expect($database->query('SELECT COUNT(*) FROM articles')->fetchColumn())->toBe(2);
         expect($database->query("SELECT name FROM sqlite_master WHERE name = 'article_translations'")->fetchColumn())
             ->toBeFalse();
+    });
+});
+
+test('generation edits only the selected class and supports sorting by a custom primary key', function (): void {
+    withCleanModelApplication(function (string $path, Closure $run): void {
+        $source   = $path . '/app/Models/Article.php';
+        $original = <<<'PHP'
+            <?php
+
+            namespace App\Models;
+
+            use Illuminate\Database\Eloquent\Model;
+
+            class Sibling extends Model
+            {
+            }
+
+            #[\AllowDynamicProperties]
+            final
+            class Article
+                extends Model
+            {
+                protected $primaryKey = 'article_id';
+            }
+            PHP;
+
+        file_put_contents($source, $original);
+        File::ensureDirectoryExists($path . '/database/migrations');
+        file_put_contents($path . '/database/migrations/2020_01_01_000000_create_articles_table.php', <<<'PHP'
+            <?php
+
+            use Illuminate\Database\Migrations\Migration;
+            use Illuminate\Database\Schema\Blueprint;
+            use Illuminate\Support\Facades\Schema;
+
+            return new class extends Migration {
+                public function up(): void
+                {
+                    Schema::create('articles', function (Blueprint $table): void {
+                        $table->id('article_id');
+                        $table->timestamps();
+                    });
+                }
+            };
+            PHP);
+
+        $run('artisan', 'make:model-translation', 'App\Models\Article', '--columns=title', '--no-interaction');
+        $run('artisan', 'migrate', '--no-interaction');
+
+        file_put_contents($path . '/sort.php', <<<'PHP'
+            <?php
+
+            require __DIR__ . '/vendor/autoload.php';
+            $app = require __DIR__ . '/bootstrap/app.php';
+            $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
+            App\Models\Article::create(['title' => 'Zulu']);
+            App\Models\Article::create(['title' => 'Alpha']);
+
+            echo json_encode([
+                App\Models\Article::orderByTranslation('title')->pluck('article_id')->all(),
+                class_uses(App\Models\Sibling::class),
+            ], JSON_THROW_ON_ERROR);
+            PHP);
+
+        $newLine  = str_contains($original, "\r\n") ? "\r\n" : "\n";
+        $expected = str_replace(
+            '    protected $primaryKey',
+            '    use \\LaravelLang\\Models\\HasTranslations;' . $newLine . '    protected $primaryKey',
+            $original,
+        );
+
+        expect($run('sort.php'))->json()->toBe([[2, 1], []])
+            ->and(file_get_contents($source))->toBe($expected);
+    });
+});
+
+test('generating or refreshing a single helper retains helpers for other models', function (): void {
+    withCleanModelApplication(function (string $path, Closure $run): void {
+        foreach (['Article', 'Product'] as $model) {
+            $run('artisan', 'make:model', $model, '--no-interaction');
+            $run('artisan', 'make:model-translation', 'App\Models\\' . $model, '--columns=title', '--no-interaction');
+        }
+
+        $run('artisan', 'lang:models-helper', 'App\Models\Product', '--no-interaction');
+
+        foreach (['Article', 'Product'] as $model) {
+            $hash = hash('xxh128', 'App\Models\\' . $model);
+
+            expect($path . '/vendor/_laravel_lang/_ide_helper_models_' . $hash . '.php')->toBeReadableFile();
+        }
     });
 });

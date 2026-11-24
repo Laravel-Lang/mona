@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use LaravelLang\Config\Services\RouteLangConfig;
 use LaravelLang\Exceptions\InvalidLocaleInputException;
+use LaravelLang\Locales\Facades\Locales;
 use LaravelLang\Routes\Facades\LocalizationRoute;
 use LaravelLang\Routes\Services\RouteService;
 use Workbench\App\Constants\FakeLocale;
@@ -108,4 +109,62 @@ test('keeps the localized route helper usable when its file is loaded again', fu
 
     expect(localizedRoute('via.group.macro', ['key' => 'bar', 'locale' => 'de'], absolute: false))
         ->toBe('/de/group/macro/bar');
+});
+
+test('localized routes keep the outer group name when generating URLs and redirecting', function (): void {
+    Route::name('admin.')->prefix('admin')->group(function (): void {
+        Route::localizedGroup(function (): void {
+            Route::get('products/{product}', fn (string $product): array => ['product' => $product])
+                ->name('products.show');
+            Route::get('stock', fn (): string => app()->getLocale())->name('localized.stock');
+        });
+    });
+    Route::getRoutes()->refreshNameLookups();
+
+    $parameters = ['product' => 42, 'locale' => 'de'];
+
+    expect(localizedRoute('admin.products.show', $parameters, absolute: false))
+        ->toBe('/admin/de/products/42')
+        ->and(localizedRoute('admin.localized.products.show', $parameters, absolute: false))
+        ->toBe('/admin/de/products/42')
+        ->and(localizedRoute('admin.localized.stock', ['locale' => 'de'], absolute: false))
+        ->toBe('/admin/de/stock');
+
+    get('/admin/unknown/products/42')->assertRedirect('/admin/products/42');
+    get('/admin/unknown/stock')->assertRedirect('/admin/stock');
+    get('/admin/de/products/42')->assertOk()->assertJsonPath('product', '42');
+
+    config()->set('localization_routes.hide', true);
+
+    expect(localizedRoute('admin.localized.products.show', ['product' => 42], absolute: false))
+        ->toBe('/admin/products/42')
+        ->and(localizedRoute('localized.via.group.macro', ['key' => 'bar'], absolute: false))
+        ->toBe('/group/macro/bar');
+});
+
+test('generates the URL from a locale data alias', function (): void {
+    $url = localizedRoute('via.group.macro', [
+        'key'    => 'bar',
+        'locale' => Locales::data()->current(),
+    ], absolute: false);
+
+    expect($url)->toBe('/' . FakeLocale::DefaultAlias . '/group/macro/bar');
+});
+
+test('an empty route name prefix leaves both routes cacheable', function (): void {
+    config()->set('localization_routes.prefix', '');
+    LocalizationRoute::clearResolvedInstance(RouteService::class);
+
+    Route::localizedGroup(function (): void {
+        Route::get('empty-prefix', fn (): string => app()->getLocale())->name('empty-prefix');
+    });
+    Route::getRoutes()->refreshNameLookups();
+
+    $routes = Route::getRoutes()->compile()['attributes'];
+
+    expect($routes['empty-prefix']['uri'])->toBe('empty-prefix')
+        ->and($routes['localized.empty-prefix']['uri'])->toBe('{locale}/empty-prefix')
+        ->and(localizedRoute('empty-prefix', ['locale' => 'de'], absolute: false))->toBe('/de/empty-prefix');
+
+    get('/unknown/empty-prefix')->assertRedirect('/empty-prefix');
 });

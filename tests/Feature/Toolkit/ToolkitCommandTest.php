@@ -91,6 +91,27 @@ it('prunes obsolete translations and preserves active translations and metadata'
         ->and($this->toolkitFilesystem->get($locales . '/retired/messages.json'))->toBe('{"Obsolete":"Périmé"}');
 })->with(['sync:package', 'sync:library']);
 
+it('keeps translations for separate source files that reuse a key', function (string $command): void {
+    $root        = $this->toolkitDirectory;
+    $package     = $root . '/Package';
+    $isPackage   = $command === 'sync:package';
+    $locales     = ($isPackage ? $package : $root . '/Library') . '/locales';
+    $translation = $locales . '/fr/default.json';
+
+    toolkitFile($package . '/laravel_lang.json', '{}');
+    toolkitFile($package . '/source/v1/messages.php', '<?php return ["greeting" => "Hello"];');
+    toolkitFile($package . '/source/v2/messages.php', '<?php return ["greeting" => "Welcome"];');
+    toolkitFile($translation, '{"Hello":"Bonjour","Welcome":"Bienvenue","Obsolete":"Périmé"}');
+
+    $tester = runToolkit($command, ['path' => $isPackage ? $package : $root]);
+
+    expect($tester->getStatusCode())->toBe(Command::SUCCESS, $tester->getErrorOutput())
+        ->and($this->toolkitFilesystem->json($translation))->toBe([
+            'Hello'   => 'Bonjour',
+            'Welcome' => 'Bienvenue',
+        ]);
+})->with(['sync:package', 'sync:library']);
+
 it('keeps synchronized PHP translations readable on repeated runs', function (): void {
     $root = $this->toolkitDirectory;
     $path = $root . '/locales/fr/messages.php';

@@ -108,6 +108,30 @@ test('multiple accept-language', function (string $locale): void {
     assertEventDispatched();
 })->with('locale headers');
 
+test('selects the highest-quality installed language', function (string $header): void {
+    getJson(route('via.header', ['key' => 'test']), ['Accept-Language' => $header])
+        ->assertSuccessful()
+        ->assertJsonPath('test', FakeTranslation::German);
+
+    assertEventDispatched();
+})->with([
+    'higher quality appears later'        => ['fr;q=0.1,de;q=1'],
+    'higher quality is uninstalled'       => ['sv,de;q=0.9'],
+    'unacceptable and wildcard languages' => ['fr;q=0,*,de;q=0.9'],
+    'unacceptable base language'          => ['fr-CA,fr;q=0,de;q=0.9'],
+]);
+
+test('selects an installed regional language before its base language', function (): void {
+    file_put_contents(lang_path('zh_CN.json'), json_encode(['Foo' => '已加载所有资源。'], JSON_THROW_ON_ERROR));
+
+    getJson(route('via.header', ['key' => 'test']), ['Accept-Language' => 'zh-cn,zh;q=0.9'])
+        ->assertSuccessful()
+        ->assertJsonPath('test', '已加载所有资源。');
+
+    expect(app()->getLocale())->toBe('zh_CN');
+    assertEventDispatched();
+});
+
 test('custom header', function (string $locale): void {
     config(['localization_routes.names.header' => 'X-Custom-Lang']);
 

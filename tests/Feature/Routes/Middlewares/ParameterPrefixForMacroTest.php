@@ -80,3 +80,13 @@ test('serves an unnamed route with an invalid locale prefix without redirecting'
 
     assertEventNotDispatched();
 });
+
+test('redirects a manually named locale-prefixed route using the configured name prefix', function (): void {
+    Route::get('manual-prefix', fn (): string => app()->getLocale())->name('manual-prefix');
+    Route::middleware(LocalizationByParameterPrefixMiddlewareMiddleware::class)
+        ->get('{locale}/manual-prefix', fn (): string => app()->getLocale())
+        ->name('localized.manual-prefix');
+    Route::getRoutes()->refreshNameLookups();
+
+    getJson('/unknown/manual-prefix')->assertRedirect('/manual-prefix');
+});

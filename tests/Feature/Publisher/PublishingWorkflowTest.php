@@ -11,6 +11,7 @@ use LaravelLang\Exceptions\InvalidTranslationSkipPatternException;
 use LaravelLang\Exceptions\PathSearchException;
 use LaravelLang\Locales\Facades\Locales;
 use LaravelLang\Publisher\Collectors\PluginCollector;
+use Symfony\Component\Process\Process;
 
 use function Pest\Laravel\artisan;
 
@@ -166,6 +167,84 @@ describe('removing locales', function (): void {
             expect($path)->not->toBeFile();
         }
     });
+
+    test('reports failed deletion and continues removing other locales', function (string $target): void {
+        artisan('lang:add', ['locales' => ['sv']])->assertSuccessful()->run();
+        $path        = lang_path($target);
+        $otherLocale = lang_path('en.json');
+
+        writePublisherFiles([$otherLocale => ['Hello' => 'Hello']]);
+
+        $this->partialMock(Filesystem::class)
+            ->shouldReceive('delete')
+            ->once()
+            ->with(Mockery::on(static fn (string $actual): bool => str_replace('\\', '/', $actual) === str_replace('\\', '/', $path)))
+            ->andReturnFalse();
+
+        artisan('lang:rm', ['locales' => ['sv', 'en']])
+            ->expectsOutputToContain('FAILED')
+            ->expectsOutputToContain('DONE')
+            ->assertFailed()
+            ->run();
+
+        expect(file_exists($path))->toBeTrue()
+            ->and($otherLocale)->not->toBeFile();
+    })->with([
+        'PHP directory still contains a file' => 'sv/messages.php',
+        'vendor JSON file cannot be deleted'  => 'vendor/demo/sv.json',
+    ]);
+
+    test('reports failure when the locale directory changes before it can be opened', function (): void {
+        $path     = lang_path('sv');
+        $contents = 'A replacement file from another process';
+
+        File::ensureDirectoryExists(dirname($path));
+        File::put($path, $contents);
+
+        $this->partialMock(Filesystem::class)
+            ->shouldReceive('isDirectory')
+            ->once()
+            ->with(Mockery::on(static fn (string $actual): bool => str_replace('\\', '/', $actual) === str_replace('\\', '/', $path)))
+            ->andReturnTrue();
+
+        artisan('lang:rm', ['locales' => ['sv']])->expectsOutputToContain('FAILED')->assertFailed()->run();
+
+        expect(File::get($path))->toBe($contents);
+    });
+
+    test('removes linked directories in a locale and preserves their targets', function (bool $nested): void {
+        $shared    = $this->publisherRoot . '/shared';
+        $locale    = lang_path('sv');
+        $directory = $nested ? $locale . '/linked' : $locale;
+        $file      = $shared . '/messages.php';
+        $messages  = ['greeting' => 'Hej'];
+
+        File::ensureDirectoryExists(dirname($directory));
+        writePublisherFiles([$file => $messages]);
+        if (PHP_OS_FAMILY === 'Windows') {
+            (new Process([
+                'powershell.exe',
+                '-NoProfile',
+                '-NonInteractive',
+                '-Command',
+                'New-Item -ItemType Junction -Path $env:MONA_LOCALE_LINK -Target $env:MONA_LOCALE_TARGET -ErrorAction Stop',
+            ], env: ['MONA_LOCALE_LINK' => $directory, 'MONA_LOCALE_TARGET' => $shared]))->mustRun();
+        } elseif (! @symlink($shared, $directory)) {
+            $this->markTestSkipped('Creating directory symlinks is unavailable on this system.');
+        }
+
+        try {
+            artisan('lang:rm', ['locales' => ['sv']])->expectsOutputToContain('DONE')->assertSuccessful()->run();
+
+            expect(@lstat($locale))->toBeFalse()
+                ->and(@lstat($directory))->toBeFalse()
+                ->and(File::getRequire($file))->toBe($messages);
+        } finally {
+            if (@lstat($directory) !== false) {
+                PHP_OS_FAMILY === 'Windows' ? rmdir($directory) : File::delete($directory);
+            }
+        }
+    })->with(['locale root' => false, 'nested directory' => true]);
 
     test('keeps translations when the vendor directories cannot be listed', function (): void {
         artisan('lang:add', ['locales' => ['sv']])->assertSuccessful()->run();
@@ -327,6 +406,65 @@ test('publishes translations when a versioned dependency is replaced by Laravel'
     artisan('lang:update')->assertSuccessful()->run();
 
     expect(File::getRequire(lang_path('fr/messages.php')))->toBe(['greeting' => 'Bonjour']);
+});
+
+test('publishes HTTP statuses by code and keeps the same codes on repeated updates', function (): void {
+    $source = require dirname(__DIR__, 3) . '/src/HttpStatuses/source/numerical.php';
+
+    writePublisherPackage('laravel-lang/http-statuses', [], ['numerical.php' => '{locale}/http-statuses.php'], [
+        'source/numerical.php'    => $source,
+        'locales/fr/default.json' => ['Not Found' => 'Introuvable'],
+    ]);
+
+    $french = lang_path('fr/http-statuses.php');
+    $german = lang_path('de/http-statuses.php');
+    writePublisherFiles([$german => [404 => 'Stale translation', 777 => 'Custom status']]);
+
+    artisan('lang:update')->assertSuccessful()->run();
+
+    expect(File::getRequire($french))->toEqual(array_replace($source, [404 => 'Introuvable']))
+        ->and(File::getRequire($german))->toEqual($source + [777 => 'Custom status'])
+        ->and(__('http-statuses.404'))->toBe('Introuvable');
+
+    $contents = array_map(File::get(...), [$french, $german]);
+
+    artisan('lang:update')->assertSuccessful()->run();
+
+    expect(array_map(File::get(...), [$french, $german]))->toBe($contents);
+});
+
+test('updates numeric JSON keys using package and style precedence', function (): void {
+    config()->set('localization_main.styles', ['default', 'formal']);
+
+    writePublisherPackage('tests/translations', [], ['messages.json' => '{locale}.json'], [
+        'source/messages.json'    => [20 => '20', 21 => '21', 24 => '24', 27 => '27', 42 => '42'],
+        'locales/fr/default.json' => [20 => 'Package default', 21 => 'Package default'],
+        'locales/fr/formal.json'  => [21 => 'Package formal'],
+    ]);
+
+    $path = lang_path('fr.json');
+    writePublisherFiles([
+        base_path('vendor/laravel-lang/library/locales/fr/default.json') => [20 => 'Library default', 24 => 'Library default', 27 => 'Library default'],
+        base_path('vendor/laravel-lang/library/locales/fr/formal.json')  => [24 => 'Library formal'],
+        $path                                                            => [20 => 'Stale translation', 99 => 'Custom translation'],
+    ]);
+
+    artisan('lang:update')->assertSuccessful()->run();
+
+    expect(File::json($path))->toBe([
+        20 => 'Package default',
+        21 => 'Package formal',
+        24 => 'Library formal',
+        27 => 'Library default',
+        42 => '42',
+        99 => 'Custom translation',
+    ]);
+
+    $content = File::get($path);
+
+    artisan('lang:update')->assertSuccessful()->run();
+
+    expect(File::get($path))->toBe($content);
 });
 
 test('publishes smart punctuation for each locale when enabled', function (bool $enabled): void {

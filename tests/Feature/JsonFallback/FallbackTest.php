@@ -38,6 +38,17 @@ test('fallback JSON takes precedence over current PHP when fallback is enabled',
         ->and(Lang::get('collision.greeting', ['name' => 'Mona'], fallback: false))->toBe('PHP Mona');
 });
 
+test('detects untranslated keys in fallback JSON only when fallback is enabled', function (): void {
+    file_put_contents(lang_path('de.json'), json_encode(['Save' => 'Save', 'Discard' => null], JSON_THROW_ON_ERROR));
+
+    expect(Lang::has('Save'))->toBeTrue()
+        ->and(Lang::has('Save', fallback: false))->toBeFalse()
+        ->and(Lang::hasForLocale('Save'))->toBeFalse()
+        ->and(Lang::hasForLocale('Save', 'de'))->toBeTrue()
+        ->and(Lang::has('Discard'))->toBeFalse()
+        ->and(Lang::has('Missing'))->toBeFalse();
+});
+
 test('fallback JSON preserves scalar replacement and array behavior', function (): void {
     file_put_contents(lang_path('de.json'), json_encode([
         'json.numeric' => 42,
