@@ -8,18 +8,21 @@ use Illuminate\Container\Attributes\Config;
 
 readonly class RouteLangConfig
 {
-    public string $prefix;
+    private const string DefaultPrefix = 'localized.';
 
     public function __construct(
         public RouteNameLangConfig $name,
         public RouteMiddlewareLangConfig $middlewares,
-        #[Config('localization_routes.prefix')]
-        string $prefix,
+        #[Config('localization_routes.prefix', self::DefaultPrefix)]
+        public string $prefix,
         #[Config('localization_routes.redirect')]
         public bool $redirect,
         #[Config('localization_routes.hide')]
         public bool $hide,
-    ) {
-        $this->prefix = $prefix === '' ? 'localized.' : $prefix;
+    ) {}
+
+    public function routeNamePrefix(): string
+    {
+        return $this->prefix === '' ? self::DefaultPrefix : $this->prefix;
     }
 }

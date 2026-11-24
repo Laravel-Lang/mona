@@ -42,11 +42,13 @@ class RouteService
 
     protected function prefixedGroup(Closure $callback): void
     {
+        $prefix = $this->routeConfig->routeNamePrefix();
+
         BaseRoute::group([
             'prefix'                       => '{' . $this->routeConfig->name->parameter . '}',
-            'as'                           => $this->routeConfig->prefix,
+            'as'                           => $prefix,
             'middleware'                   => $this->routeConfig->middlewares->prefix,
-            self::LocalizedPrefixAttribute => $this->routeConfig->prefix,
+            self::LocalizedPrefixAttribute => $prefix,
         ], $callback);
     }
 }

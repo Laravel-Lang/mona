@@ -12,8 +12,15 @@ final class OverridedTranslator extends Translator
     /** @param  string  $key */
     public function has($key, $locale = null, $fallback = true): bool
     {
-        return parent::has($key, $locale, $fallback)
-            || ($fallback && isset($this->loaded['*']['*'][$this->fallback][$key]));
+        if (parent::has($key, $locale, $fallback)) {
+            return true;
+        }
+
+        if (! $fallback) {
+            return false;
+        }
+
+        return isset($this->loaded['*']['*'][$this->fallback][$key]);
     }
 
     /**
