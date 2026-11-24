@@ -28,7 +28,7 @@ if (! function_exists('\LaravelLang\Routes\localizedRoute')) {
         $config = app()->make(RouteLangConfig::class);
 
         $locale = $config->name->parameter;
-        $prefix = $config->routeNamePrefix();
+        $prefix = RouteService::namePrefix($config->prefix);
 
         $value = $parameters[$locale] ??= Locales::fallback();
 

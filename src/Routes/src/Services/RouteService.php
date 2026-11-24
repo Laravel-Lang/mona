@@ -20,6 +20,11 @@ class RouteService
         protected RouteLangConfig $routeConfig,
     ) {}
 
+    public static function namePrefix(string $prefix): string
+    {
+        return $prefix === '' ? 'localized.' : $prefix;
+    }
+
     public function group(Closure $callback): void
     {
         $groups = BaseRoute::getGroupStack();
@@ -42,7 +47,7 @@ class RouteService
 
     protected function prefixedGroup(Closure $callback): void
     {
-        $prefix = $this->routeConfig->routeNamePrefix();
+        $prefix = self::namePrefix($this->routeConfig->prefix);
 
         BaseRoute::group([
             'prefix'                       => '{' . $this->routeConfig->name->parameter . '}',
