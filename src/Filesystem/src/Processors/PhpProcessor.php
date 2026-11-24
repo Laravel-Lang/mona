@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 use LaravelLang\Exceptions\InvalidTranslationFileContentException;
 use Symfony\Component\VarExporter\VarExporter;
 
-use function array_merge;
+use function array_replace;
 use function is_array;
 use function ksort;
 use function sprintf;
@@ -60,7 +60,7 @@ class PhpProcessor extends Processor
             $previous = Arr::dot($this->read($path));
             $current  = Arr::dot($content);
 
-            return array_merge($previous, $current);
+            return array_replace($previous, $current);
         }
 
         return Arr::dot($content);

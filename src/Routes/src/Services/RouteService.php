@@ -8,16 +8,29 @@ use Closure;
 use Illuminate\Support\Facades\Route as BaseRoute;
 use LaravelLang\Config\Services\RouteLangConfig;
 
+use function end;
+use function is_array;
+
 class RouteService
 {
+    public const string ParentNameAttribute      = 'laravelLangParentRouteName';
+    public const string LocalizedPrefixAttribute = 'laravelLangLocalizedRoutePrefix';
+
     public function __construct(
         protected RouteLangConfig $routeConfig,
     ) {}
 
     public function group(Closure $callback): void
     {
-        $this->defaultGroup($callback);
-        $this->prefixedGroup($callback);
+        $groups = BaseRoute::getGroupStack();
+        $parent = end($groups);
+
+        BaseRoute::group([
+            self::ParentNameAttribute => is_array($parent) ? ($parent['as'] ?? '') : '',
+        ], function () use ($callback): void {
+            $this->defaultGroup($callback);
+            $this->prefixedGroup($callback);
+        });
     }
 
     protected function defaultGroup(Closure $callback): void
@@ -29,9 +42,11 @@ class RouteService
 
     protected function prefixedGroup(Closure $callback): void
     {
-        BaseRoute::prefix('{' . $this->routeConfig->name->parameter . '}')
-            ->name($this->routeConfig->prefix)
-            ->middleware($this->routeConfig->middlewares->prefix)
-            ->group($callback);
+        BaseRoute::group([
+            'prefix'                       => '{' . $this->routeConfig->name->parameter . '}',
+            'as'                           => $this->routeConfig->prefix,
+            'middleware'                   => $this->routeConfig->middlewares->prefix,
+            self::LocalizedPrefixAttribute => $this->routeConfig->prefix,
+        ], $callback);
     }
 }

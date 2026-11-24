@@ -353,7 +353,9 @@ jobs:
             always() && 
             github.event_name == 'push' && 
             github.ref == 'refs/heads/main' &&
-            (needs.php.result == 'success' || needs.node.result == 'success')
+            (needs.php_composer.result == 'success' || needs.php_rector.result == 'success' ||
+             needs.php_pint.result == 'success' || needs.node_lint.result == 'success' ||
+             needs.node_format.result == 'success')
 
         steps:
             -   uses: actions/checkout@v7

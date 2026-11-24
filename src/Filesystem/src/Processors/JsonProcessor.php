@@ -7,7 +7,7 @@ namespace LaravelLang\Filesystem\Processors;
 use JsonException;
 use LaravelLang\Exceptions\InvalidJsonEncodeException;
 
-use function array_merge;
+use function array_replace;
 use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
@@ -24,11 +24,7 @@ class JsonProcessor extends Processor
 
     protected function putContent(string $path, array $content, bool $merge = false): string
     {
-        if ($merge) {
-            $previous = $this->read($path);
-        }
-
-        $data = array_merge($previous ?? [], $content);
+        $data = $merge ? array_replace($this->read($path), $content) : $content;
 
         ksort($data);
 

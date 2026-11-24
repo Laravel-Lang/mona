@@ -9,6 +9,13 @@ use LaravelLang\Exceptions\InvalidTranslationValueException;
 
 final class OverridedTranslator extends Translator
 {
+    /** @param  string  $key */
+    public function has($key, $locale = null, $fallback = true): bool
+    {
+        return parent::has($key, $locale, $fallback)
+            || ($fallback && isset($this->loaded['*']['*'][$this->fallback][$key]));
+    }
+
     /**
      * @param  array<array-key, mixed>  $replace
      * @return array<array-key, mixed>|string
