@@ -59,7 +59,7 @@ Du kannst jede Middleware direkt über ihre Klasse aus `LaravelLang\Routes\Middl
 | `LocalizationByParameterMiddleware` | Ein Routenparameter, standardmäßig `locale` |
 | `LocalizationByParameterWithRedirectMiddleware` | Ein Routenparameter. Bei einer benannten Route mit deklariertem Parameter verwendet die Middleware die aktuelle Locale, wenn die angeforderte fehlt oder nicht installiert ist |
 | `LocalizationByCookieMiddleware` | Standardmäßig ein Cookie `Accept-Language` |
-| `LocalizationByHeaderMiddleware` | Die von PHP Intl aus dem Header `Accept-Language` ermittelte Sprache |
+| `LocalizationByHeaderMiddleware` | Die erste installierte Locale in der von `Accept-Language` vorgegebenen Reihenfolge. Die Middleware prüft zuerst das vollständige Sprach-Tag und dann die Basissprache. Sie überspringt Platzhalter und Einträge mit dem Qualitätswert 0. |
 | `LocalizationBySessionMiddleware` | Standardmäßig der Session-Schlüssel `Accept-Language` |
 | `LocalizationByModelMiddleware` | Standardmäßig das Attribut `locale` des authentifizierten Eloquent-Benutzers. Hänge `:guard_name` an die Middleware-Klasse an, um einen Guard auszuwählen |
 

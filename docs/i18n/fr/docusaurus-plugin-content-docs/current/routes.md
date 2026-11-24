@@ -59,7 +59,7 @@ Vous pouvez appliquer chaque middleware directement par sa classe dans `LaravelL
 | `LocalizationByParameterMiddleware` | Un paramètre de route, `locale` par défaut |
 | `LocalizationByParameterWithRedirectMiddleware` | Un paramètre de route. Si la route est nommée et le paramètre déclaré, la langue active remplace la langue demandée lorsqu’elle est absente ou non installée |
 | `LocalizationByCookieMiddleware` | Un cookie nommé `Accept-Language` par défaut |
-| `LocalizationByHeaderMiddleware` | La langue lue dans l’en-tête `Accept-Language` par l’extension PHP Intl |
+| `LocalizationByHeaderMiddleware` | La première locale installée selon l’ordre de préférence de l’en-tête `Accept-Language`. Le middleware essaie d’abord la balise complète, puis la langue de base. Il ignore les jokers et les entrées dont le poids vaut 0. |
 | `LocalizationBySessionMiddleware` | Une clé de session nommée `Accept-Language` par défaut |
 | `LocalizationByModelMiddleware` | L’attribut `locale` de l’utilisateur Eloquent authentifié par défaut. Ajoutez `:guard_name` au nom de la classe du middleware pour choisir un garde d’authentification |
 

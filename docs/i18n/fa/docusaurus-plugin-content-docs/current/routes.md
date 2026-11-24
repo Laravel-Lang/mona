@@ -59,7 +59,7 @@ $url = localizedRoute('products.show', [
 | `LocalizationByParameterMiddleware` | یک پارامتر مسیر، با نام پیش‌فرض `locale` |
 | `LocalizationByParameterWithRedirectMiddleware` | یک پارامتر مسیر. اگر مسیر نام‌دار و پارامتر تعریف شده باشد، هنگام فقدان یا نصب نبودن زبان منطقه‌ای درخواستی، زبان منطقه‌ای جاری را جایگزین می‌کند |
 | `LocalizationByCookieMiddleware` | به‌طور پیش‌فرض کوکی `Accept-Language` |
-| `LocalizationByHeaderMiddleware` | زبان استخراج‌شده از سرآیند `Accept-Language` با PHP Intl |
+| `LocalizationByHeaderMiddleware` | نخستین زبان نصب‌شده به ترتیب اولویت در سرآیند `Accept-Language`. ابتدا برچسب کامل و سپس زبان پایه را بررسی می‌کند و نویسه‌های عام و ورودی‌هایی با مقدار کیفیت صفر را نادیده می‌گیرد. |
 | `LocalizationBySessionMiddleware` | به‌طور پیش‌فرض کلید نشست `Accept-Language` |
 | `LocalizationByModelMiddleware` | به‌طور پیش‌فرض ویژگی `locale` کاربر احراز هویت‌شدهٔ Eloquent. برای انتخاب guard، `:guard_name` را به کلاس میان‌افزار بیفزایید |
 

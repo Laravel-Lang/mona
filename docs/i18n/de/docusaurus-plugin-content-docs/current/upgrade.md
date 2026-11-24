@@ -127,7 +127,7 @@ Verschiebe angepasste Anführungszeichen aus `smart_punctuation.common` und `sma
 | Angepasste Einstellung | Änderung in `config/localization_routes.php` | Umzubenennende Umgebungsvariable |
 | --- | --- | --- |
 | Locale-Parameter, Header, Cookie, Session-Schlüssel oder Spalte im Benutzermodell | Kopiere deine Einstellungen für `names` und behalte die übrigen Standardeinträge bei. | |
-| Präfix vor lokalisierten Routennamen | Verschiebe `name_prefix` nach `prefix`. Verwende für ein leeres Präfix `''`. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
+| Präfix vor lokalisierten Routennamen | Verschiebe `name_prefix` nach `prefix`. Bei einem leeren Wert wird `localized.` verwendet. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
 | Weiterleitungen von der Route mit Präfix | Verschiebe `redirect_default` nach `redirect`. | `LOCALIZATION_REDIRECT_DEFAULT` → `LOCALIZATION_REDIRECT` |
 | Ob der URL-Helper die Fallback-Locale ausblendet | Verschiebe `hide_default` nach `hide`. | `LOCALIZATION_HIDE_DEFAULT` → `LOCALIZATION_HIDE` |
 | Middleware für lokalisierte Routengruppen | Verschiebe `group.middlewares.default` nach `middlewares.default` für Routen ohne Präfix und `group.middlewares.prefix` nach `middlewares.prefix` für Routen mit Präfix. Aktualisiere die Klassennamen wie in der [Routenmigration](#update-localized-routes-and-middleware) beschrieben. | |
@@ -321,13 +321,13 @@ Wenn du generierte IDE-Helper beibehalten möchtest, führe `php artisan lang:mo
 | `lang:add <locale>` aktualisierte nur die hinzugefügten Locales | Der Befehl aktualisiert jetzt alle installierten Locales. Gib in Skripten die Codes ausdrücklich an und berücksichtige Änderungen an bestehenden Sprachdateien. |
 | `lang:reset` | Verwende `lang:update` zum Zusammenführen. Sichere für einen vollständigen Neuaufbau eigene Einträge, entferne die neu zu generierenden Dateien und führe dann `lang:add` mit den konkreten Codes der betreffenden Locales aus. |
 | `lang:rm <locale> --force` | Verwende `lang:rm <locale>`. Die aktuelle Locale und Fallback-Locale von Laravel sind geschützt. |
-| Nur den Exit-Code von `lang:rm` prüfen | Prüfe jedes Ergebnis. `DONE` zeigt an, dass der Löschpfad ausgeführt wurde. Auch `PROTECTED`, `INVALID` und `SKIP` können bei einem erfolgreichen Exit-Code auftreten. |
+| Nur den Exit-Code von `lang:rm` prüfen | Prüfe jedes Ergebnis. `DONE` bestätigt die Entfernung. `FAILED` zeigt an, dass nach dem Löschversuch ein Pfad übrig bleibt. Auch `PROTECTED`, `INVALID` und `SKIP` können bei einem erfolgreichen Exit-Code auftreten. |
 
 Wenn du Artisan über die Befehlsklasse aufrufst, ersetze `LaravelLang\Publisher\Console\Add`, `Remove` und `Update` durch `AddCommand`, `RemoveCommand` und `UpdateCommand`. Für einen eigenen Text-Decorator implementiere und binde `LaravelLang\Publisher\Contracts\Decorator` anstelle von `Contracts\TextDecorator`. Seine Methode `convert(string $locale, string $value): string` erhält die kanonische Locale.
 
-Führe `lang:update` zum ersten Mal mit bestehenden Sprachdateien unter Versionskontrolle aus. Der Publisher führt die Übersetzungen mit den vorhandenen Zielen zusammen und ersetzt übereinstimmende Zeichenkettenschlüssel. Lege eigene Übersetzungen nach Möglichkeit in einer separaten Übersetzungsdatei der Anwendung ab. Um ein ganzes generiertes Ziel selbst zu pflegen, ergänze sein Pfadmuster in `localization_main.skip`. Prüfe jeden Wert, der zum Quelltext zurückkehrt. Der Publisher verwendet diesen Text, wenn die Wörterbücher keine Übersetzung enthalten.
+Führe `lang:update` zum ersten Mal mit bestehenden Sprachdateien unter Versionskontrolle aus. Der Publisher führt die Übersetzungen mit den vorhandenen Zielen zusammen und ersetzt übereinstimmende Schlüssel, auch numerische. Lege eigene Übersetzungen nach Möglichkeit in einer separaten Übersetzungsdatei der Anwendung ab. Um ein ganzes generiertes Ziel selbst zu pflegen, ergänze sein Pfadmuster in `localization_main.skip`. Prüfe jeden Wert, der zum Quelltext zurückkehrt. Der Publisher verwendet diesen Text, wenn die Wörterbücher keine Übersetzung enthalten.
 
-Falls die Anwendung PHP-Übersetzungen für HTTP-Statuscodes wie `__('http-statuses.404')` verwendet, behalte die vorhandenen Dateien `http-statuses.php` bei und füge vor der Aktualisierung `'*/http-statuses.php'` zu `localization_main.skip` hinzu. Beim Zusammenführen von PHP-Dateien kann der Publisher numerische Schlüssel neu indizieren. Prüfe die Abfrage nach Codes in jeder von dir verwendeten Locale. [Übersetzungen verwalten](./translations.md)
+Wenn ein früheres Update die Schlüssel in deinen `http-statuses.php`-Dateien neu indiziert hat, sichere und entferne die betroffenen generierten Dateien. Entferne `'*/http-statuses.php'` aus `localization_main.skip`, falls du den Eintrag als Behelf hinzugefügt hast. Führe `php artisan lang:update` aus, um die Dateien neu zu erzeugen, und stelle dann eigene Übersetzungen unter den vorgesehenen Statuscodes wieder her. [Übersetzungen verwalten](./translations.md)
 
 ### Alte Plugin-Registrierung ersetzen {#replace-legacy-plugin-registration}
 

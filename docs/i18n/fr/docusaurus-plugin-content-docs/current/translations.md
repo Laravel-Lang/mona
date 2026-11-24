@@ -23,9 +23,9 @@ php artisan lang:update
 
 Le Publisher détecte les langues à partir de la langue active et de la langue de repli de l’application, des fichiers ou répertoires à la racine du répertoire de langues et des fichiers JSON dans `lang/vendor/<package>/`. Un répertoire contenant uniquement des traductions PHP d’un paquet ne suffit pas pour considérer une langue comme installée. Utilisez `lang:add` pour créer le répertoire de cette langue dans l’application.
 
-Les packs de traduction déclarent les paquets pris en charge, leurs versions et les fichiers de destination dans les [manifestes des plugins](./plugins.md). Le Publisher combine les dictionnaires partagés avec ceux des paquets, puis fusionne les traductions dans chaque fichier de destination. Il conserve les clés sans correspondance et remplace celles qui correspondent à une chaîne. Si une expression est absente des dictionnaires, le Publisher écrit le texte source. Conservez vos traductions personnalisées dans des fichiers distincts ou [excluez](./configure.md#skip-files-and-force-integrations) les fichiers générés que vous gérez vous-même.
+Les packs de traduction déclarent les paquets pris en charge, leurs versions et les fichiers de destination dans les [manifestes des plugins](./plugins.md). Le Publisher combine les dictionnaires partagés avec ceux des paquets, puis fusionne les traductions dans chaque fichier de destination. Il conserve les clés sans correspondance et remplace les clés correspondantes, y compris les clés numériques. Si une expression est absente des dictionnaires, le Publisher écrit le texte source. Conservez vos traductions personnalisées dans des fichiers distincts ou [excluez](./configure.md#skip-files-and-force-integrations) les fichiers générés que vous gérez vous-même.
 
-Exécutez `lang:update` après avoir modifié les dépendances Composer ou les [paramètres de publication](./configure.md). Examinez les différences générées. La fusion peut réindexer les clés numériques. Si votre application utilise les fichiers `http-statuses.php` générés, vérifiez leurs codes de statut.
+Exécutez `lang:update` après avoir modifié les dépendances Composer ou les [paramètres de publication](./configure.md). Examinez les différences générées.
 
 ## Supprimer des langues {#remove-locales}
 
@@ -33,9 +33,9 @@ Exécutez `lang:update` après avoir modifié les dépendances Composer ou les [
 php artisan lang:rm de_CH
 ```
 
-La commande supprime le répertoire et le fichier JSON du code de langue canonique à la racine du répertoire de langues et dans chaque sous-répertoire direct `lang/vendor/<package>/`, y compris les fichiers personnalisés qu’ils contiennent. La langue active et la langue de repli sont protégées. Sans argument, la commande propose de supprimer toutes les langues non protégées et sélectionne « non » par défaut.
+La commande supprime le répertoire et le fichier JSON du code de langue canonique à la racine du répertoire de langues et dans chaque sous-répertoire direct `lang/vendor/<package>/`, y compris les fichiers personnalisés qu’ils contiennent. La langue active et la langue de repli sont protégées. Sans argument, la commande propose de supprimer toutes les langues non protégées et sélectionne « non » par défaut. Si le répertoire d’une langue est un lien, la commande supprime le lien lui-même.
 
-La commande indique `DONE`, `PROTECTED`, `INVALID` ou `SKIP` pour chaque langue. Dans un script qui doit confirmer la suppression, vérifiez le résultat de chaque langue demandée, car tous ces statuts peuvent être renvoyés avec un code de sortie indiquant un succès.
+La commande indique `DONE`, `PROTECTED`, `INVALID`, `SKIP` ou `FAILED` pour chaque langue. Si un fichier ou un répertoire subsiste après la tentative de suppression, la commande affiche son chemin et renvoie un code d’échec. Vérifiez le statut de chaque langue, car `PROTECTED`, `INVALID` et `SKIP` peuvent accompagner un code de sortie indiquant un succès.
 
 ## Repli des traductions JSON {#json-fallback}
 

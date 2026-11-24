@@ -125,7 +125,7 @@ php artisan vendor:publish --tag=localization
 | 原自定义项 | 在 `config/localization_routes.php` 中的改动 | 需要改名的环境变量 |
 | --- | --- | --- |
 | 语言区域参数、请求头、Cookie、会话键或用户模型字段 | 复制 `names` 下的覆盖项，保留其余默认条目。 | |
-| 本地化路由名称的前缀 | 将 `name_prefix` 改为 `prefix`。用 `''` 表示空前缀。 | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
+| 本地化路由名称的前缀 | 将 `name_prefix` 改为 `prefix`。值为空时使用 `localized.`。 | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
 | 从带前缀的路由重定向 | 将 `redirect_default` 改为 `redirect`。 | `LOCALIZATION_REDIRECT_DEFAULT` → `LOCALIZATION_REDIRECT` |
 | URL 辅助函数是否隐藏回退语言区域 | 将 `hide_default` 改为 `hide`。 | `LOCALIZATION_HIDE_DEFAULT` → `LOCALIZATION_HIDE` |
 | 本地化路由组使用的中间件 | 对于无前缀的路由，将 `group.middlewares.default` 移到 `middlewares.default`。对于带前缀的路由，将 `group.middlewares.prefix` 移到 `middlewares.prefix`。按[路由迁移](#update-localized-routes-and-middleware)中的说明更新中间件类名。 | |
@@ -319,13 +319,13 @@ $article->translation('de_CH');
 | `lang:add <locale>` 仅更新新增的语言区域 | 现在会更新所有已安装的语言区域。请在脚本中显式传入代码，并考虑现有翻译文件也会更新。 |
 | `lang:reset` | 合并时使用 `lang:update`。需要清理后重新生成时，先备份自定义条目，删除要重新生成的文件，然后运行 `lang:add` 并显式传入要重建的语言区域代码。 |
 | `lang:rm <locale> --force` | 使用 `lang:rm <locale>`。Laravel 当前和回退语言区域受保护。 |
-| 仅检查 `lang:rm` 的退出码 | 检查每项结果。`DONE` 表示执行了删除流程。退出码表示成功时，也可能出现 `PROTECTED`、`INVALID` 或 `SKIP`。 |
+| 仅检查 `lang:rm` 的退出码 | 检查每项结果。`DONE` 确认删除成功，`FAILED` 表示尝试删除后仍有路径保留。`PROTECTED`、`INVALID` 和 `SKIP` 也可能伴随成功退出码。 |
 
 如果通过命令类调用 Artisan，请将 `LaravelLang\Publisher\Console\Add`、`Remove` 和 `Update` 替换为 `AddCommand`、`RemoveCommand` 和 `UpdateCommand`。如有自定义文本装饰器，请改为实现并绑定 `LaravelLang\Publisher\Contracts\Decorator`，替换 `Contracts\TextDecorator`。其 `convert(string $locale, string $value): string` 方法接收规范语言区域代码。
 
-首次运行 `lang:update` 前，请将现有翻译文件纳入版本控制。Publisher 会合并到现有目标文件中，并替换匹配的字符串键。尽可能将自定义译文保存在单独的应用翻译文件中。若要自行维护整个生成的目标文件，请将其路径模式添加到 `localization_main.skip`。检查是否有值变回源短语。词典缺少译文时，Publisher 会使用源短语。
+首次运行 `lang:update` 前，请将现有翻译文件纳入版本控制。Publisher 会合并到现有目标文件中，并替换匹配的键（包括数字键）。尽可能将自定义译文保存在单独的应用翻译文件中。若要自行维护整个生成的目标文件，请将其路径模式添加到 `localization_main.skip`。检查是否有值变回源短语。词典缺少译文时，Publisher 会使用源短语。
 
-如果应用使用 `__('http-statuses.404')` 之类的 PHP HTTP 状态译文，请在更新前保留现有的 `http-statuses.php` 文件，并将 `'*/http-statuses.php'` 添加到 `localization_main.skip`。Publisher 合并 PHP 译文时可能重建数字键的索引。请检查所用的每个语言区域能否按状态码正确查询。[管理译文](./translations.md)
+如果先前的更新重建了 `http-statuses.php` 文件中的键索引，请备份并移除受影响的生成文件。如果曾将 `'*/http-statuses.php'` 添加到 `localization_main.skip` 来规避此问题，请移除该条目。运行 `php artisan lang:update` 重新生成文件，再按对应的状态码恢复自定义译文。[管理译文](./translations.md)
 
 ### 替换旧版插件注册方式 {#replace-legacy-plugin-registration}
 

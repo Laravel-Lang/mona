@@ -23,9 +23,9 @@ php artisan lang:update
 
 Publisher 从应用当前及回退语言区域、翻译目录根下的文件或目录，以及 `lang/vendor/<package>/` 下的 JSON 文件中发现语言区域。仅有第三方包的 PHP 翻译目录时，该语言区域不会被识别为已安装。对它运行 `lang:add`，可创建对应的应用目录。
 
-翻译包在[插件清单](./plugins.md)中声明支持的包、版本和目标文件。Publisher 将共享词典和翻译包词典合并后，把译文合并到各个目标文件。它保留无关的键，并替换匹配的字符串键。如果词典中缺少某个短语，Publisher 会写入源短语。请将自定义覆盖项保存在单独的翻译文件中，或[跳过](./configure.md#skip-files-and-force-integrations)自行维护的生成目标。
+翻译包在[插件清单](./plugins.md)中声明支持的包、版本和目标文件。Publisher 将共享词典和翻译包词典合并后，把译文合并到各个目标文件。它保留无关的键，并替换匹配的键（包括数字键）。如果词典中缺少某个短语，Publisher 会写入源短语。请将自定义覆盖项保存在单独的翻译文件中，或[跳过](./configure.md#skip-files-and-force-integrations)自行维护的生成目标。
 
-修改 Composer 依赖或[发布设置](./configure.md)后，请运行 `lang:update` 并检查生成的变更。合并可能会重建数字键的索引。如果应用使用生成的 `http-statuses.php`，请核对文件中的状态码。
+修改 Composer 依赖或[发布设置](./configure.md)后，请运行 `lang:update` 并检查生成的变更。
 
 ## 删除语言区域 {#remove-locales}
 
@@ -33,9 +33,9 @@ Publisher 从应用当前及回退语言区域、翻译目录根下的文件或�
 php artisan lang:rm de_CH
 ```
 
-此命令会从翻译目录根及各直接的 `lang/vendor/<package>/` 目录中删除对应规范代码的目录和 JSON 文件，包括其中的自定义文件。当前和回退语言区域受保护。不传参数时，命令会询问是否删除所有未受保护的语言区域，默认选择否。
+此命令会从翻译目录根及各直接的 `lang/vendor/<package>/` 目录中删除对应规范代码的目录和 JSON 文件，包括其中的自定义文件。当前和回退语言区域受保护。不传参数时，命令会询问是否删除所有未受保护的语言区域，默认选择否。如果语言区域目录为链接，命令会删除链接本身。
 
-命令针对每个语言区域报告 `DONE`、`PROTECTED`、`INVALID` 或 `SKIP`。这些状态都可能伴随表示成功的退出码，因此自动化脚本若需确认是否删除，应逐个检查请求的语言区域的结果。
+命令针对每个语言区域报告 `DONE`、`PROTECTED`、`INVALID`、`SKIP` 或 `FAILED`。如果尝试删除后仍有文件或目录保留，命令会显示其路径并返回失败退出码。请逐项查看状态，因为 `PROTECTED`、`INVALID` 和 `SKIP` 也可能伴随成功退出码。
 
 ## JSON 回退 {#json-fallback}
 

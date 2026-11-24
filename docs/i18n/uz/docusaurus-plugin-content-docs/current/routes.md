@@ -59,7 +59,7 @@ Har bir middlewareni `LaravelLang\Routes\Middlewares` nomlar fazosidagi sinfi or
 | `LocalizationByParameterMiddleware` | Marshrut parametri, standart nomi `locale` |
 | `LocalizationByParameterWithRedirectMiddleware` | Marshrut parametri. Marshrut nomlangan va parametr e’lon qilingan bo‘lsa, so‘ralgan lokal berilmaganda yoki o‘rnatilmaganda joriy lokal qo‘yiladi |
 | `LocalizationByCookieMiddleware` | Standart holatda `Accept-Language` cookie fayli |
-| `LocalizationByHeaderMiddleware` | PHP Intl `Accept-Language` sarlavhasidan ajratib olgan til |
+| `LocalizationByHeaderMiddleware` | `Accept-Language` sarlavhasidagi afzalliklar tartibiga ko‘ra birinchi o‘rnatilgan lokal. Avval to‘liq til tegini, so‘ng asosiy tilni tekshiradi. O‘rinbosar belgilar va sifat qiymati 0 bo‘lgan yozuvlarni o‘tkazib yuboradi. |
 | `LocalizationBySessionMiddleware` | Standart holatda `Accept-Language` sessiya kaliti |
 | `LocalizationByModelMiddleware` | Standart holatda autentifikatsiyadan o‘tgan Eloquent foydalanuvchisining `locale` atributi. Autentifikatsiya mexanizmini tanlash uchun middleware sinfiga `:guard_name` qo‘shing |
 

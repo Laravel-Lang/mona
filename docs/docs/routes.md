@@ -59,7 +59,7 @@ Each middleware can be applied directly by its class from `LaravelLang\Routes\Mi
 | `LocalizationByParameterMiddleware` | A route parameter, `locale` by default |
 | `LocalizationByParameterWithRedirectMiddleware` | A route parameter. With a named route and a declared parameter, it substitutes the current locale when the requested one is missing or uninstalled |
 | `LocalizationByCookieMiddleware` | An `Accept-Language` cookie by default |
-| `LocalizationByHeaderMiddleware` | The language parsed from the `Accept-Language` header by PHP Intl |
+| `LocalizationByHeaderMiddleware` | The first installed locale in `Accept-Language` preference order. It tries the full tag before its base language and skips wildcards and entries with quality zero |
 | `LocalizationBySessionMiddleware` | An `Accept-Language` session key by default |
 | `LocalizationByModelMiddleware` | The authenticated Eloquent user's `locale` attribute by default. Append `:guard_name` to the middleware class to select a guard |
 

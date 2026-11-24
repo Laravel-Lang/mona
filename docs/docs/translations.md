@@ -23,9 +23,9 @@ php artisan lang:update
 
 The Publisher finds locales from the application's current and fallback locales, files or directories at the root of the language directory, and JSON files under `lang/vendor/<package>/`. A vendor PHP translation directory alone does not mark a locale as installed. Use `lang:add` for that locale to create its application directory.
 
-Translation packs declare supported packages, versions, and target files in [plugin manifests](./plugins.md). The Publisher combines shared and package dictionaries, then merges their translations into each target file. It keeps unrelated keys and replaces matching string keys. When a phrase is missing from the dictionaries, the Publisher writes the source phrase. Keep custom overrides in separate translation files or [skip](./configure.md#skip-files-and-force-integrations) the generated targets that you maintain yourself.
+Translation packs declare supported packages, versions, and target files in [plugin manifests](./plugins.md). The Publisher combines shared and package dictionaries, then merges their translations into each target file. It keeps unrelated keys and replaces matching keys, including numeric keys such as `404` in `http-statuses.php`. When a phrase is missing from the dictionaries, the Publisher writes the source phrase. Keep custom overrides in separate translation files or [skip](./configure.md#skip-files-and-force-integrations) the generated targets that you maintain yourself.
 
-Run `lang:update` after changing Composer dependencies or [publication settings](./configure.md). Review the generated diff. Merging can reindex numeric keys, so verify the status codes in generated `http-statuses.php` files if your application uses them.
+Run `lang:update` after changing Composer dependencies or [publication settings](./configure.md). Review the generated diff.
 
 ## Remove locales
 
@@ -33,9 +33,9 @@ Run `lang:update` after changing Composer dependencies or [publication settings]
 php artisan lang:rm de_CH
 ```
 
-This deletes the canonical locale directory and JSON file from the language root and each immediate `lang/vendor/<package>/` directory, including any custom files they contain. The current and fallback locales are protected. Without arguments, the command asks whether to remove all unprotected locales and defaults to no.
+This deletes the canonical locale directory and JSON file from the language root and each immediate `lang/vendor/<package>/` directory, including any custom files they contain. For a linked locale directory, the command removes the link itself. The current and fallback locales are protected. Without arguments, the command asks whether to remove all unprotected locales and defaults to no.
 
-The command reports `DONE`, `PROTECTED`, `INVALID`, or `SKIP` for each locale. Automation that needs to confirm removal should check the result for each requested locale because those statuses can all appear with a successful exit code.
+The command reports `DONE`, `PROTECTED`, `INVALID`, `SKIP`, or `FAILED` for each locale. If a file or directory remains after attempted removal, the command reports its path and returns a failure exit code. Check the per-locale status to confirm removal, since `PROTECTED`, `INVALID`, and `SKIP` can accompany a successful exit.
 
 ## JSON fallback
 

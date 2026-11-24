@@ -127,7 +127,7 @@ Mova as substituições de `routes` na configuração antiga para `config/locali
 | O que você personalizou | Mudança em `config/localization_routes.php` | Variável de ambiente a renomear |
 | --- | --- | --- |
 | Parâmetro de localidade, cabeçalho, cookie, chave de sessão ou coluna do modelo de usuário | Copie suas substituições de `names` e mantenha as demais entradas padrão. | |
-| Prefixo acrescentado aos nomes das rotas localizadas | Mova `name_prefix` para `prefix`. Use `''` para um prefixo vazio. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
+| Prefixo acrescentado aos nomes das rotas localizadas | Mova `name_prefix` para `prefix`. Se o valor estiver vazio, será usado `localized.`. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
 | Redirecionamentos da rota com prefixo | Mova `redirect_default` para `redirect`. | `LOCALIZATION_REDIRECT_DEFAULT` → `LOCALIZATION_REDIRECT` |
 | Se o auxiliar de URL oculta a localidade de fallback | Mova `hide_default` para `hide`. | `LOCALIZATION_HIDE_DEFAULT` → `LOCALIZATION_HIDE` |
 | Middleware aplicado a grupos de rotas localizadas | Mova `group.middlewares.default` para `middlewares.default` no caso de rotas sem prefixo e `group.middlewares.prefix` para `middlewares.prefix` no caso de rotas com prefixo. Atualize os nomes das classes de middleware como mostra a [migração de rotas](#update-localized-routes-and-middleware). | |
@@ -321,13 +321,13 @@ Se mantém os auxiliares gerados para a IDE, execute `php artisan lang:models-he
 | `lang:add <locale>` atualizava apenas as localidades adicionadas | Agora, atualiza todas as localidades instaladas. Passe códigos explícitos em scripts e leve em conta as atualizações de arquivos de localidades existentes. |
 | `lang:reset` | Use `lang:update` para mesclar. Para reconstruir do zero, faça backup das entradas personalizadas, remova os arquivos que pretende gerar novamente e execute `lang:add` com os códigos das localidades a reconstruir. |
 | `lang:rm <locale> --force` | Use `lang:rm <locale>`. As localidades atual e de fallback do Laravel são protegidas. |
-| Verificar apenas o código de saída de `lang:rm` | Verifique cada resultado. `DONE` indica que a remoção foi executada. `PROTECTED`, `INVALID` e `SKIP` podem acompanhar um código de saída de sucesso. |
+| Verificar apenas o código de saída de `lang:rm` | Verifique cada resultado. `DONE` confirma a remoção e `FAILED` indica que um caminho permaneceu após a tentativa de remoção. `PROTECTED`, `INVALID` e `SKIP` podem acompanhar um código de saída de sucesso. |
 
 Se chama o Artisan por classe de comando, troque `LaravelLang\Publisher\Console\Add`, `Remove` e `Update` por `AddCommand`, `RemoveCommand` e `UpdateCommand`. Para um decorador de texto personalizado, implemente e registre `LaravelLang\Publisher\Contracts\Decorator` no lugar de `Contracts\TextDecorator`. Seu `convert(string $locale, string $value): string` recebe a localidade canônica.
 
-Execute o primeiro `lang:update` com os arquivos de idioma existentes sob controle de versão. O Publisher mescla nos destinos existentes e substitui chaves de texto correspondentes. Sempre que possível, mantenha traduções personalizadas em um arquivo de tradução separado da aplicação. Para manter por conta própria um destino gerado inteiro, adicione seu padrão de caminho a `localization_main.skip`. Verifique os valores que voltarem para a frase de origem. O Publisher usa essa frase quando os dicionários não têm uma tradução.
+Execute o primeiro `lang:update` com os arquivos de idioma existentes sob controle de versão. O Publisher mescla nos destinos existentes e substitui as chaves correspondentes, inclusive as numéricas. Sempre que possível, mantenha traduções personalizadas em um arquivo de tradução separado da aplicação. Para manter por conta própria um destino gerado inteiro, adicione seu padrão de caminho a `localization_main.skip`. Verifique os valores que voltarem para a frase de origem. O Publisher usa essa frase quando os dicionários não têm uma tradução.
 
-Se a aplicação usa traduções PHP de status HTTP, como `__('http-statuses.404')`, preserve os arquivos `http-statuses.php` existentes e adicione `'*/http-statuses.php'` a `localization_main.skip` antes de atualizar. A mesclagem PHP do Publisher pode reindexar as chaves numéricas. Verifique as consultas por código em cada localidade usada. [Gerenciar traduções](./translations.md)
+Se uma atualização anterior reindexou os arquivos `http-statuses.php`, faça uma cópia de segurança dos arquivos gerados afetados e remova-os. Remova `'*/http-statuses.php'` de `localization_main.skip` se você adicionou essa regra para contornar o problema. Execute `php artisan lang:update` para gerar os arquivos novamente e restaure as traduções personalizadas nos códigos de status correspondentes. [Gerenciar traduções](./translations.md)
 
 ### Substituir o registro de plugins legados {#replace-legacy-plugin-registration}
 

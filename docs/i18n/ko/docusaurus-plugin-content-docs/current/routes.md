@@ -59,7 +59,7 @@ $url = localizedRoute('products.show', [
 | `LocalizationByParameterMiddleware` | 라우트 매개변수. 기본값은 `locale` |
 | `LocalizationByParameterWithRedirectMiddleware` | 라우트 매개변수. 이름이 있는 라우트에 매개변수가 선언되어 있고 요청한 로캘이 없거나 미설치 상태면 현재 로캘을 대신 사용 |
 | `LocalizationByCookieMiddleware` | 기본적으로 `Accept-Language` 쿠키 |
-| `LocalizationByHeaderMiddleware` | PHP Intl이 `Accept-Language` 헤더에서 파싱한 언어 |
+| `LocalizationByHeaderMiddleware` | `Accept-Language` 헤더의 선호 순서에 따라 처음으로 일치하는 설치된 로캘. 전체 언어 태그를 먼저 확인한 다음 기본 언어를 확인합니다. 와일드카드와 품질 값이 0인 항목은 건너뜁니다. |
 | `LocalizationBySessionMiddleware` | 기본적으로 `Accept-Language` 세션 키 |
 | `LocalizationByModelMiddleware` | 기본적으로 인증된 Eloquent 사용자의 `locale` 속성. 가드를 선택하려면 미들웨어 클래스 뒤에 `:guard_name`을 추가 |
 

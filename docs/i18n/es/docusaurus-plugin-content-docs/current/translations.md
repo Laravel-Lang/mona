@@ -23,9 +23,9 @@ php artisan lang:update
 
 Publisher detecta las configuraciones regionales a partir de la actual y la de reserva de la aplicación, los archivos y directorios en la raíz del directorio de idiomas y los archivos JSON de `lang/vendor/<package>/`. Un directorio de traducciones PHP de una dependencia por sí solo no marca una configuración regional como instalada. Usa `lang:add` con esa configuración regional para crear su directorio en la aplicación.
 
-Los paquetes de traducción declaran los paquetes, las versiones y los archivos de destino compatibles en los [manifiestos de complementos](./plugins.md). Publisher combina los diccionarios compartidos y los de cada paquete, e incorpora sus traducciones en cada archivo de destino. Conserva las claves ajenas a la actualización y reemplaza las claves de texto coincidentes. Si una frase no existe en los diccionarios, Publisher escribe la frase original. Mantén las traducciones personalizadas en archivos separados o [excluye](./configure.md#skip-files-and-force-integrations) los destinos generados que mantienes tú mismo.
+Los paquetes de traducción declaran los paquetes, las versiones y los archivos de destino compatibles en los [manifiestos de complementos](./plugins.md). Publisher combina los diccionarios compartidos y los de cada paquete, e incorpora sus traducciones en cada archivo de destino. Conserva las claves ajenas a la actualización y reemplaza las claves coincidentes, incluidas las numéricas. Si una frase no existe en los diccionarios, Publisher escribe la frase original. Mantén las traducciones personalizadas en archivos separados o [excluye](./configure.md#skip-files-and-force-integrations) los destinos generados que mantienes tú mismo.
 
-Ejecuta `lang:update` después de cambiar las dependencias de Composer o la [configuración de publicación](./configure.md). Revisa el diff generado. La combinación puede cambiar los índices de las claves numéricas. Si tu aplicación usa los códigos de estado de los archivos `http-statuses.php` generados, compruébalos.
+Ejecuta `lang:update` después de cambiar las dependencias de Composer o la [configuración de publicación](./configure.md). Revisa el diff generado.
 
 ## Eliminar configuraciones regionales {#remove-locales}
 
@@ -33,9 +33,9 @@ Ejecuta `lang:update` después de cambiar las dependencias de Composer o la [con
 php artisan lang:rm de_CH
 ```
 
-El comando elimina el directorio con el código canónico y el archivo JSON de la configuración regional de la raíz de idiomas y de cada directorio inmediato `lang/vendor/<package>/`, incluidos los archivos personalizados que contengan. La configuración regional actual y la de reserva están protegidas. Si no pasas argumentos, el comando pregunta si debe eliminar todas las configuraciones regionales no protegidas. La respuesta predeterminada es negativa.
+El comando elimina el directorio con el código canónico y el archivo JSON de la configuración regional de la raíz de idiomas y de cada directorio inmediato `lang/vendor/<package>/`, incluidos los archivos personalizados que contengan. La configuración regional actual y la de reserva están protegidas. Si no pasas argumentos, el comando pregunta si debe eliminar todas las configuraciones regionales no protegidas. La respuesta predeterminada es negativa. Si un directorio de la configuración regional es un enlace, el comando elimina el enlace en sí.
 
-El comando indica `DONE`, `PROTECTED`, `INVALID` o `SKIP` para cada configuración regional. Las automatizaciones que necesiten confirmar la eliminación deben comprobar el resultado de cada configuración regional solicitada, porque todos esos estados pueden aparecer con un código de salida que indique éxito.
+El comando indica `DONE`, `PROTECTED`, `INVALID`, `SKIP` o `FAILED` para cada configuración regional. Si queda un archivo o directorio después del intento de eliminación, muestra su ruta y devuelve un código de error. Comprueba el estado de cada configuración regional, porque `PROTECTED`, `INVALID` y `SKIP` pueden aparecer con un código de salida de éxito.
 
 ## JSON de reserva {#json-fallback}
 

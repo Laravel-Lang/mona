@@ -59,7 +59,7 @@ Her ara katman, `LaravelLang\Routes\Middlewares` ad alanındaki sınıfı üzeri
 | `LocalizationByParameterMiddleware` | Varsayılan adı `locale` olan bir rota parametresi |
 | `LocalizationByParameterWithRedirectMiddleware` | Bir rota parametresi. Rota adlandırılmış ve parametre tanımlıysa istenen yerel ayar yokken veya kurulu değilken geçerli yerel ayarı kullanır |
 | `LocalizationByCookieMiddleware` | Varsayılan olarak `Accept-Language` çerezi |
-| `LocalizationByHeaderMiddleware` | PHP Intl tarafından `Accept-Language` başlığından ayrıştırılan dil |
+| `LocalizationByHeaderMiddleware` | `Accept-Language` başlığındaki tercih sırasına göre ilk yüklü yerel ayar. Önce tam dil etiketini, ardından temel dili dener. Joker karakterleri ve kalite değeri 0 olan girdileri atlar. |
 | `LocalizationBySessionMiddleware` | Varsayılan olarak `Accept-Language` oturum anahtarı |
 | `LocalizationByModelMiddleware` | Varsayılan olarak kimliği doğrulanmış Eloquent kullanıcısının `locale` özniteliği. Bir guard seçmek için ara katman sınıfına `:guard_name` ekleyin |
 

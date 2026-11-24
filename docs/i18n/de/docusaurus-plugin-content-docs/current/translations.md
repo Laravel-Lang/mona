@@ -23,9 +23,9 @@ php artisan lang:update
 
 Der Publisher ermittelt Locales anhand der aktuellen Locale und der Fallback-Locale der Anwendung, der Dateien oder Verzeichnisse direkt im Sprachverzeichnis sowie der JSON-Dateien unter `lang/vendor/<package>/`. Ein PHP-Übersetzungsverzeichnis eines Drittanbieters allein zählt nicht als Installation einer Locale. Verwende `lang:add` für diese Locale, um ihr Anwendungsverzeichnis anzulegen.
 
-Übersetzungspakete geben unterstützte Pakete, Versionen und Zieldateien in [Plugin-Manifesten](./plugins.md) an. Der Publisher kombiniert die gemeinsamen Wörterbücher und die Paketwörterbücher und führt ihre Übersetzungen mit jeder Zieldatei zusammen. Dabei behält er andere Schlüssel bei und ersetzt übereinstimmende Zeichenkettenschlüssel. Fehlt ein Text in den Wörterbüchern, schreibt der Publisher den Quelltext. Lege eigene Überschreibungen in separaten Übersetzungsdateien ab oder [schließe](./configure.md#skip-files-and-force-integrations) die von dir selbst gepflegten generierten Ziele aus.
+Übersetzungspakete geben unterstützte Pakete, Versionen und Zieldateien in [Plugin-Manifesten](./plugins.md) an. Der Publisher kombiniert die gemeinsamen Wörterbücher und die Paketwörterbücher und führt ihre Übersetzungen mit jeder Zieldatei zusammen. Dabei behält er andere Schlüssel bei und ersetzt übereinstimmende Schlüssel, auch numerische. Fehlt ein Text in den Wörterbüchern, schreibt der Publisher den Quelltext. Lege eigene Überschreibungen in separaten Übersetzungsdateien ab oder [schließe](./configure.md#skip-files-and-force-integrations) die von dir selbst gepflegten generierten Ziele aus.
 
-Führe `lang:update` nach Änderungen an Composer-Abhängigkeiten oder [Veröffentlichungseinstellungen](./configure.md) aus. Prüfe die generierten Änderungen. Beim Zusammenführen können numerische Schlüssel neu indiziert werden. Prüfe daher die Statuscodes in generierten Dateien `http-statuses.php`, falls deine Anwendung sie verwendet.
+Führe `lang:update` nach Änderungen an Composer-Abhängigkeiten oder [Veröffentlichungseinstellungen](./configure.md) aus. Prüfe die generierten Änderungen.
 
 ## Locales entfernen {#remove-locales}
 
@@ -33,9 +33,9 @@ Führe `lang:update` nach Änderungen an Composer-Abhängigkeiten oder [Veröffe
 php artisan lang:rm de_CH
 ```
 
-Der Befehl löscht das Verzeichnis mit dem kanonischen Locale-Code und die zugehörige JSON-Datei im Stamm des Sprachverzeichnisses und in jedem direkten Paketverzeichnis `lang/vendor/<package>/`. Eigene Dateien in den gelöschten Locale-Verzeichnissen werden dabei ebenfalls entfernt. Die aktuelle Locale und die Fallback-Locale sind geschützt. Ohne Argumente fragt der Befehl, ob er alle ungeschützten Locales entfernen soll, und schlägt „Nein“ als Standard vor.
+Der Befehl löscht das Verzeichnis mit dem kanonischen Locale-Code und die zugehörige JSON-Datei im Stamm des Sprachverzeichnisses und in jedem direkten Paketverzeichnis `lang/vendor/<package>/`. Eigene Dateien in den gelöschten Locale-Verzeichnissen werden dabei ebenfalls entfernt. Die aktuelle Locale und die Fallback-Locale sind geschützt. Ohne Argumente fragt der Befehl, ob er alle ungeschützten Locales entfernen soll, und schlägt „Nein“ als Standard vor. Bei einem verknüpften Locale-Verzeichnis entfernt der Befehl die Verknüpfung selbst.
 
-Der Befehl meldet für jede Locale `DONE`, `PROTECTED`, `INVALID` oder `SKIP`. Wenn ein automatisierter Ablauf die Entfernung bestätigen muss, sollte er das Ergebnis für jede angeforderte Locale prüfen, da alle diese Statusmeldungen auch bei einem erfolgreichen Exit-Code vorkommen können.
+Der Befehl meldet für jede Locale `DONE`, `PROTECTED`, `INVALID`, `SKIP` oder `FAILED`. Bleibt eine Datei oder ein Verzeichnis nach dem Löschversuch bestehen, gibt der Befehl den Pfad und einen Fehlercode aus. Prüfe den Status jeder Locale, da bei `PROTECTED`, `INVALID` oder `SKIP` der Exit-Code weiterhin Erfolg anzeigen kann.
 
 ## JSON-Fallback {#json-fallback}
 

@@ -59,7 +59,7 @@ $url = localizedRoute('products.show', [
 | `LocalizationByParameterMiddleware` | معامل المسار، وهو `locale` افتراضيًا |
 | `LocalizationByParameterWithRedirectMiddleware` | معامل المسار. عند وجود مسار مسمّى ومعامل معرّف، تستخدم الإعداد الحالي إذا كان المطلوب مفقودًا أو غير مثبّت |
 | `LocalizationByCookieMiddleware` | ملف تعريف ارتباط اسمه `Accept-Language` افتراضيًا |
-| `LocalizationByHeaderMiddleware` | اللغة التي يستخلصها امتداد PHP Intl من الترويسة `Accept-Language` |
+| `LocalizationByHeaderMiddleware` | أول إعدادات محلية مثبّتة توافق ترتيب التفضيل في ترويسة `Accept-Language`. يبدأ بالوسم الكامل ثم يجرّب اللغة الأساسية، ويتجاهل أحرف البدل والمدخلات ذات قيمة الجودة صفر. |
 | `LocalizationBySessionMiddleware` | مفتاح الجلسة `Accept-Language` افتراضيًا |
 | `LocalizationByModelMiddleware` | السمة `locale` للمستخدم المصادَق عليه في Eloquent افتراضيًا. ألحِق `:guard_name` بفئة البرمجية الوسيطة لاختيار حارس المصادقة |
 

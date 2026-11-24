@@ -125,7 +125,7 @@ Eski sozlamadagi `routes` ga kiritgan o‘zgarishlaringizni `config/localization
 | Moslashtirilgan sozlama | `config/localization_routes.php` dagi o‘zgarish | Nomi o‘zgartiriladigan muhit o‘zgaruvchisi |
 | --- | --- | --- |
 | Lokal parametri, sarlavha, cookie, sessiya kaliti yoki foydalanuvchi modeli ustuni | `names` ga kiritgan o‘zgarishlaringizni nusxalang va qolgan standart yozuvlarni saqlang. | |
-| Mahalliylashtirilgan marshrut nomlariga qo‘shiladigan prefiks | `name_prefix` ni `prefix` ga ko‘chiring. Bo‘sh prefiks uchun `''` dan foydalaning. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
+| Mahalliylashtirilgan marshrut nomlariga qo‘shiladigan prefiks | `name_prefix` ni `prefix` ga ko‘chiring. Qiymat bo‘sh bo‘lsa, `localized.` ishlatiladi. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
 | Prefiksli marshrutdan yo‘naltirishlar | `redirect_default` ni `redirect` ga ko‘chiring. | `LOCALIZATION_REDIRECT_DEFAULT` → `LOCALIZATION_REDIRECT` |
 | URL yordamchi funksiyasi zaxira lokalni yashirishi yoki yashirmasligi | `hide_default` ni `hide` ga ko‘chiring. | `LOCALIZATION_HIDE_DEFAULT` → `LOCALIZATION_HIDE` |
 | Mahalliylashtirilgan marshrut guruhlariga qo‘llanadigan middlewarelar | Prefikssiz marshrutlar uchun `group.middlewares.default` ni `middlewares.default` ga, prefikslilar uchun `group.middlewares.prefix` ni `middlewares.prefix` ga ko‘chiring. Middleware sinf nomlarini [marshrutlarni ko‘chirish](#update-localized-routes-and-middleware) bo‘limida ko‘rsatilganidek yangilang. | |
@@ -319,13 +319,13 @@ Yaratilgan IDE yordamchi fayllarini saqlasangiz, importlar va modellarni aniqlas
 | `lang:add <locale>` faqat qo‘shilayotgan lokallarni yangilagan | Endi barcha o‘rnatilgan lokallarni yangilaydi. Skriptlarda kodlarni aniq uzating va mavjud lokal fayllari ham yangilanishini hisobga oling. |
 | `lang:reset` | Birlashtirish uchun `lang:update` dan foydalaning. Noldan qayta yaratish uchun maxsus yozuvlarni zaxiralang, qayta yaratmoqchi bo‘lgan fayllarni o‘chirib, `lang:add` ga kerakli lokallar kodlarini aniq uzating. |
 | `lang:rm <locale> --force` | `lang:rm <locale>` dan foydalaning. Laravel’ning joriy va zaxira lokallari himoyalangan. |
-| Faqat `lang:rm` chiqish kodini tekshirish | Har bir natijani tekshiring. `DONE` o‘chirish jarayoni bajarilganini bildiradi. `PROTECTED`, `INVALID` va `SKIP` muvaffaqiyatli chiqish kodi bilan ham qaytishi mumkin. |
+| Faqat `lang:rm` chiqish kodini tekshirish | Har bir natijani tekshiring. `DONE` o‘chirilganini tasdiqlaydi, `FAILED` esa urinishdan keyin fayl yoki katalog qolganini bildiradi. `PROTECTED`, `INVALID` va `SKIP` muvaffaqiyatli chiqish kodi bilan ham qaytishi mumkin. |
 
 Artisan’ni buyruq sinfi orqali chaqirsangiz, `LaravelLang\Publisher\Console\Add`, `Remove` va `Update` ni mos ravishda `AddCommand`, `RemoveCommand` va `UpdateCommand` ga almashtiring. Maxsus matn dekoratori uchun `Contracts\TextDecorator` o‘rniga `LaravelLang\Publisher\Contracts\Decorator` ni amalga oshiring va konteynerga bog‘lang. Uning `convert(string $locale, string $value): string` metodi kanonik lokalni oladi.
 
-Ilk `lang:update` ni mavjud til fayllaringiz versiya nazoratida turganda bajaring. Publisher mavjud maqsad fayllariga yozuvlarni birlashtiradi va mos satr kalitlarini almashtiradi. Imkon bo‘lsa, maxsus tarjimalarni alohida ilova tarjima faylida saqlang. Yaratiladigan butun maqsad faylini o‘zingiz yuritish uchun uning yo‘l andozasini `localization_main.skip` ga qo‘shing. Manba iboraga qaytgan har qanday qiymatni tekshiring. Lug‘atlarda tarjima bo‘lmasa, Publisher ushbu iborani ishlatadi.
+Ilk `lang:update` ni mavjud til fayllaringiz versiya nazoratida turganda bajaring. Publisher mavjud maqsad fayllariga yozuvlarni birlashtiradi va mos kalitlarni, jumladan, sonli kalitlarni almashtiradi. Imkon bo‘lsa, maxsus tarjimalarni alohida ilova tarjima faylida saqlang. Yaratiladigan butun maqsad faylini o‘zingiz yuritish uchun uning yo‘l andozasini `localization_main.skip` ga qo‘shing. Manba iboraga qaytgan har qanday qiymatni tekshiring. Lug‘atlarda tarjima bo‘lmasa, Publisher ushbu iborani ishlatadi.
 
-Ilova `__('http-statuses.404')` kabi PHP HTTP holat tarjimalaridan foydalansa, yangilashdan oldin mavjud `http-statuses.php` fayllarini saqlang va `localization_main.skip` ga `'*/http-statuses.php'` ni qo‘shing. Publisher PHP tarjimalarini birlashtirganda sonli kalitlar qayta indekslanishi mumkin. Tayanadigan har bir lokalda kod bo‘yicha qidirishni tekshiring. [Tarjimalarni boshqarish](./translations.md)
+Avvalgi yangilanishda `http-statuses.php` fayllaridagi kalitlar qayta raqamlangan bo‘lsa, tuzatish talab qilinadigan fayllardan zaxira nusxa oling va ularni o‘chiring. Muammoni chetlab o‘tish uchun `localization_main.skip` ga `'*/http-statuses.php'` ni qo‘shgan bo‘lsangiz, shu yozuvni olib tashlang. Fayllarni qayta yaratish uchun `php artisan lang:update` buyrug‘ini bajaring, keyin maxsus tarjimalarni tegishli holat kodlari bilan tiklang. [Tarjimalarni boshqarish](./translations.md)
 
 ### Eski plagin ro‘yxatdan o‘tkazish usulini almashtirish {#replace-legacy-plugin-registration}
 

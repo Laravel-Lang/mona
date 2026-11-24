@@ -127,7 +127,7 @@ Eski yapılandırmanın `routes` bölümündeki özelleştirmelerinizi `config/l
 | Özelleştirdiğiniz ayar | `config/localization_routes.php` dosyasındaki değişiklik | Yeniden adlandırılacak ortam değişkeni |
 | --- | --- | --- |
 | Yerel ayar parametresi, başlık, çerez, oturum anahtarı veya kullanıcı modeli sütunu | `names` altındaki özelleştirmelerinizi kopyalayın ve diğer varsayılan girdileri koruyun. | |
-| Yerelleştirilmiş rota adlarına eklenen önek | `name_prefix` ayarını `prefix` olarak taşıyın. Boş önek için `''` kullanın. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
+| Yerelleştirilmiş rota adlarına eklenen önek | `name_prefix` ayarını `prefix` olarak taşıyın. Değer boşsa `localized.` kullanılır. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
 | Önekli rotadan yönlendirmeler | `redirect_default` ayarını `redirect` olarak taşıyın. | `LOCALIZATION_REDIRECT_DEFAULT` → `LOCALIZATION_REDIRECT` |
 | URL yardımcı işlevinin yedek yerel ayarı gizleyip gizlememesi | `hide_default` ayarını `hide` olarak taşıyın. | `LOCALIZATION_HIDE_DEFAULT` → `LOCALIZATION_HIDE` |
 | Yerelleştirilmiş rota gruplarına uygulanan ara katmanlar | Öneksiz rotalar için `group.middlewares.default` ayarını `middlewares.default`, önekli rotalar için `group.middlewares.prefix` ayarını `middlewares.prefix` olarak taşıyın. Ara katman sınıfı adlarını [rota geçişinde](#update-localized-routes-and-middleware) gösterildiği gibi güncelleyin. | |
@@ -321,13 +321,13 @@ Oluşturulan IDE yardımcı dosyalarını saklıyorsanız içe aktarımları ve 
 | `lang:add <locale>` yalnızca eklenen yerel ayarları yenilerdi | Artık tüm kurulu yerel ayarları yeniler. Betiklerde kodları açıkça belirtin ve mevcut yerel ayar dosyalarının da güncelleneceğini hesaba katın. |
 | `lang:reset` | Birleştirmek için `lang:update` kullanın. Temiz bir yeniden oluşturma için özel girdileri yedekleyin, yeniden oluşturacağınız dosyaları kaldırın ve yeniden oluşturulacak yerel ayarların kodlarını açıkça vererek `lang:add` çalıştırın. |
 | `lang:rm <locale> --force` | `lang:rm <locale>` kullanın. Laravel’in geçerli ve yedek yerel ayarları korunur. |
-| Yalnızca `lang:rm` çıkış kodunu kontrol etme | Her sonucu kontrol edin. `DONE`, kaldırma işleminin çalıştığını gösterir. `PROTECTED`, `INVALID` ve `SKIP` başarılı çıkış koduyla dönebilir. |
+| Yalnızca `lang:rm` çıkış kodunu kontrol etme | Her sonucu kontrol edin. `DONE` kaldırmayı doğrular, `FAILED` ise kaldırma denemesinden sonra bir yolun kaldığını gösterir. `PROTECTED`, `INVALID` ve `SKIP` başarılı çıkış koduyla dönebilir. |
 
 Artisan’ı komut sınıfı üzerinden çağırıyorsanız `LaravelLang\Publisher\Console\Add`, `Remove` ve `Update` yerine `AddCommand`, `RemoveCommand` ve `UpdateCommand` kullanın. Özel metin düzenleyici için `Contracts\TextDecorator` yerine `LaravelLang\Publisher\Contracts\Decorator` arayüzünü uygulayın ve bağlayın. Arayüzün `convert(string $locale, string $value): string` metodu standart yerel ayar kodunu alır.
 
-İlk `lang:update` işlemini mevcut dil dosyalarınız sürüm denetimindeyken çalıştırın. Publisher çevirileri mevcut hedeflerle birleştirir ve eşleşen metin anahtarlarının değerlerini değiştirir. Mümkünse özel çevirileri ayrı bir uygulama çeviri dosyasında tutun. Oluşturulan bir hedefin tamamının bakımını kendiniz üstlenmek için yol desenini `localization_main.skip` ayarına ekleyin. Kaynak ifadeye dönen her değeri kontrol edin. Sözlüklerde çeviri bulunmadığında Publisher kaynak ifadeyi kullanır.
+İlk `lang:update` işlemini mevcut dil dosyalarınız sürüm denetimindeyken çalıştırın. Publisher çevirileri mevcut hedeflerle birleştirir ve sayısal anahtarlar da dâhil olmak üzere eşleşen anahtarların değerlerini değiştirir. Mümkünse özel çevirileri ayrı bir uygulama çeviri dosyasında tutun. Oluşturulan bir hedefin tamamının bakımını kendiniz üstlenmek için yol desenini `localization_main.skip` ayarına ekleyin. Kaynak ifadeye dönen her değeri kontrol edin. Sözlüklerde çeviri bulunmadığında Publisher kaynak ifadeyi kullanır.
 
-Uygulama `__('http-statuses.404')` gibi PHP HTTP durum çevirileri kullanıyorsa güncellemeden önce mevcut `http-statuses.php` dosyalarını saklayın ve `localization_main.skip` ayarına `'*/http-statuses.php'` ekleyin. Publisher’ın PHP birleştirmesi sayısal anahtarları yeniden numaralandırabilir. Kullandığınız her yerel ayarda kodla aramayı doğrulayın. [Çevirileri yönetme](./translations.md)
+Önceki bir güncelleme `http-statuses.php` dosyalarındaki anahtarları yeniden numaralandırdıysa etkilenen dosyaları yedekleyip kaldırın. Sorunu aşmak için `localization_main.skip` ayarına `'*/http-statuses.php'` eklediyseniz bu girdiyi kaldırın. Dosyaları yeniden oluşturmak için `php artisan lang:update` komutunu çalıştırın, ardından özel çevirileri ilgili durum kodlarıyla geri yükleyin. [Çevirileri yönetme](./translations.md)
 
 ### Eski eklenti kaydını değiştirme {#replace-legacy-plugin-registration}
 

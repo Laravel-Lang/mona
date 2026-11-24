@@ -59,7 +59,7 @@ $url = localizedRoute('products.show', [
 | `LocalizationByParameterMiddleware` | Параметар руте, подразумевано `locale` |
 | `LocalizationByParameterWithRedirectMiddleware` | Параметар руте. Ако рута има назив и параметар је декларисан, користи текући локал када тражени локал недостаје или није инсталиран |
 | `LocalizationByCookieMiddleware` | Подразумевано колачић `Accept-Language` |
-| `LocalizationByHeaderMiddleware` | Језик који PHP Intl издваја из заглавља `Accept-Language` |
+| `LocalizationByHeaderMiddleware` | Први инсталирани локал по редоследу преференција из заглавља `Accept-Language`. Прво проверава целу језичку ознаку, а затим основни језик. Прескаче џокер знакове и ставке чија је вредност квалитета 0. |
 | `LocalizationBySessionMiddleware` | Подразумевано кључ сесије `Accept-Language` |
 | `LocalizationByModelMiddleware` | Подразумевано атрибут `locale` пријављеног Eloquent корисника. Додајте `:guard_name` називу класе да изаберете механизам аутентификације |
 

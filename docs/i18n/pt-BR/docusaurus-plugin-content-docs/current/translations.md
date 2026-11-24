@@ -23,9 +23,9 @@ php artisan lang:update
 
 O Publisher identifica localidades a partir das localidades atual e de fallback da aplicação, de arquivos ou diretórios na raiz do diretório de idiomas e de arquivos JSON em `lang/vendor/<package>/`. Um diretório de traduções PHP de uma dependência, por si só, não faz uma localidade ser considerada instalada. Use `lang:add` com essa localidade para criar o diretório correspondente na aplicação.
 
-Os pacotes de tradução declaram os pacotes, versões e arquivos de destino compatíveis em [manifestos de plugins](./plugins.md). O Publisher combina os dicionários compartilhados e os dos pacotes, depois mescla as traduções em cada arquivo de destino. Ele preserva as chaves sem correspondência e substitui as chaves de texto correspondentes. Quando uma frase está ausente dos dicionários, o Publisher grava a frase de origem. Mantenha suas substituições em arquivos de tradução separados ou [ignore](./configure.md#skip-files-and-force-integrations) os destinos gerados que você mantém.
+Os pacotes de tradução declaram os pacotes, versões e arquivos de destino compatíveis em [manifestos de plugins](./plugins.md). O Publisher combina os dicionários compartilhados e os dos pacotes, depois mescla as traduções em cada arquivo de destino. Ele preserva as chaves sem correspondência e substitui as chaves correspondentes, inclusive as numéricas. Quando uma frase está ausente dos dicionários, o Publisher grava a frase de origem. Mantenha suas substituições em arquivos de tradução separados ou [ignore](./configure.md#skip-files-and-force-integrations) os destinos gerados que você mantém.
 
-Execute `lang:update` depois de alterar dependências do Composer ou [configurações de publicação](./configure.md). Revise as diferenças geradas. A mesclagem pode reindexar chaves numéricas, então verifique os códigos de status nos arquivos `http-statuses.php` gerados se sua aplicação os usa.
+Execute `lang:update` depois de alterar dependências do Composer ou [configurações de publicação](./configure.md). Revise as diferenças geradas.
 
 ## Remover localidades {#remove-locales}
 
@@ -33,9 +33,9 @@ Execute `lang:update` depois de alterar dependências do Composer ou [configura�
 php artisan lang:rm de_CH
 ```
 
-O comando exclui o diretório e o arquivo JSON da localidade canônica na raiz do diretório de idiomas e em cada diretório imediato de `lang/vendor/<package>/`, incluindo quaisquer arquivos personalizados que contenham. As localidades atual e de fallback são protegidas. Sem argumentos, o comando pergunta se deve remover todas as localidades desprotegidas e a resposta padrão é não.
+O comando exclui o diretório e o arquivo JSON da localidade canônica na raiz do diretório de idiomas e em cada diretório imediato de `lang/vendor/<package>/`, incluindo quaisquer arquivos personalizados que contenham. As localidades atual e de fallback são protegidas. Sem argumentos, o comando pergunta se deve remover todas as localidades desprotegidas e a resposta padrão é não. Se o diretório de uma localidade for um link, o comando remove o próprio link.
 
-O comando informa `DONE`, `PROTECTED`, `INVALID` ou `SKIP` para cada localidade. Automações que precisam confirmar a remoção devem verificar o resultado de cada localidade solicitada, pois todos esses status podem aparecer com um código de saída de sucesso.
+O comando informa `DONE`, `PROTECTED`, `INVALID`, `SKIP` ou `FAILED` para cada localidade. Se um arquivo ou diretório permanecer após a tentativa de remoção, o comando mostra seu caminho e retorna um código de falha. Verifique o status de cada localidade, pois `PROTECTED`, `INVALID` e `SKIP` podem acompanhar um código de saída de sucesso.
 
 ## Fallback de JSON {#json-fallback}
 

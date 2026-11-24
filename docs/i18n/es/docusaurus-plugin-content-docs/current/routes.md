@@ -59,7 +59,7 @@ Cada middleware se puede aplicar directamente mediante su clase de `LaravelLang\
 | `LocalizationByParameterMiddleware` | Un parámetro de ruta, `locale` de forma predeterminada |
 | `LocalizationByParameterWithRedirectMiddleware` | Un parámetro de ruta. Si la ruta tiene nombre y declara el parámetro, usa la configuración regional actual cuando la solicitada falta o no está instalada |
 | `LocalizationByCookieMiddleware` | Una cookie `Accept-Language` de forma predeterminada |
-| `LocalizationByHeaderMiddleware` | El idioma que PHP Intl extrae del encabezado `Accept-Language` |
+| `LocalizationByHeaderMiddleware` | La primera configuración regional instalada según el orden de preferencia de `Accept-Language`. Prueba la etiqueta completa antes que el idioma base y omite los comodines y las entradas con valor de calidad 0. |
 | `LocalizationBySessionMiddleware` | Una clave de sesión `Accept-Language` de forma predeterminada |
 | `LocalizationByModelMiddleware` | El atributo `locale` del usuario autenticado de Eloquent de forma predeterminada. Agrega `:guard_name` a la clase de middleware para seleccionar un guard |
 

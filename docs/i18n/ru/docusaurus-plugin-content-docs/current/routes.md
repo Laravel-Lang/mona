@@ -59,7 +59,7 @@ $url = localizedRoute('products.show', [
 | `LocalizationByParameterMiddleware` | Параметр маршрута, по умолчанию `locale` |
 | `LocalizationByParameterWithRedirectMiddleware` | Параметр маршрута. При наличии имени маршрута и объявленного параметра подставляет текущую локаль, если запрошенная отсутствует или не установлена |
 | `LocalizationByCookieMiddleware` | По умолчанию cookie `Accept-Language` |
-| `LocalizationByHeaderMiddleware` | Язык, который расширение PHP Intl извлекает из заголовка `Accept-Language` |
+| `LocalizationByHeaderMiddleware` | Первая установленная локаль в порядке предпочтений из заголовка `Accept-Language`. Middleware сначала проверяет полный языковой тег, затем базовый язык. Шаблон `*` и записи с весом 0 пропускаются. |
 | `LocalizationBySessionMiddleware` | По умолчанию ключ сеанса `Accept-Language` |
 | `LocalizationByModelMiddleware` | По умолчанию атрибут `locale` аутентифицированного пользователя Eloquent. Чтобы выбрать guard, добавьте `:guard_name` к имени класса |
 

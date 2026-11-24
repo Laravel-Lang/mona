@@ -127,7 +127,7 @@ Move your overrides from `routes` in the old config into `config/localization_ro
 | What you customized | Change in `config/localization_routes.php` | Environment variable to rename |
 | --- | --- | --- |
 | Locale parameter, header, cookie, session key, or user model column | Copy your `names` overrides and keep the remaining default entries. | |
-| Prefix attached to localized route names | Move `name_prefix` to `prefix`. Use `''` for an empty prefix. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
+| Prefix attached to localized route names | Move `name_prefix` to `prefix`. An empty value uses `localized.`. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
 | Redirects from the prefixed route | Move `redirect_default` to `redirect`. | `LOCALIZATION_REDIRECT_DEFAULT` → `LOCALIZATION_REDIRECT` |
 | Whether the URL helper hides the fallback locale | Move `hide_default` to `hide`. | `LOCALIZATION_HIDE_DEFAULT` → `LOCALIZATION_HIDE` |
 | Middleware applied to localized route groups | Move `group.middlewares.default` to `middlewares.default` for unprefixed routes and `group.middlewares.prefix` to `middlewares.prefix` for prefixed routes. Update the middleware class names as shown in [the routes migration](#update-localized-routes-and-middleware). | |
@@ -321,13 +321,13 @@ If you keep generated IDE helpers, run `php artisan lang:models-helper` after up
 | `lang:add <locale>` only refreshed the locales being added | It now refreshes all installed locales. Pass explicit codes in scripts and account for updates to existing locale files. |
 | `lang:reset` | Use `lang:update` for a merge. For a clean rebuild, back up custom entries, remove the files you intend to regenerate, then run `lang:add` with explicit codes for the locales to rebuild. |
 | `lang:rm <locale> --force` | Use `lang:rm <locale>`. Laravel's current and fallback locales are protected. |
-| Checking only the `lang:rm` exit code | Check each result. `DONE` indicates the removal path ran. `PROTECTED`, `INVALID`, and `SKIP` can accompany a successful exit code. |
+| Checking only the `lang:rm` exit code | Check each result. `DONE` confirms removal and `FAILED` indicates that a path remains after attempted removal. `PROTECTED`, `INVALID`, and `SKIP` can accompany a successful exit code. |
 
 If you call Artisan by command class, switch `LaravelLang\Publisher\Console\Add`, `Remove`, and `Update` to `AddCommand`, `RemoveCommand`, and `UpdateCommand`. For a custom text decorator, implement and bind `LaravelLang\Publisher\Contracts\Decorator` in place of `Contracts\TextDecorator`. Its `convert(string $locale, string $value): string` receives the canonical locale.
 
-Run the first `lang:update` with your existing language files under version control. Publisher merges into existing targets and replaces matching string keys. Keep custom translations in a separate application translation file where possible. To maintain an entire generated target yourself, add its path pattern to `localization_main.skip`. Check any value that reverts to the source phrase. Publisher uses that phrase when the dictionaries lack a translation.
+Run the first `lang:update` with your existing language files under version control. Publisher merges into existing targets and replaces matching keys, including numeric keys. Keep custom translations in a separate application translation file where possible. To maintain an entire generated target yourself, add its path pattern to `localization_main.skip`. Check any value that reverts to the source phrase. Publisher uses that phrase when the dictionaries lack a translation.
 
-If the application uses PHP HTTP status translations such as `__('http-statuses.404')`, keep your existing `http-statuses.php` files and add `'*/http-statuses.php'` to `localization_main.skip` before updating. Publisher's PHP merge can reindex the numeric keys. Verify lookups by code in every locale you rely on. [Manage translations](./translations.md)
+If an earlier update reindexed your `http-statuses.php` files, back up and remove the affected generated files. Remove any `'*/http-statuses.php'` entry you added to `localization_main.skip` as a workaround. Run `php artisan lang:update` to rebuild the files, then restore any custom translations under their intended status codes. [Manage translations](./translations.md)
 
 ### Replace legacy plugin registration
 

@@ -125,7 +125,7 @@ php artisan vendor:publish --tag=localization
 | 사용자 지정한 항목 | `config/localization_routes.php`에서 바꿀 내용 | 이름을 바꿀 환경 변수 |
 | --- | --- | --- |
 | 로캘 매개변수, 헤더, 쿠키, 세션 키 또는 사용자 모델의 열 | `names` 재정의를 복사하고 나머지 기본 항목은 유지합니다. | |
-| 현지화 라우트 이름의 접두사 | `name_prefix`를 `prefix`로 옮깁니다. 접두사가 비어 있으면 `''`을 사용합니다. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
+| 현지화 라우트 이름의 접두사 | `name_prefix`를 `prefix`로 옮깁니다. 값이 비어 있으면 `localized.`를 사용합니다. | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
 | 접두사가 있는 라우트에서 발생하는 리디렉션 | `redirect_default`를 `redirect`로 옮깁니다. | `LOCALIZATION_REDIRECT_DEFAULT` → `LOCALIZATION_REDIRECT` |
 | URL 헬퍼에서 대체 로캘을 숨길지 여부 | `hide_default`를 `hide`로 옮깁니다. | `LOCALIZATION_HIDE_DEFAULT` → `LOCALIZATION_HIDE` |
 | 현지화 라우트 그룹에 적용하는 미들웨어 | 접두사 없는 라우트는 `group.middlewares.default`를 `middlewares.default`로, 접두사 있는 라우트는 `group.middlewares.prefix`를 `middlewares.prefix`로 옮깁니다. [라우트 마이그레이션](#update-localized-routes-and-middleware)의 안내에 따라 미들웨어 클래스 이름을 업데이트하세요. | |
@@ -319,13 +319,13 @@ $article->translation('de_CH');
 | `lang:add <locale>`은 추가하는 로캘만 새로 고침 | 이제 설치된 모든 로캘을 새로 고칩니다. 스크립트에서 코드를 명시하고 기존 로캘 파일의 업데이트를 고려하세요. |
 | `lang:reset` | 병합에는 `lang:update`를 사용하세요. 처음부터 다시 만들려면 사용자 지정 항목을 백업하고 재생성할 파일을 제거한 뒤, 대상 로캘 코드를 명시해 `lang:add`를 실행하세요. |
 | `lang:rm <locale> --force` | `lang:rm <locale>`을 사용하세요. Laravel의 현재 및 대체 로캘은 보호됩니다. |
-| `lang:rm`의 종료 코드만 검사 | 로캘별 결과를 확인하세요. `DONE`은 제거 경로를 실행했다는 뜻입니다. 성공 종료 코드에서도 `PROTECTED`, `INVALID`, `SKIP`이 나올 수 있습니다. |
+| `lang:rm`의 종료 코드만 검사 | 로캘별 결과를 확인하세요. `DONE`은 제거가 완료되었다는 뜻이고 `FAILED`는 제거를 시도한 뒤에도 경로가 남아 있다는 뜻입니다. 성공 종료 코드에서도 `PROTECTED`, `INVALID`, `SKIP`이 나올 수 있습니다. |
 
 Artisan을 명령 클래스로 호출한다면 `LaravelLang\Publisher\Console\Add`, `Remove`, `Update`를 `AddCommand`, `RemoveCommand`, `UpdateCommand`로 바꾸세요. 사용자 지정 텍스트 데코레이터는 `Contracts\TextDecorator` 대신 `LaravelLang\Publisher\Contracts\Decorator`를 구현하고 바인딩합니다. 이 계약의 `convert(string $locale, string $value): string`은 표준 로캘 코드를 받습니다.
 
-기존 언어 파일을 버전 관리에 포함한 상태에서 처음 `lang:update`를 실행하세요. Publisher는 기존 대상에 병합하고 일치하는 문자열 키를 교체합니다. 가능하면 사용자 지정 번역은 별도의 애플리케이션 번역 파일에 두세요. 생성 대상 전체를 직접 관리하려면 경로 패턴을 `localization_main.skip`에 추가합니다. 원문으로 돌아간 값이 있는지 확인하세요. Publisher는 사전에 번역이 없을 때 원문을 사용합니다.
+기존 언어 파일을 버전 관리에 포함한 상태에서 처음 `lang:update`를 실행하세요. Publisher는 기존 대상에 병합하고 숫자 키를 포함해 일치하는 키를 교체합니다. 가능하면 사용자 지정 번역은 별도의 애플리케이션 번역 파일에 두세요. 생성 대상 전체를 직접 관리하려면 경로 패턴을 `localization_main.skip`에 추가합니다. 원문으로 돌아간 값이 있는지 확인하세요. Publisher는 사전에 번역이 없을 때 원문을 사용합니다.
 
-애플리케이션이 `__('http-statuses.404')` 같은 PHP HTTP 상태 번역을 사용한다면 업그레이드 전에 기존 `http-statuses.php` 파일을 유지하고 `'*/http-statuses.php'`를 `localization_main.skip`에 추가하세요. Publisher의 PHP 병합 과정에서 숫자 키가 다시 매겨질 수 있습니다. 사용하는 각 로캘에서 코드로 조회되는지 확인하세요. [번역 관리](./translations.md)
+이전 업데이트에서 `http-statuses.php`의 숫자 키가 다시 매겨졌다면 영향을 받은 생성 파일을 백업한 뒤 삭제하세요. 문제를 피하려고 `localization_main.skip`에 `'*/http-statuses.php'`를 추가했다면 해당 항목을 제거하세요. `php artisan lang:update`를 실행해 파일을 다시 만든 다음 사용자 지정 번역을 원래 상태 코드에 복원하세요. [번역 관리](./translations.md)
 
 ### 이전 플러그인 등록 방식 교체 {#replace-legacy-plugin-registration}
 

@@ -23,9 +23,9 @@ php artisan lang:update
 
 Publisher, uygulamanın geçerli ve yedek yerel ayarlarına, dil dizininin kökündeki dosya veya dizinlere ve `lang/vendor/<package>/` altındaki JSON dosyalarına bakarak yerel ayarları belirler. Tek başına bir vendor PHP çeviri dizini ilgili yerel ayarı kurulu saymak için yeterli değildir. Uygulama dizinini oluşturmak için o yerel ayarla `lang:add` komutunu kullanın.
 
-Çeviri paketleri, desteklenen paket ve sürümleri ve hedef dosyaları [eklenti manifestlerinde](./plugins.md) bildirir. Publisher, ortak sözlüklerle paket sözlüklerini birleştirir ve ardından çevirileri her hedef dosyaya işler. İlgisiz anahtarları korur ve eşleşen metin anahtarlarının değerlerini değiştirir. Bir ifade sözlüklerde yoksa kaynak ifadeyi yazar. Kendi değişikliklerinizi ayrı dosyalarda tutun veya bakımını üstlendiğiniz hedefleri [yayım dışında bırakın](./configure.md#skip-files-and-force-integrations).
+Çeviri paketleri, desteklenen paket ve sürümleri ve hedef dosyaları [eklenti manifestlerinde](./plugins.md) bildirir. Publisher, ortak sözlüklerle paket sözlüklerini birleştirir ve ardından çevirileri her hedef dosyaya işler. İlgisiz anahtarları korur ve sayısal anahtarlar da dâhil olmak üzere eşleşen anahtarların değerlerini değiştirir. Bir ifade sözlüklerde yoksa kaynak ifadeyi yazar. Kendi değişikliklerinizi ayrı dosyalarda tutun veya bakımını üstlendiğiniz hedefleri [yayım dışında bırakın](./configure.md#skip-files-and-force-integrations).
 
-Composer bağımlılıklarını veya [yayım ayarlarını](./configure.md) değiştirdikten sonra `lang:update` komutunu çalıştırın. Oluşan değişiklikleri inceleyin. Birleştirme, sayısal anahtarları yeniden numaralandırabilir. Uygulamanız oluşturulan `http-statuses.php` dosyalarını kullanıyorsa içlerindeki durum kodlarını doğrulayın.
+Composer bağımlılıklarını veya [yayım ayarlarını](./configure.md) değiştirdikten sonra `lang:update` komutunu çalıştırın. Oluşan değişiklikleri inceleyin.
 
 ## Yerel ayar kaldırma {#remove-locales}
 
@@ -33,9 +33,9 @@ Composer bağımlılıklarını veya [yayım ayarlarını](./configure.md) deği
 php artisan lang:rm de_CH
 ```
 
-Bu işlem, dil dizininin kökünden ve `lang/vendor/<package>/` biçimindeki her doğrudan paket dizininden standart koda ait yerel ayar dizinini ve JSON dosyasını siler. Silinen yerel ayar dizinlerindeki özel dosyalar da silinir. Geçerli ve yedek yerel ayarlar korunur. Komut argümansız çalıştırıldığında korumasız yerel ayarların tümünün kaldırılıp kaldırılmayacağını sorar. Varsayılan yanıt hayırdır.
+Bu işlem, dil dizininin kökünden ve `lang/vendor/<package>/` biçimindeki her doğrudan paket dizininden standart koda ait yerel ayar dizinini ve JSON dosyasını siler. Silinen yerel ayar dizinlerindeki özel dosyalar da silinir. Geçerli ve yedek yerel ayarlar korunur. Komut argümansız çalıştırıldığında korumasız yerel ayarların tümünün kaldırılıp kaldırılmayacağını sorar. Varsayılan yanıt hayırdır. Yerel ayar dizini bir bağlantıysa komut bağlantının kendisini kaldırır.
 
-Komut her yerel ayar için `DONE`, `PROTECTED`, `INVALID` veya `SKIP` bildirir. Bu durumların tümü başarılı çıkış koduyla dönebildiğinden, kaldırmayı doğrulaması gereken otomasyonlar istenen her yerel ayarın sonucunu ayrı ayrı kontrol etmelidir.
+Komut her yerel ayar için `DONE`, `PROTECTED`, `INVALID`, `SKIP` veya `FAILED` bildirir. Kaldırma denemesinden sonra bir dosya veya dizin kalırsa komut yolunu gösterir ve hata çıkış kodu döndürür. `PROTECTED`, `INVALID` ve `SKIP` başarılı çıkış koduyla dönebildiği için her yerel ayarın durumunu kontrol edin.
 
 ## JSON çevirilerinde yedek dil {#json-fallback}
 

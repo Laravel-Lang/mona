@@ -125,7 +125,7 @@ php artisan vendor:publish --tag=localization
 | カスタマイズした項目 | `config/localization_routes.php` での変更 | 名前を変更する環境変数 |
 | --- | --- | --- |
 | ロケールパラメーター、ヘッダー、Cookie、セッションキー、ユーザーモデルのカラム | `names` の上書きをコピーし、残りの既定値を保持します。 | |
-| ローカライズされたルート名に付加するプレフィックス | `name_prefix` を `prefix` に移します。プレフィックスなしの場合は `''` を使用します。 | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
+| ローカライズされたルート名に付加するプレフィックス | `name_prefix` を `prefix` に移します。値が空の場合は `localized.` が使われます。 | `LOCALIZATION_NAME_PREFIX` → `LOCALIZATION_PREFIX` |
 | プレフィックス付きルートからのリダイレクト | `redirect_default` を `redirect` へ移します。 | `LOCALIZATION_REDIRECT_DEFAULT` → `LOCALIZATION_REDIRECT` |
 | URL ヘルパーがフォールバックロケールを省略するかどうか | `hide_default` を `hide` へ移します。 | `LOCALIZATION_HIDE_DEFAULT` → `LOCALIZATION_HIDE` |
 | ローカライズされたルートグループのミドルウェア | プレフィックスなしのルートは `group.middlewares.default` から `middlewares.default`、プレフィックス付きのルートは `group.middlewares.prefix` から `middlewares.prefix` に移します。[ルートの移行](#update-localized-routes-and-middleware)に従ってミドルウェアのクラス名を更新します。 | |
@@ -319,13 +319,13 @@ $article->translation('de_CH');
 | `lang:add <locale>` は追加対象のロケールだけを更新 | インストール済みのすべてのロケールを更新します。スクリプトではコードを明示し、既存ロケールのファイルも更新されることを考慮してください。 |
 | `lang:reset` | マージするには `lang:update` を使用します。最初から作り直す場合はカスタムエントリをバックアップし、再生成するファイルを削除してから、対象のロケールコードを明示して `lang:add` を実行します。 |
 | `lang:rm <locale> --force` | `lang:rm <locale>` を使います。Laravel の現在のロケールとフォールバックロケールは保護されます。 |
-| `lang:rm` の終了コードのみを確認 | ロケールごとの結果を確認します。`DONE` は削除処理が行われたことを示します。`PROTECTED`、`INVALID`、`SKIP` でも終了コードが成功を示すことがあります。 |
+| `lang:rm` の終了コードのみを確認 | ロケールごとの結果を確認します。`DONE` は削除の完了を表し、`FAILED` は削除を試みた後もパスが残っていることを表します。`PROTECTED`、`INVALID`、`SKIP` でも終了コードが成功を示すことがあります。 |
 
 コマンドクラス名で Artisan を呼び出す場合は、`LaravelLang\Publisher\Console\Add`、`Remove`、`Update` を `AddCommand`、`RemoveCommand`、`UpdateCommand` へ変更します。独自のテキストデコレーターは `Contracts\TextDecorator` の代わりに `LaravelLang\Publisher\Contracts\Decorator` を実装し、コンテナにバインドします。`convert(string $locale, string $value): string` は正規ロケールを受け取ります。
 
-既存の言語ファイルをバージョン管理に置いた状態で、初回の `lang:update` を実行します。Publisher は既存の出力先にマージし、一致する文字列キーを上書きします。可能ならカスタム翻訳は別のアプリケーション翻訳ファイルに保存してください。生成対象をファイル単位で自分で管理する場合は、`localization_main.skip` にパスのパターンを追加します。原文に戻った値がないか確認してください。辞書に翻訳がなければ、Publisher は原文を使用します。
+既存の言語ファイルをバージョン管理に置いた状態で、初回の `lang:update` を実行します。Publisher は既存の出力先にマージし、数値キーを含め、一致するキーを上書きします。可能ならカスタム翻訳は別のアプリケーション翻訳ファイルに保存してください。生成対象をファイル単位で自分で管理する場合は、`localization_main.skip` にパスのパターンを追加します。原文に戻った値がないか確認してください。辞書に翻訳がなければ、Publisher は原文を使用します。
 
-アプリケーションが `__('http-statuses.404')` のような PHP の HTTP ステータス翻訳を使用する場合は、更新前に既存の `http-statuses.php` を保持し、`localization_main.skip` に `'*/http-statuses.php'` を追加してください。Publisher が PHP ファイルをマージする際に、数値キーが振り直されることがあります。使用するすべてのロケールで、コードによる検索を検証します。[翻訳の管理](./translations.md)
+以前の更新で `http-statuses.php` のキーが振り直された場合は、影響を受けた生成ファイルをバックアップしてから削除してください。回避策として `localization_main.skip` に `'*/http-statuses.php'` を追加していた場合は、その設定を取り除きます。`php artisan lang:update` でファイルを再生成し、カスタム翻訳を本来のステータスコードで復元します。[翻訳の管理](./translations.md)
 
 ### 旧版のプラグイン登録を置き換える {#replace-legacy-plugin-registration}
 

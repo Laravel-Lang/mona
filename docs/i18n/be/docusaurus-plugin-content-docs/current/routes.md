@@ -59,7 +59,7 @@ $url = localizedRoute('products.show', [
 | `LocalizationByParameterMiddleware` | Параметр маршруту, па змаўчанні `locale` |
 | `LocalizationByParameterWithRedirectMiddleware` | Параметр маршруту. Для найменаванага маршруту з абвешчаным параметрам падстаўляе бягучую лакаль, калі запытаная адсутнічае або не ўсталяваная |
 | `LocalizationByCookieMiddleware` | Па змаўчанні файл cookie `Accept-Language` |
-| `LocalizationByHeaderMiddleware` | Мова, якую PHP Intl вылучае з загалоўка `Accept-Language` |
+| `LocalizationByHeaderMiddleware` | Першая ўсталяваная лакаль у парадку пераваг з загалоўка `Accept-Language`. Спачатку правярае поўны тэг, потым базавую мову. Ігнаруе падстановачныя сімвалы і запісы з вагой 0. |
 | `LocalizationBySessionMiddleware` | Па змаўчанні ключ сесіі `Accept-Language` |
 | `LocalizationByModelMiddleware` | Па змаўчанні атрыбут `locale` аўтэнтыфікаванага карыстальніка Eloquent. Дадайце `:guard_name` да класа мідлвара, каб выбраць механізм аўтэнтыфікацыі |
 

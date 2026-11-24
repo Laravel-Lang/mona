@@ -23,9 +23,9 @@ php artisan lang:update
 
 Publisher lokallarni ilovaning joriy va zaxira lokali, til katalogi ildizidagi fayl yoki kataloglar hamda `lang/vendor/<package>/` ostidagi JSON fayllaridan aniqlaydi. Bog‘liqlikning PHP tarjima katalogi o‘zi lokalni o‘rnatilgan deb belgilash uchun yetarli emas. Ilova katalogini yaratish uchun o‘sha lokalga `lang:add` buyrug‘ini qo‘llang.
 
-Tarjima paketlari qo‘llab-quvvatlanadigan paket va versiyalarni, shuningdek maqsad fayllarini [plagin manifestlarida](./plugins.md) e’lon qiladi. Publisher umumiy va paket lug‘atlarini birlashtiradi, so‘ng tarjimalarni har bir maqsad fayliga qo‘shadi. U aloqasiz kalitlarni saqlaydi va mos satr kalitlari qiymatini almashtiradi. Lug‘atlarda ibora topilmasa, Publisher manba iborani yozadi. O‘zingizga xos almashtirishlarni alohida tarjima fayllarida saqlang yoki mustaqil yuritadigan maqsad fayllarini [nashrdan chiqarib tashlang](./configure.md#skip-files-and-force-integrations).
+Tarjima paketlari qo‘llab-quvvatlanadigan paket va versiyalarni, shuningdek maqsad fayllarini [plagin manifestlarida](./plugins.md) e’lon qiladi. Publisher umumiy va paket lug‘atlarini birlashtiradi, so‘ng tarjimalarni har bir maqsad fayliga qo‘shadi. U aloqasiz kalitlarni saqlaydi va mos keladigan kalitlarning qiymatini almashtiradi, bu sonli kalitlarga ham tegishli. Lug‘atlarda ibora topilmasa, Publisher manba iborani yozadi. O‘zingizga xos almashtirishlarni alohida tarjima fayllarida saqlang yoki mustaqil yuritadigan maqsad fayllarini [nashrdan chiqarib tashlang](./configure.md#skip-files-and-force-integrations).
 
-Composer bog‘liqliklari yoki [nashr sozlamalari](./configure.md) o‘zgargach, `lang:update` buyrug‘ini bajaring. Hosil bo‘lgan farqlarni ko‘rib chiqing. Birlashtirish sonli kalitlarni qayta raqamlashi mumkin. Ilovangiz yaratilgan `http-statuses.php` fayllaridan foydalansa, ulardagi holat kodlarini tekshiring.
+Composer bog‘liqliklari yoki [nashr sozlamalari](./configure.md) o‘zgargach, `lang:update` buyrug‘ini bajaring. Hosil bo‘lgan farqlarni ko‘rib chiqing.
 
 ## Lokallarni olib tashlash {#remove-locales}
 
@@ -33,9 +33,9 @@ Composer bog‘liqliklari yoki [nashr sozlamalari](./configure.md) o‘zgargach,
 php artisan lang:rm de_CH
 ```
 
-Buyruq kanonik lokal katalogi va JSON faylini til katalogi ildizidan hamda har bir bevosita `lang/vendor/<package>/` katalogidan o‘chiradi. O‘chiriladigan lokal kataloglari ichidagi maxsus fayllar ham o‘chadi. Joriy va zaxira lokallar himoyalangan. Argumentlarsiz buyruq barcha himoyalanmagan lokallarni olib tashlash kerakligini so‘raydi. Standart javob — yo‘q.
+Buyruq kanonik lokal katalogi va JSON faylini til katalogi ildizidan hamda har bir bevosita `lang/vendor/<package>/` katalogidan o‘chiradi. O‘chiriladigan lokal kataloglari ichidagi maxsus fayllar ham o‘chadi. Joriy va zaxira lokallar himoyalangan. Argumentlarsiz buyruq barcha himoyalanmagan lokallarni olib tashlash kerakligini so‘raydi. Standart javob — yo‘q. Lokal katalogi havola bo‘lsa, buyruq havolaning o‘zini o‘chiradi.
 
-Buyruq har bir lokal uchun `DONE`, `PROTECTED`, `INVALID` yoki `SKIP` holatini bildiradi. Bu holatlarning har biri muvaffaqiyatli chiqish kodi bilan kelishi mumkin. Shuning uchun o‘chirilganini tasdiqlashi kerak bo‘lgan avtomatlashtirishda har bir so‘ralgan lokal natijasini tekshirish tavsiya etiladi.
+Buyruq har bir lokal uchun `DONE`, `PROTECTED`, `INVALID`, `SKIP` yoki `FAILED` holatini bildiradi. O‘chirishga urinishdan keyin fayl yoki katalog qolsa, buyruq uning yo‘lini ko‘rsatadi va xato chiqish kodini qaytaradi. Har bir lokal holatini tekshiring, chunki `PROTECTED`, `INVALID` va `SKIP` muvaffaqiyatli chiqish kodi bilan ham qaytishi mumkin.
 
 ## Zaxira JSON tarjimalari {#json-fallback}
 

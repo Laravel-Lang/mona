@@ -59,7 +59,7 @@ $url = localizedRoute('products.show', [
 | `LocalizationByParameterMiddleware` | 路由参数，默认为 `locale` |
 | `LocalizationByParameterWithRedirectMiddleware` | 路由参数。对于已命名且声明了参数的路由，若请求未指定语言区域或其指定值未安装，则使用当前语言区域 |
 | `LocalizationByCookieMiddleware` | 默认读取名为 `Accept-Language` 的 Cookie |
-| `LocalizationByHeaderMiddleware` | PHP Intl 从 `Accept-Language` 请求头解析出的语言 |
+| `LocalizationByHeaderMiddleware` | 按 `Accept-Language` 请求头中的偏好顺序选择第一个已安装的语言区域设置。先匹配完整语言标签，再匹配基础语言，跳过通配符和权重为 0 的条目。 |
 | `LocalizationBySessionMiddleware` | 默认读取名为 `Accept-Language` 的会话键 |
 | `LocalizationByModelMiddleware` | 默认读取已认证 Eloquent 用户的 `locale` 属性。在中间件类名后添加 `:guard_name`，即可选择身份验证守卫 |
 

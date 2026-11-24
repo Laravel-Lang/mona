@@ -59,7 +59,7 @@ $url = localizedRoute('products.show', [
 | `LocalizationByParameterMiddleware` | ルートパラメーター。既定では `locale` |
 | `LocalizationByParameterWithRedirectMiddleware` | ルートパラメーター。名前付きルートにパラメーターが定義されている場合、指定されたロケールがないか未インストールなら、現在のロケールに置き換えます |
 | `LocalizationByCookieMiddleware` | 既定では `Accept-Language` Cookie |
-| `LocalizationByHeaderMiddleware` | PHP の Intl 拡張機能が `Accept-Language` ヘッダーから解析した言語 |
+| `LocalizationByHeaderMiddleware` | `Accept-Language` ヘッダーの優先順位で最初に見つかったインストール済みロケール。完全な言語タグを先に照合し、次に基本言語を照合します。ワイルドカードと品質値が 0 の項目は無視します。 |
 | `LocalizationBySessionMiddleware` | 既定では `Accept-Language` セッションキー |
 | `LocalizationByModelMiddleware` | 既定では認証済みの Eloquent ユーザーの `locale` 属性。ガードを選択するにはミドルウェアクラスに `:guard_name` を追加します |
 
