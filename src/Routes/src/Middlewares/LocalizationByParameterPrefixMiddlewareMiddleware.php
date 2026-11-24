@@ -61,7 +61,7 @@ class LocalizationByParameterPrefixMiddlewareMiddleware extends LocalizationByPa
 
     protected function routePrefix(): string
     {
-        return RouteService::namePrefix($this->routeConfig->prefix);
+        return $this->routeConfig->routeNamePrefix();
     }
 
     protected function allowRedirect(): bool
