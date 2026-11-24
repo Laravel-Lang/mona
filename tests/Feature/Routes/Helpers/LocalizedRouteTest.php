@@ -151,8 +151,16 @@ test('generates the URL from a locale data alias', function (): void {
     expect($url)->toBe('/' . FakeLocale::DefaultAlias . '/group/macro/bar');
 });
 
-test('an empty route name prefix leaves both routes cacheable', function (): void {
-    config()->set('localization_routes.prefix', '');
+test('an empty or missing route name prefix leaves both routes cacheable', function (?string $prefix): void {
+    $settings = config()->array('localization_routes');
+
+    if ($prefix === null) {
+        unset($settings['prefix']);
+    } else {
+        $settings['prefix'] = $prefix;
+    }
+
+    config()->set('localization_routes', $settings);
     LocalizationRoute::clearResolvedInstance(RouteService::class);
 
     Route::localizedGroup(function (): void {
@@ -167,4 +175,4 @@ test('an empty route name prefix leaves both routes cacheable', function (): voi
         ->and(localizedRoute('empty-prefix', ['locale' => 'de'], absolute: false))->toBe('/de/empty-prefix');
 
     get('/unknown/empty-prefix')->assertRedirect('/empty-prefix');
-});
+})->with(['empty' => [''], 'missing' => [null]]);
