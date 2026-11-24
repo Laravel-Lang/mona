@@ -169,19 +169,19 @@
 - [x] Обновить Social Preview в настройках репозитория.
 - [x] Сгенерировать и установить новое превью репозиториев. Моя идея для превью - логотип Laravel акварелью в
   перспективе, но сделать это как-нибудь нестандартно, под углом.
-- [ ] Актуализировать GitHub Actions
+- [x] Актуализировать GitHub Actions
     - [x] dependabot
     - [x] close-stale-issues
     - [x] license
     - [x] preview
-    - [ ] release-drafter
+    - [x] release-drafter
         - Изменить шаблон по аналогии с https://github.com/nvm-windows/nvm/releases/tag/v2.0.1
     - [x] statuses
     - [x] test-dependencies
     - [x] tests
     - [x] Найти auto-labeler
-- [ ] Очистить проект от технических файлов.
 - [ ] Обновить файлы переводов через утилиту миграции.
+- [ ] Очистить проект от технических файлов.
 - [ ] Реализовать split репозитории (посмотреть как это сделано в
   MoonShine https://github.com/moonshine-software/moonshine/blob/5.x/repair-monorepo.sh).
 - [ ] Перевести Mona в публичную область видимости.
