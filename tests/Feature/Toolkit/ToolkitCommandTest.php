@@ -190,6 +190,37 @@ it('uses locale settings when reporting missing translations and removes an obso
         ->and($this->toolkitFilesystem->get($locale . '/_settings.json'))->toBe('{"excludes":["Local"]}');
 });
 
+it('writes and removes per-locale reports in the chosen status directory', function (): void {
+    $root    = $this->toolkitDirectory;
+    $locales = $root . '/package/locales';
+    $reports = $root . '/reports/status';
+    $default = '{"messages":{"Previous":"Previous"}}';
+
+    toolkitFile($locales . '/fr/messages.json', '{"Hello":"Hello"}');
+    toolkitFile($locales . '/pt_BR/messages.json', '{"Goodbye":"Goodbye"}');
+    toolkitFile($locales . '/fr/_status.json', $default);
+
+    $process = new Process([
+        PHP_BINARY,
+        dirname(__DIR__, 3) . '/src/Toolkit/bin/toolkit',
+        'status',
+        'package',
+        '--output-dir=reports/status',
+    ], $root);
+
+    expect($process->run())->toBe(Command::SUCCESS, $process->getErrorOutput())
+        ->and($this->toolkitFilesystem->json($reports . '/fr.json'))->toBe(['messages' => ['Hello' => 'Hello']])
+        ->and($this->toolkitFilesystem->json($reports . '/pt_BR.json'))->toBe(['messages' => ['Goodbye' => 'Goodbye']])
+        ->and($this->toolkitFilesystem->exists($locales . '/pt_BR/_status.json'))->toBeFalse();
+
+    toolkitFile($locales . '/fr/messages.json', '{"Hello":"Bonjour"}');
+
+    expect($process->run())->toBe(Command::SUCCESS, $process->getErrorOutput())
+        ->and($this->toolkitFilesystem->exists($reports . '/fr.json'))->toBeFalse()
+        ->and($this->toolkitFilesystem->exists($reports . '/pt_BR.json'))->toBeTrue()
+        ->and($this->toolkitFilesystem->get($locales . '/fr/_status.json'))->toBe($default);
+});
+
 it('reports an error when the locales directory is missing', function (): void {
     $tester = runToolkit('status', ['directory' => $this->toolkitDirectory]);
 
