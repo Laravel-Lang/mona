@@ -1,8 +1,0 @@
-{
-    "excludes": [
-        "CSV (.csv)",
-        "Excel (.xlsx)",
-        "Nova",
-        "OK"
-    ]
-}
