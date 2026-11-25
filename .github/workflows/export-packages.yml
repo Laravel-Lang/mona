@@ -101,7 +101,28 @@ jobs:
                     repository_url="https://github.com/$PACKAGE_REPOSITORY.git"
 
                     if [[ "$GITHUB_EVENT_NAME" != release ]]; then
-                        git push "$repository_url" "$SPLIT_COMMIT:refs/heads/$PACKAGE_BRANCH"
+                        main_ref=refs/heads/main
+                        remote_main=$(git ls-remote "$repository_url" "$main_ref")
+                        main_commit=$SPLIT_COMMIT
+
+                        if [[ -n "$remote_main" ]]; then
+                            git fetch --no-tags "$repository_url" "$main_ref"
+                            main_commit=$(git rev-parse FETCH_HEAD)
+                            split_tree=$(git rev-parse "$SPLIT_COMMIT^{tree}")
+
+                            if [[ "$(git rev-parse "$main_commit^{tree}")" != "$split_tree" ]] ||
+                                ! git merge-base --is-ancestor "$SPLIT_COMMIT" "$main_commit"; then
+                                # Preserve both histories with the exact exported package tree.
+                                main_commit=$(git -c user.name='github-actions[bot]' \
+                                    -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                                    commit-tree "$split_tree" -p "$main_commit" -p "$SPLIT_COMMIT" \
+                                    -m '[app]: Merged `20.x` package export')
+                            fi
+                        fi
+
+                        git push --atomic "$repository_url" \
+                            "$SPLIT_COMMIT:refs/heads/$PACKAGE_BRANCH" \
+                            "$main_commit:$main_ref"
                         exit 0
                     fi
 
