@@ -16,10 +16,10 @@ use function ksort;
 class JsonProcessor extends Processor
 {
     protected int $flags = JSON_PRETTY_PRINT
-    | JSON_UNESCAPED_SLASHES
-    | JSON_UNESCAPED_UNICODE
-    | JSON_THROW_ON_ERROR
-    | JSON_FORCE_OBJECT;
+        | JSON_UNESCAPED_SLASHES
+        | JSON_UNESCAPED_UNICODE
+        | JSON_THROW_ON_ERROR
+        | JSON_FORCE_OBJECT;
 
     protected function getContent(string $path): array
     {

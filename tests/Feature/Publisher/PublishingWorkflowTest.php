@@ -409,10 +409,10 @@ test('publishes translations when a versioned dependency is replaced by Laravel'
 });
 
 test('publishes HTTP statuses by code and keeps the same codes on repeated updates', function (): void {
-    $source = require dirname(__DIR__, 3) . '/src/HttpStatuses/source/numerical.php';
+    $source = require dirname(__DIR__, 3) . '/src/HttpStatuses/source/http-statuses.php';
 
-    writePublisherPackage('laravel-lang/http-statuses', [], ['numerical.php' => '{locale}/http-statuses.php'], [
-        'source/numerical.php'    => $source,
+    writePublisherPackage('laravel-lang/http-statuses', [], ['http-statuses.php' => '{locale}/http-statuses.php'], [
+        'source/http-statuses.php'    => $source,
         'locales/fr/default.json' => ['Not Found' => 'Introuvable'],
     ]);
 

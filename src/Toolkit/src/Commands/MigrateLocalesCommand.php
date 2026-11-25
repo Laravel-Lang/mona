@@ -40,7 +40,7 @@ final class MigrateLocalesCommand
     public function __construct()
     {
         $this->filesystem = new Filesystem(
-            filesystem   : $filesystem = new BaseFilesystem(),
+            filesystem   : $filesystem = new BaseFilesystem,
             jsonProcessor: new JsonProcessor($filesystem),
             phpProcessor : new PhpProcessor($filesystem),
         );
@@ -73,7 +73,7 @@ final class MigrateLocalesCommand
             $sourceData = $this->filesystem->read($sourcePath);
             $targetData = $this->filesystem->read($targetPath)['excludes'] ?? [];
 
-            if (! $sourceData) {
+            if ($sourceData === []) {
                 continue;
             }
 
@@ -107,11 +107,11 @@ final class MigrateLocalesCommand
             ksort($dataDefault);
             ksort($dataInline);
 
-            if ($dataDefault) {
+            if ($dataDefault !== []) {
                 $this->filesystem->store($targetDefaultPath, $this->encode($dataDefault));
             }
 
-            if ($dataInline) {
+            if ($dataInline !== []) {
                 $this->filesystem->store($targetInlinePath, $this->encode($dataInline));
             }
 
@@ -159,7 +159,7 @@ final class MigrateLocalesCommand
 
         $combinedData = $this->combine($keys, $sourceData);
 
-        if (! $combinedData) {
+        if ($combinedData === []) {
             return;
         }
 

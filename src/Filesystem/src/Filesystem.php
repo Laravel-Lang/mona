@@ -8,6 +8,7 @@ use Illuminate\Filesystem\Filesystem as BaseFilesystem;
 use LaravelLang\Exceptions\PathSearchException;
 use LaravelLang\Filesystem\Processors\JsonProcessor;
 use LaravelLang\Filesystem\Processors\PhpProcessor;
+use Symfony\Component\Finder\SplFileInfo;
 
 use function base_path;
 use function dirname;
@@ -49,7 +50,7 @@ readonly class Filesystem
         return $paths;
     }
 
-    /** @return list<\Symfony\Component\Finder\SplFileInfo> */
+    /** @return list<SplFileInfo> */
     public function files(string $path): array
     {
         return $this->filesystem->allFiles($path);
@@ -57,7 +58,6 @@ readonly class Filesystem
 
     /**
      * @param  array<array-key, mixed>  $default
-     *
      * @return array<array-key, mixed>
      */
     public function read(string $path, ?string $key = null, array $default = []): array
@@ -69,7 +69,6 @@ readonly class Filesystem
 
     /**
      * @param  array<array-key, mixed>  $default
-     *
      * @return array<array-key, mixed>
      */
     public function fromJson(string $path, ?string $key = null, array $default = []): array
@@ -85,7 +84,7 @@ readonly class Filesystem
     /** @param  array<array-key, mixed>  $items */
     public function storeArray(string $path, array $items, bool $merge = false): void
     {
-        if (! $items) {
+        if ($items === []) {
             return;
         }
 
@@ -131,7 +130,6 @@ readonly class Filesystem
 
     /**
      * @param  array<array-key, mixed>  $default
-     *
      * @return array<array-key, mixed>
      */
     public function fromPhp(string $path, ?string $key = null, array $default = []): array
