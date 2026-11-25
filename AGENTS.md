@@ -21,6 +21,10 @@
 - For changes in the `.agents` folder or `AGENTS.md`, always prefix the header with `[agents]: `.
 - For changes in all other folders, always prefix the header with `[app]: `.
 
+## Documentation
+
+- Update the documentation for every configured documentation locale as part of each code change.
+
 ## Testing
 
 - When writing tests, verify the feature's observable behavior through its normal entry points.
