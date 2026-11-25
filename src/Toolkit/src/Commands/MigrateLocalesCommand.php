@@ -137,7 +137,6 @@ final class MigrateLocalesCommand
         }
 
         foreach (Locale::values() as $locale) {
-            ///
             $sourceDefaultPath = $source . '/locales/' . $locale . '/php.json';
             $sourceInlinePath  = $source . '/locales/' . $locale . '/php-inline.json';
 
@@ -165,6 +164,7 @@ final class MigrateLocalesCommand
         ksort($data);
 
         $this->filesystem->store($targetPath, $this->encode($data));
+        $this->filesystem->ensureDelete($sourcePath);
     }
 
     protected function combine(array $source, array $target): array
