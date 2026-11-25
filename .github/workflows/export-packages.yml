@@ -1,0 +1,124 @@
+name: Export Packages
+
+on:
+    push:
+        branches:
+            - main
+    release:
+        types:
+            - published
+    workflow_dispatch:
+        inputs:
+            dry-run:
+                description: Preview the package commits without publishing
+                type: boolean
+                default: true
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+
+env:
+    PACKAGE_BRANCH: 20.x
+
+jobs:
+    export:
+        name: Export ${{ matrix.repository }}
+        if: github.repository == 'Laravel-Lang/mona' && (github.event_name == 'release' || github.ref == 'refs/heads/main')
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - { path: src/Actions, repository: actions }
+                    - { path: src/Attributes, repository: attributes }
+                    - { path: src/Common, repository: common }
+                    - { path: src/Config, repository: config }
+                    - { path: src/CountryNames, repository: country-names }
+                    - { path: src/CurrencyNames, repository: currency-names }
+                    - { path: src/Exceptions, repository: exceptions }
+                    - { path: src/Filesystem, repository: filesystem }
+                    - { path: src/HttpStatuses, repository: http-statuses }
+                    - { path: src/JsonFallback, repository: json-fallback }
+                    - { path: src/Lang, repository: lang }
+                    - { path: src/Library, repository: library }
+                    - { path: src/LocaleList, repository: locale-list }
+                    - { path: src/LocaleNames, repository: locale-names }
+                    - { path: src/Locales, repository: locales }
+                    - { path: src/Models, repository: models }
+                    - { path: src/MoonShine, repository: moonshine }
+                    - { path: src/Publisher, repository: publisher }
+                    - { path: src/Routes, repository: routes }
+                    - { path: src/StarterKits, repository: starter-kits }
+                    - { path: src/Toolkit, repository: toolkit }
+                    - { path: src/TranslationsTemplate, repository: translations-template }
+        env:
+            PACKAGE_PATH: ${{ matrix.path }}
+            PACKAGE_REPOSITORY: Laravel-Lang/${{ matrix.repository }}
+
+        steps:
+            -   uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+                with:
+                    ref: ${{ github.sha }}
+                    fetch-depth: 0
+                    persist-credentials: false
+
+            -   name: Split package history
+                id: split
+                shell: bash
+                run: |
+                    git show "HEAD:$PACKAGE_PATH/composer.json" | jq -e --arg name "${PACKAGE_REPOSITORY,,}" '.name == $name' > /dev/null
+                    split_commit=$(git subtree split --quiet --prefix="$PACKAGE_PATH")
+                    test "$(git rev-parse "$split_commit^{tree}")" = "$(git rev-parse "HEAD:$PACKAGE_PATH")"
+                    echo "commit=$split_commit" >> "$GITHUB_OUTPUT"
+                    echo "$PACKAGE_PATH at $(git rev-parse HEAD) splits to $split_commit for $PACKAGE_REPOSITORY"
+
+            -   name: Create package export token
+                if: github.event_name != 'workflow_dispatch' || !inputs.dry-run
+                id: export-token
+                uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+                with:
+                    client-id: ${{ vars.PACKAGE_EXPORT_APP_CLIENT_ID }}
+                    private-key: ${{ secrets.PACKAGE_EXPORT_APP_PRIVATE_KEY }}
+                    owner: Laravel-Lang
+                    repositories: ${{ matrix.repository }}
+                    permission-contents: write
+                    permission-workflows: write
+
+            -   name: Publish package
+                if: github.event_name != 'workflow_dispatch' || !inputs.dry-run
+                shell: bash
+                env:
+                    GH_TOKEN: ${{ steps.export-token.outputs.token }}
+                    SPLIT_COMMIT: ${{ steps.split.outputs.commit }}
+                    RELEASE_TAG: ${{ github.event.release.tag_name }}
+                    RELEASE_URL: ${{ github.event.release.html_url }}
+                    IS_PRERELEASE: ${{ github.event.release.prerelease }}
+                run: |
+                    gh auth setup-git --hostname github.com
+                    repository_url="https://github.com/$PACKAGE_REPOSITORY.git"
+
+                    if [[ "$GITHUB_EVENT_NAME" != release ]]; then
+                        git push "$repository_url" "$SPLIT_COMMIT:refs/heads/$PACKAGE_BRANCH"
+                        exit 0
+                    fi
+
+                    is_draft=$(gh release view "$RELEASE_TAG" --repo "$PACKAGE_REPOSITORY" --json isDraft --jq '.isDraft' 2>/dev/null) || is_draft=''
+                    if [[ "$is_draft" == true ]]; then
+                        echo "::error::Release $RELEASE_TAG already exists as a draft in $PACKAGE_REPOSITORY"
+                        exit 1
+                    fi
+
+                    git push "$repository_url" "$SPLIT_COMMIT:refs/tags/$RELEASE_TAG"
+                    if [[ "$is_draft" == false ]]; then
+                        exit 0
+                    fi
+
+                    release_flags=()
+                    if [[ "$IS_PRERELEASE" == true ]]; then
+                        release_flags+=(--prerelease)
+                    fi
+                    gh release create "$RELEASE_TAG" --repo "$PACKAGE_REPOSITORY" --verify-tag \
+                        --title "$RELEASE_TAG" --notes "See the [Mona release]($RELEASE_URL)." "${release_flags[@]}"
