@@ -180,7 +180,7 @@
     - [x] test-dependencies
     - [x] tests
     - [x] Найти auto-labeler
-- [ ] Обновить файлы переводов через утилиту миграции.
+- [x] Обновить файлы переводов через утилиту миграции.
 - [ ] Очистить проект от технических файлов.
 - [ ] Реализовать split репозитории (посмотреть как это сделано в
   MoonShine https://github.com/moonshine-software/moonshine/blob/5.x/repair-monorepo.sh).
