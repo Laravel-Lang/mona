@@ -3,7 +3,21 @@ autolabeler:
         files:
             - 'src/*/locales/**'
 
+    -   label: source
+        files:
+            - 'src/*/source/**'
+
     -   label: fix
         title:
-            - '/^fix(?:\([^)]*\))?:\s+\S/i'
-            - '/^(?:\[(?:app|tests)\]:\s+)?fix(?:ed)?\s+\S/i'
+            - '/^(fix|bug)(?:\([^)]*\))?:\s+\S/i'
+            - '/^(?:\[(?:app|tests)\]:\s+)?(fix|bug)(?:ed)?\s+\S/i'
+
+    -   label: added
+        title:
+            - '/^added(?:\([^)]*\))?:\s+\S/i'
+            - '/^(?:\[(?:app|tests)\]:\s+)?added(?:ed)?\s+\S/i'
+
+    -   label: removed
+        title:
+            - '/^removed(?:\([^)]*\))?:\s+\S/i'
+            - '/^(?:\[(?:app|tests)\]:\s+)?removed(?:ed)?\s+\S/i'
