@@ -31,7 +31,13 @@ jobs:
                 run: composer update --no-progress --no-interaction
 
             -   name: Update status
-                run: php src/Toolkit/bin/toolkit status src/Library
+                run: |
+                    php src/Toolkit/bin/toolkit status src/Actions
+                    php src/Toolkit/bin/toolkit status src/Attributes
+                    php src/Toolkit/bin/toolkit status src/HttpStatuses
+                    php src/Toolkit/bin/toolkit status src/Lang
+                    php src/Toolkit/bin/toolkit status src/MoonShine
+                    php src/Toolkit/bin/toolkit status src/StarterKits
 
             -   name: Create a Pull Request
                 uses: peter-evans/create-pull-request@3ffccacd46053766916f087ce41d627c0b8cf2d1 # v8.1.3
@@ -39,7 +45,7 @@ jobs:
                 with:
                     branch: projects/status
                     delete-branch: true
-                    add-paths: ':(glob)src/Library/locales/*/_status.json'
+                    add-paths: ':(glob)src/*/locales/*/_status.json'
                     title: "[source]: Translations status has been updated"
                     commit-message: 📃 Translation statuses have been updated
                     body: 📃 Translation statuses have been updated
