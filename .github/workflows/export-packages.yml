@@ -20,9 +20,6 @@ permissions:
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
 
-env:
-    PACKAGE_BRANCH: 20.x
-
 jobs:
     export:
         name: Export ${{ matrix.repository }}
@@ -116,13 +113,11 @@ jobs:
                                 main_commit=$(git -c user.name='github-actions[bot]' \
                                     -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
                                     commit-tree "$split_tree" -p "$main_commit" -p "$SPLIT_COMMIT" \
-                                    -m '[app]: Merged `20.x` package export')
+                                    -m '[app]: Merged Mona package export')
                             fi
                         fi
 
-                        git push --atomic "$repository_url" \
-                            "$SPLIT_COMMIT:refs/heads/$PACKAGE_BRANCH" \
-                            "$main_commit:$main_ref"
+                        git push "$repository_url" "$main_commit:$main_ref"
                         exit 0
                     fi
 
