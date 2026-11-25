@@ -1,0 +1,13 @@
+{
+    "excludes": [
+        "All rights reserved.",
+        "CSV (.csv)",
+        "Excel (.xlsx)",
+        "From",
+        "ID",
+        "Nova",
+        "To",
+        "Unknown",
+        "ex VAT"
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "excludes": [
+        "Angola",
+        "Argentina",
+        "Aruba",
+        "CSV (.csv)",
+        "Excel (.xlsx)",
+        "Grenada",
+        "Malta",
+        "Moldova",
+        "Nauru",
+        "Nova",
+        "Palau",
+        "Panama",
+        "Peru",
+        "Samoa",
+        "Tokelau",
+        "Tuvalu",
+        "Uganda",
+        "Vanuatu"
+    ]
+}

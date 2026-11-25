@@ -1,5 +1,33 @@
 {
     "excludes": [
-        "OK"
+        "Administrator",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Argentina",
+        "Aruba",
+        "Bangladesh",
+        "Barbados",
+        "Benin",
+        "Burundi",
+        "CSV (.csv)",
+        "Chad",
+        "Excel (.xlsx)",
+        "Gabon",
+        "Gibraltar",
+        "Grenada",
+        "Kosovo",
+        "Malta",
+        "Moldova",
+        "Nepal",
+        "Niger",
+        "Nova",
+        "OK",
+        "Palau",
+        "Peru",
+        "Qatar",
+        "Senegal",
+        "Sudan",
+        "Uganda"
     ]
 }
