@@ -43,7 +43,7 @@ class PhpProcessor extends Processor
             }
         }
 
-        return trim(sprintf($this->template, VarExporter::export($data + $trailing))) . PHP_EOL;
+        return trim(sprintf($this->template, $this->exportArray($data + $trailing))) . PHP_EOL;
     }
 
     protected function getContent(string $path): array
@@ -87,9 +87,29 @@ class PhpProcessor extends Processor
     /** @param array<array-key, mixed> $data */
     protected function export(array $data): string
     {
-        return VarExporter::export(
+        return $this->exportArray(
             Arr::undot($data)
         );
+    }
+
+    /** @param array<array-key, mixed> $data */
+    protected function exportArray(array $data, string $indent = ''): string
+    {
+        if ($data === []) {
+            return '[]';
+        }
+
+        $entryIndent = $indent . '    ';
+        $result      = "[\n";
+
+        foreach ($data as $key => $value) {
+            $key   = VarExporter::export((string) $key);
+            $value = is_array($value) ? $this->exportArray($value, $entryIndent) : VarExporter::export($value);
+
+            $result .= $entryIndent . $key . ' => ' . $value . ",\n";
+        }
+
+        return $result . $indent . ']';
     }
 
     /**

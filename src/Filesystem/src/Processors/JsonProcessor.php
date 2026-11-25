@@ -35,7 +35,7 @@ class JsonProcessor extends Processor
     protected function encode(array $data): string
     {
         try {
-            $encoded = json_encode($data, $this->flags);
+            $encoded = json_encode($data, $this->flags | JSON_FORCE_OBJECT);
         } catch (JsonException $exception) {
             throw InvalidJsonEncodeException::from($exception);
         }
