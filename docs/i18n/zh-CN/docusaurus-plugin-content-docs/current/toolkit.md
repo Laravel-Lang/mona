@@ -62,13 +62,15 @@ php src/Toolkit/bin/toolkit sync:package path/to/translation-pack
 php src/Toolkit/bin/toolkit migrate-locales path/to/legacy-pack --target=path/to/new-pack/locales
 ```
 
-传入包含 `source/` 和 `locales/` 的旧版翻译包。目标路径应指向存放各语言区域子目录的目录。脚本中请传入 `--target`。交互式运行时，如果未传入该选项，命令会询问目标路径。
+传入包含 `source/` 和 `locales/` 的旧版翻译包。用 `--target` 指定存放各语言区域子目录的目录。省略该选项时，命令会将结果写入旧版项目的 `locales/` 目录。
 
-- `php.json` 和 `json.json` 合并为 `default.json`，新键为原始源短语。
-- `php-inline.json` 和 `json-inline.json` 中包含 `:attribute` 的源短语会移入 `inline.json`。
+- `json.json` 和 `json-inline.json` 分别迁移到 `default.json` 和 `inline.json`，沿用原有的源短语作为键。
+- `php.json` 和 `php-inline.json` 分别迁移到 `default.json` 和 `inline.json`。命令根据 `source/` 中的 PHP 文件，把嵌套键映射为对应的源短语。
 - `_excludes.json` 中的条目会移到目标语言区域的 `_settings.json` 文件的 `excludes` 下。
 
-Toolkit 保留旧版文件，并将内容合并到目标词典。如果键冲突，以迁移的译文为准。如果旧版的两种格式都包含同一短语的译文，以 PHP 词典为准。请先用单独的目标目录检查迁移结果，再替换正在使用的词典。应用或插件清单的修改请参阅[升级指南](./upgrade.md)。
+Toolkit 将迁移内容合并到目标词典。如果键冲突，以迁移的译文为准。如果旧版的两种格式都包含同一短语的译文，以 PHP 词典为准。
+
+Toolkit 会保留 `source/` 中的源文件，并删除已成功迁移的旧版词典和排除列表文件，即使指定了单独的目标目录。应用或插件清单的修改请参阅[升级指南](./upgrade.md)。
 
 ## 从 ZIP 压缩包导入源文件 {#import-sources-from-a-zip-archive}
 

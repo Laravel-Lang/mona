@@ -62,13 +62,15 @@ Ohne Argument verwendet `sync:library` das Verzeichnis `src/` des Checkouts und 
 php src/Toolkit/bin/toolkit migrate-locales path/to/legacy-pack --target=path/to/new-pack/locales
 ```
 
-Übergib ein älteres Paket mit `source/` und `locales/`. Das Ziel ist das Verzeichnis für die Locale-Unterverzeichnisse. Übergib `--target` in Skripten. Bei interaktiver Ausführung fragt das Toolkit danach, wenn die Angabe fehlt.
+Übergib ein älteres Paket mit `source/` und `locales/`. Mit `--target` legst du das Verzeichnis für die Locale-Unterverzeichnisse fest. Standardmäßig verwendet Toolkit das Verzeichnis `locales/` des älteren Pakets.
 
-- Aus `php.json` und `json.json` wird `default.json`. Die ursprünglichen Quelltexte werden zu den neuen Schlüsseln.
-- Aus `php-inline.json` und `json-inline.json` wird bei Quelltexten mit `:attribute` die Datei `inline.json`.
+- Die Einträge aus `php.json` und `json.json` werden in `default.json` zusammengeführt.
+- Die Einträge aus `php-inline.json` und `json-inline.json` werden in `inline.json` zusammengeführt.
 - Einträge aus `_excludes.json` werden im Zielverzeichnis der Locale in `_settings.json` unter `excludes` übernommen.
 
-Toolkit behält die älteren Dateien bei und führt ihre Einträge mit den Zielwörterbüchern zusammen. Bei gleichen Schlüsseln gewinnt die migrierte Übersetzung. Liefern beide älteren Formate für denselben Text eine Übersetzung, hat das PHP-Wörterbuch Vorrang. Verwende ein separates Ziel, um die Migration zu prüfen, bevor du ein aktives Wörterbuch ersetzt. Änderungen an der Anwendung oder am Plugin-Manifest beschreibt der [Upgrade-Leitfaden](./upgrade.md).
+Toolkit übernimmt die alten JSON-Einträge mit ihren vorhandenen Quelltexten als Schlüsseln. Verschachtelte Schlüssel aus den PHP-Wörterbüchern ordnet es den Quelltexten in den PHP-Dateien unter `source/` zu und verwendet diese Texte als neue Schlüssel. Bei gleichen Schlüsseln gewinnt die migrierte Übersetzung. Liefern beide älteren Formate für denselben Text eine Übersetzung, hat das PHP-Wörterbuch Vorrang.
+
+Die Dateien in `source/` bleiben erhalten. Toolkit löscht die alten Wörterbuchdateien und `_excludes.json`, aus denen es Einträge übernommen hat. Das gilt auch bei einem separaten Ziel. Änderungen an der Anwendung oder am Plugin-Manifest beschreibt der [Upgrade-Leitfaden](./upgrade.md).
 
 ## Quellen aus einem ZIP-Archiv importieren {#import-sources-from-a-zip-archive}
 

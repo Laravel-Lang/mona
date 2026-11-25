@@ -62,13 +62,15 @@ php src/Toolkit/bin/toolkit sync:package path/to/translation-pack
 php src/Toolkit/bin/toolkit migrate-locales path/to/legacy-pack --target=path/to/new-pack/locales
 ```
 
-`source/`와 `locales/`를 포함한 이전 번역 팩을 전달하세요. 대상은 로캘 하위 디렉터리가 들어갈 디렉터리입니다. 스크립트에는 `--target`을 지정하세요. 대화형으로 실행할 때 생략하면 입력을 요청합니다.
+`source/`와 `locales/`를 포함한 이전 번역 팩을 전달하세요. 로캘 하위 디렉터리를 저장할 위치는 `--target`으로 지정합니다. 이 옵션을 생략하면 이전 프로젝트의 `locales/`에 결과를 씁니다.
 
-- `php.json`과 `json.json`은 `default.json`이 됩니다. 새 키에는 원문을 사용합니다.
-- `php-inline.json`과 `json-inline.json`은 `:attribute`를 포함하는 원문에 대해 `inline.json`이 됩니다.
+- `json.json`과 `json-inline.json`은 각각 `default.json`과 `inline.json`으로 옮깁니다. 기존 키에 쓰인 원문을 그대로 사용합니다.
+- `php.json`과 `php-inline.json`은 각각 `default.json`과 `inline.json`으로 옮깁니다. `source/`의 PHP 파일을 참조해 중첩된 키를 대응하는 원문으로 바꿉니다.
 - `_excludes.json`의 항목은 대상 로캘의 `_settings.json`에 있는 `excludes`로 옮깁니다.
 
-Toolkit은 이전 파일을 보존하고 대상 사전에 병합합니다. 키가 겹치면 마이그레이션한 번역이 우선합니다. 두 이전 형식이 같은 문구를 제공하면 PHP 사전이 우선합니다. 사용 중인 사전을 교체하기 전에 별도의 대상에 마이그레이션하여 검토하세요. 애플리케이션 또는 플러그인 매니페스트 변경 사항은 [업그레이드 가이드](./upgrade.md)를 참조하세요.
+Toolkit은 번역을 대상 사전에 병합합니다. 키가 겹치면 마이그레이션한 번역이 우선합니다. 두 이전 형식이 같은 문구를 제공하면 PHP 사전이 우선합니다.
+
+Toolkit은 `source/`의 파일을 보존합니다. 마이그레이션에 성공한 이전 사전 및 제외 목록 파일은 별도의 대상을 지정한 경우에도 삭제됩니다. 애플리케이션 또는 플러그인 매니페스트 변경 사항은 [업그레이드 가이드](./upgrade.md)를 참조하세요.
 
 ## ZIP 아카이브에서 소스 가져오기 {#import-sources-from-a-zip-archive}
 

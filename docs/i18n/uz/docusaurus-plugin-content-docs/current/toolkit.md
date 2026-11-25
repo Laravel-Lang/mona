@@ -62,13 +62,15 @@ Argument berilmasa, `sync:library` ishchi nusxaning `src/` katalogidan, `sync:pa
 php src/Toolkit/bin/toolkit migrate-locales path/to/legacy-pack --target=path/to/new-pack/locales
 ```
 
-Tarkibida `source/` va `locales/` bo‘lgan eski paketni uzating. Maqsad — lokal quyi kataloglari joylashishi kerak bo‘lgan katalog. Skriptlarda `--target` ni uzating. Interaktiv ishga tushirishda u berilmasa, so‘raladi.
+Tarkibida `source/` va `locales/` kataloglari bo‘lgan eski paketni uzating. `--target` lokal quyi kataloglari yoziladigan katalogni belgilaydi. Bu parametr berilmasa, buyruq avtomatik ravishda manba paketining `locales/` katalogidan foydalanadi.
 
-- `php.json` va `json.json` fayllari `default.json` fayliga birlashadi. Yangi kalitlar asl manba iboralaridir.
-- `php-inline.json` va `json-inline.json` fayllari `:attribute` bor manba iboralar uchun `inline.json` fayliga birlashadi.
+- `json.json` va `php.json` fayllaridagi yozuvlar `default.json` fayliga o‘tkaziladi. `json-inline.json` va `php-inline.json` fayllaridagi yozuvlar `inline.json` fayliga o‘tkaziladi.
+- Eski JSON lug‘atlarida kalit sifatida manba iboralar ishlatilgan. PHP lug‘atlari uchun buyruq ichma-ich kalitlarni `source/` katalogidagi PHP fayllaridan olingan manba iboralar bilan almashtiradi.
 - `_excludes.json` yozuvlari maqsad lokalning `_settings.json` faylidagi `excludes` ro‘yxatiga o‘tkaziladi.
 
-Toolkit eski fayllarni saqlaydi va yozuvlarni maqsad lug‘atlari bilan birlashtiradi. Kalitlar to‘qnashsa, ko‘chirilgan tarjima ustun turadi. Ikkala eski format ham bitta iboraning tarjimasini bersa, PHP lug‘ati ustun turadi. Faol lug‘atni almashtirishdan oldin migratsiyani ko‘rib chiqish uchun alohida maqsad katalogidan foydalaning. Ilova yoki plagin manifestidagi o‘zgarishlar haqida [yangilash qo‘llanmasiga](./upgrade.md) qarang.
+Toolkit yozuvlarni maqsad lug‘atlari bilan birlashtiradi. Kalitlar to‘qnashsa, ko‘chirilgan tarjima ustun turadi. Ikkala eski format ham bitta iboraning tarjimasini bersa, PHP lug‘ati ustun turadi.
+
+Buyruq `source/` katalogidagi fayllarni saqlaydi. Maqsad sifatida alohida katalog tanlanganida ham, buyruq muvaffaqiyatli ko‘chirilgan eski lug‘at va istisno fayllarini o‘chiradi. Ilova yoki plagin manifestidagi o‘zgarishlar haqida [yangilash qo‘llanmasiga](./upgrade.md) qarang.
 
 ## ZIP arxividan manbalarni import qilish {#import-sources-from-a-zip-archive}
 

@@ -62,13 +62,15 @@ Both process directories with a canonical locale code, keep existing translation
 php src/Toolkit/bin/toolkit migrate-locales path/to/legacy-pack --target=path/to/new-pack/locales
 ```
 
-Pass a legacy pack containing `source/` and `locales/`. The target is the directory that should contain the locale subdirectories. Pass `--target` in scripts. An interactive run prompts for it when omitted.
+Pass a legacy pack containing `source/` and `locales/`. Use `--target` to specify the directory that should contain the locale subdirectories. The default is the pack's `locales/` directory.
 
-- `php.json` and `json.json` become `default.json`. The new keys are the original source phrases.
-- `php-inline.json` and `json-inline.json` become `inline.json` for source phrases that contain `:attribute`.
+- `php.json` and `json.json` become `default.json`.
+- `php-inline.json` and `json-inline.json` become `inline.json`.
 - `_excludes.json` entries move into the target locale's `_settings.json` under `excludes`.
 
-Toolkit keeps the legacy files and merges into the target dictionaries. On a key collision, the migrated translation wins. If both legacy formats supply a translation for the same phrase, the PHP dictionary wins. Use a separate destination to review the migration before replacing an active dictionary. See the [upgrade guide](./upgrade.md) for changes to your application or plugin manifest.
+Legacy JSON dictionaries already use source phrases as keys. For PHP dictionaries, Toolkit maps legacy keys to phrases from the PHP files in `source/`. The migrated translation takes precedence over an existing target entry. If both legacy formats supply a translation for the same phrase, the PHP dictionary wins.
+
+Toolkit keeps files in `source/` and deletes the legacy dictionaries and exclusion files it migrates, including when you specify a separate target. See the [upgrade guide](./upgrade.md) for changes to your application or plugin manifest.
 
 ## Import sources from a ZIP archive
 

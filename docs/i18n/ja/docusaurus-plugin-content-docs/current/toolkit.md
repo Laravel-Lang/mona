@@ -62,13 +62,15 @@ php src/Toolkit/bin/toolkit sync:package path/to/translation-pack
 php src/Toolkit/bin/toolkit migrate-locales path/to/legacy-pack --target=path/to/new-pack/locales
 ```
 
-`source/` と `locales/` を含む旧版のパックを指定します。移行先は、ロケールのサブディレクトリを置くディレクトリです。スクリプトでは `--target` を指定してください。対話的に実行して省略した場合は、入力を求められます。
+`source/` と `locales/` を含む旧版のパックを指定します。ロケールのサブディレクトリを置く移行先は `--target` で指定します。このオプションを省略すると、旧版のプロジェクトの `locales/` に結果が書き込まれます。
 
-- `php.json` と `json.json` は `default.json` になります。新しいキーは元の文言です。
-- `php-inline.json` と `json-inline.json` は、`:attribute` を含む原文を対象とした `inline.json` になります。
+- `json.json` と `json-inline.json` はそれぞれ `default.json` と `inline.json` に移行されます。キーには既存の原文をそのまま使用します。
+- `php.json` と `php-inline.json` はそれぞれ `default.json` と `inline.json` に移行されます。`source/` 内の PHP ファイルを参照し、ネストされたキーを対応する原文に置き換えます。
 - `_excludes.json` のエントリは、移行先のロケールの `_settings.json` にある `excludes` に移動します。
 
-Toolkit は旧ファイルを保持し、移行先の辞書にマージします。キーが重複した場合は移行した翻訳が優先されます。旧版の両方の形式に同じ文言の翻訳がある場合は、PHP 辞書が優先されます。使用中の辞書を置き換える前に、別のディレクトリへ移行して結果を確認してください。アプリケーションやプラグインマニフェストの変更については[アップグレードガイド](./upgrade.md)を参照してください。
+Toolkit は翻訳を移行先の辞書にマージします。キーが重複した場合は移行した翻訳が優先されます。旧版の両方の形式に同じ文言の翻訳がある場合は、PHP 辞書が優先されます。
+
+Toolkit は `source/` のファイルを保持します。移行に成功した旧版の辞書ファイルと除外リストは、別の移行先を指定した場合も削除されます。アプリケーションやプラグインマニフェストの変更については[アップグレードガイド](./upgrade.md)を参照してください。
 
 ## ZIP アーカイブから原文をインポートする {#import-sources-from-a-zip-archive}
 

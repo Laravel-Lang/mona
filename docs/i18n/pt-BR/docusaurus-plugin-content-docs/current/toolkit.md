@@ -62,13 +62,15 @@ Sem argumento, `sync:library` usa o diretório `src/` da cópia do repositório 
 php src/Toolkit/bin/toolkit migrate-locales path/to/legacy-pack --target=path/to/new-pack/locales
 ```
 
-Informe um pacote legado contendo `source/` e `locales/`. O destino é o diretório que deve conter os subdiretórios de localidades. Em scripts, passe `--target`. Quando a opção é omitida, a execução interativa solicita o destino.
+Informe um pacote legado que contenha `source/` e `locales/`. Use `--target` para indicar o diretório que deve conter os subdiretórios de localidades. Por padrão, o Toolkit usa o diretório `locales/` do pacote legado.
 
-- `php.json` e `json.json` se tornam `default.json`. As novas chaves são as frases originais.
-- `php-inline.json` e `json-inline.json` se tornam `inline.json` para frases de origem que contêm `:attribute`.
+- As entradas de `php.json` e `json.json` são mescladas em `default.json`.
+- As entradas de `php-inline.json` e `json-inline.json` são mescladas em `inline.json`.
 - As entradas de `_excludes.json` passam para `excludes` no `_settings.json` da localidade de destino.
 
-O Toolkit mantém os arquivos legados e mescla seu conteúdo nos dicionários de destino. Quando as chaves coincidem, a tradução migrada tem prioridade. Se os dois formatos legados fornecerem uma tradução para a mesma frase, o dicionário PHP tem prioridade. Use um destino separado para revisar a migração antes de substituir um dicionário ativo. Consulte o [guia de atualização](./upgrade.md) para alterações na sua aplicação ou no manifesto do plugin.
+O Toolkit transfere diretamente as entradas JSON, que já usam as frases de origem como chaves. Para os dicionários PHP, ele procura as chaves aninhadas nos arquivos PHP de `source/` e usa as frases correspondentes como chaves. Quando as chaves coincidem, a tradução migrada tem prioridade. Se os dois formatos legados fornecerem uma tradução para a mesma frase, o dicionário PHP tem prioridade.
+
+O Toolkit mantém os arquivos de `source/`. Ele remove os arquivos de dicionário legados e os arquivos `_excludes.json` dos quais transferiu entradas, mesmo quando o destino é separado. Consulte o [guia de atualização](./upgrade.md) para alterações na sua aplicação ou no manifesto do plugin.
 
 ## Importar fontes de um arquivo ZIP {#import-sources-from-a-zip-archive}
 

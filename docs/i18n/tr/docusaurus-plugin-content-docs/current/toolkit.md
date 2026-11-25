@@ -62,13 +62,15 @@ Argüman verilmezse `sync:library` çalışma kopyasındaki `src/` dizinini, `sy
 php src/Toolkit/bin/toolkit migrate-locales path/to/legacy-pack --target=path/to/new-pack/locales
 ```
 
-`source/` ve `locales/` dizinlerini içeren eski bir paket belirtin. Hedef, yerel ayar alt dizinlerini içerecek dizindir. Betiklerde `--target` verin. Etkileşimli çalıştırmada bu seçenek atlanırsa komut hedefi sorar.
+`source/` ve `locales/` dizinlerini içeren eski bir paket belirtin. Yerel ayar alt dizinlerinin yazılacağı dizini `--target` ile belirleyin. Toolkit varsayılan olarak eski paketin `locales/` dizinini kullanır.
 
-- `php.json` ve `json.json` dosyaları `default.json` altında birleştirilir. Yeni anahtarlar özgün kaynak ifadelerdir.
-- `php-inline.json` ve `json-inline.json` dosyalarından, kaynak ifadesi `:attribute` içeren girdiler `inline.json` altına taşınır.
+- `php.json` ve `json.json` dosyalarındaki girdiler `default.json` dosyasında birleştirilir.
+- `php-inline.json` ve `json-inline.json` dosyalarındaki girdiler `inline.json` dosyasında birleştirilir.
 - `_excludes.json` girdileri, hedef yerel ayarın `_settings.json` dosyasındaki `excludes` listesine taşınır.
 
-Toolkit eski dosyaları korur ve içeriklerini hedef sözlüklerle birleştirir. Anahtar çakışırsa taşınan çeviri önceliklidir. Her iki eski biçim de aynı ifade için çeviri sağlıyorsa PHP sözlüğü önceliklidir. Etkin bir sözlüğü değiştirmeden önce taşıma sonucunu ayrı bir hedefte inceleyin. Uygulamanız veya eklenti manifestiniz için gereken değişikliklere [yükseltme kılavuzundan](./upgrade.md) bakın.
+Toolkit, kaynak ifadeleri zaten anahtar olarak kullanan JSON girdilerini doğrudan taşır. PHP sözlüklerindeki iç içe anahtarları `source/` altındaki PHP dosyalarında arar ve karşılık gelen kaynak ifadeleri anahtar olarak kullanır. Anahtar çakışırsa taşınan çeviri önceliklidir. Her iki eski biçim de aynı ifade için çeviri sağlıyorsa PHP sözlüğü önceliklidir.
+
+Toolkit `source/` dizinindeki dosyaları korur. Girdi aktardığı eski sözlük dosyalarını ve `_excludes.json` dosyalarını, ayrı bir hedef seçildiğinde de siler. Uygulamanız veya eklenti manifestiniz için gereken değişikliklere [yükseltme kılavuzundan](./upgrade.md) bakın.
 
 ## ZIP arşivinden kaynak içe aktarma {#import-sources-from-a-zip-archive}
 

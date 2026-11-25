@@ -62,13 +62,15 @@ Sin argumento, `sync:library` usa `src/` de la copia del repositorio y `sync:pac
 php src/Toolkit/bin/toolkit migrate-locales path/to/legacy-pack --target=path/to/new-pack/locales
 ```
 
-Pasa un paquete de una versión anterior que contenga `source/` y `locales/`. El destino es el directorio que debe contener los subdirectorios por configuración regional. Pasa `--target` en los scripts. Una ejecución interactiva lo solicita si lo omites.
+Pasa un paquete de una versión anterior que contenga `source/` y `locales/`. Con `--target` indicas el directorio que debe contener los subdirectorios por configuración regional. Por defecto, Toolkit usa el directorio `locales/` del paquete anterior.
 
-- `php.json` y `json.json` se convierten en `default.json`. Las nuevas claves son las frases originales.
-- `php-inline.json` y `json-inline.json` se convierten en `inline.json` para las frases originales que incluyen `:attribute`.
+- Las entradas de `php.json` y `json.json` se combinan en `default.json`.
+- Las entradas de `php-inline.json` y `json-inline.json` se combinan en `inline.json`.
 - Las entradas de `_excludes.json` se trasladan a `excludes` en `_settings.json` de la configuración regional de destino.
 
-Toolkit conserva los archivos anteriores e incorpora los datos a los diccionarios de destino. Si coincide una clave, prevalece la traducción migrada. Si ambos formatos anteriores proporcionan una traducción para la misma frase, prevalece el diccionario PHP. Usa un destino independiente para revisar la migración antes de sustituir un diccionario activo. Consulta la [guía de actualización](./upgrade.md) para ver los cambios en tu aplicación o en el manifiesto del complemento.
+Toolkit traslada directamente las entradas JSON, que ya usan las frases originales como claves. Para los diccionarios PHP, busca las claves anidadas en los archivos PHP de `source/` y usa las frases originales correspondientes como claves. Si coincide una clave, prevalece la traducción migrada. Si ambos formatos anteriores proporcionan una traducción para la misma frase, prevalece el diccionario PHP.
+
+Toolkit conserva los archivos de `source/`. Elimina los archivos de diccionario antiguos y los archivos `_excludes.json` de los que ha trasladado entradas, incluso si el destino es independiente. Consulta la [guía de actualización](./upgrade.md) para ver los cambios en tu aplicación o en el manifiesto del complemento.
 
 ## Importar archivos fuente de un ZIP {#import-sources-from-a-zip-archive}
 
