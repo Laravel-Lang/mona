@@ -95,7 +95,7 @@ jobs:
                         --url https://context7.com/api/v1/refresh \
                         --header "Authorization: Bearer ${CONTEXT7_API_KEY}" \
                         --header "Content-Type: application/json" \
-                        --data '{"libraryName":"/llmstxt/feeds_dragon-code_pro_llms_txt"}' \
+                        --data '{"libraryName":"/llmstxt/laravel-lang_llms_txt"}' \
                         --write-out '\n%{http_code}')
                     status="${response##*$'\n'}"
                     body="${response%$'\n'*}"
