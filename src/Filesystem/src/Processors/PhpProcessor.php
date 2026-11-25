@@ -10,7 +10,9 @@ use LaravelLang\Exceptions\InvalidTranslationFileContentException;
 
 use function array_key_exists;
 use function array_replace;
+use function compact;
 use function is_array;
+use function is_int;
 use function ksort;
 use function sprintf;
 use function trim;
@@ -87,7 +89,34 @@ class PhpProcessor extends Processor
     /** @param array<array-key, mixed> $data */
     protected function exportArray(array $data): string
     {
-        return VarExporter::export($data, VarExporter::TRAILING_COMMA_IN_ARRAY);
+        return VarExporter::export($this->stringifyKeys($data), VarExporter::TRAILING_COMMA_IN_ARRAY);
+    }
+
+    /**
+     * @param  array<array-key, mixed>  $data
+     * @return array<array-key, mixed>
+     */
+    protected function stringifyKeys(array $data): array
+    {
+        $result = [];
+
+        foreach ($data as $key => $value) {
+            $value = is_array($value) ? $this->stringifyKeys($value) : $value;
+
+            if (is_int($key)) {
+                $name    = (string) $key;
+                ${$name} = $value;
+
+                // compact() keeps numeric variable names as string array keys.
+                $result += compact($name);
+
+                continue;
+            }
+
+            $result[$key] = $value;
+        }
+
+        return $result;
     }
 
     /**
