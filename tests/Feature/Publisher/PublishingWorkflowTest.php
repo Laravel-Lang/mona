@@ -467,6 +467,57 @@ test('updates numeric JSON keys using package and style precedence', function ()
     expect(File::get($path))->toBe($content);
 });
 
+test('publishes the application validation sections after the sorted rules', function (): void {
+    $source = [
+        'zeta'   => 'Last rule',
+        'custom' => ['zeta' => 'Last message', 'alpha' => 'First message'],
+        'nested' => ['zeta' => 'Last value', 'custom' => 'Nested message', 'attributes' => 'Nested attributes'],
+        'alpha'  => 'First rule',
+    ];
+
+    writePublisherPackage('tests/translations', [], [
+        'validation.php'        => '{locale}/validation.php',
+        'messages.php'          => '{locale}/messages.php',
+        'vendor/validation.php' => 'vendor/demo/{locale}/validation.php',
+    ], [
+        'source/validation.php'        => $source,
+        'source/messages.php'          => $source,
+        'source/vendor/validation.php' => $source,
+    ]);
+    writePublisherFiles([
+        lang_path('fr/validation.php') => [
+            'middle'     => 'Existing rule',
+            'attributes' => ['zeta' => 'Last attribute', 'alpha' => 'First attribute'],
+            'custom'     => ['middle' => 'Existing message', 'alpha' => 'Old message'],
+        ],
+    ]);
+
+    artisan('lang:update')->assertSuccessful()->run();
+
+    $nested = ['attributes' => 'Nested attributes', 'custom' => 'Nested message', 'zeta' => 'Last value'];
+    $sorted = [
+        'alpha'  => 'First rule',
+        'custom' => ['alpha' => 'First message', 'zeta' => 'Last message'],
+        'nested' => $nested,
+        'zeta'   => 'Last rule',
+    ];
+
+    expect(File::getRequire(lang_path('fr/validation.php')))->toBe([
+        'alpha'      => 'First rule',
+        'middle'     => 'Existing rule',
+        'nested'     => $nested,
+        'zeta'       => 'Last rule',
+        'custom'     => ['alpha' => 'First message', 'middle' => 'Existing message', 'zeta' => 'Last message'],
+        'attributes' => ['alpha' => 'First attribute', 'zeta' => 'Last attribute'],
+    ])->and(File::getRequire(lang_path('de/validation.php')))->toBe([
+        'alpha'  => 'First rule',
+        'nested' => $nested,
+        'zeta'   => 'Last rule',
+        'custom' => ['alpha' => 'First message', 'zeta' => 'Last message'],
+    ])->and(File::getRequire(lang_path('fr/messages.php')))->toBe($sorted)
+        ->and(File::getRequire(lang_path('vendor/demo/fr/validation.php')))->toBe($sorted);
+});
+
 test('publishes smart punctuation for each locale when enabled', function (bool $enabled): void {
     config()->set('localization_punctuation.enabled', $enabled);
 
