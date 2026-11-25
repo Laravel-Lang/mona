@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace LaravelLang\Filesystem\Processors;
 
+use Brick\VarExporter\VarExporter;
 use Illuminate\Support\Arr;
 use LaravelLang\Exceptions\InvalidTranslationFileContentException;
-use Symfony\Component\VarExporter\VarExporter;
 
 use function array_key_exists;
 use function array_replace;
@@ -32,7 +32,7 @@ class PhpProcessor extends Processor
      */
     public function renderWithTrailingKeys(string $path, array $content, array $trailingKeys, bool $merge = false): string
     {
-        $data     = Arr::undot($this->sortedContent($path, $content, $merge));
+        $data     = $this->sortedContent($path, $content, $merge);
         $trailing = [];
 
         foreach ($trailingKeys as $key) {
@@ -43,7 +43,7 @@ class PhpProcessor extends Processor
             }
         }
 
-        return trim(sprintf($this->template, $this->exportArray($data + $trailing))) . PHP_EOL;
+        return trim($this->storeContent($data + $trailing)) . PHP_EOL;
     }
 
     protected function getContent(string $path): array
@@ -65,7 +65,7 @@ class PhpProcessor extends Processor
     /** @param array<array-key, mixed> $data */
     protected function storeContent(array $data): string
     {
-        return sprintf($this->template, $this->export($data));
+        return sprintf($this->template, $this->exportArray($data));
     }
 
     /**
@@ -85,14 +85,6 @@ class PhpProcessor extends Processor
     }
 
     /** @param array<array-key, mixed> $data */
-    protected function export(array $data): string
-    {
-        return $this->exportArray(
-            Arr::undot($data)
-        );
-    }
-
-    /** @param array<array-key, mixed> $data */
     protected function exportArray(array $data, string $indent = ''): string
     {
         if ($data === []) {
@@ -102,11 +94,14 @@ class PhpProcessor extends Processor
         $entryIndent = $indent . '    ';
         $result      = "[\n";
 
+        // Brick omits list indexes and writes integer keys without quotes.
         foreach ($data as $key => $value) {
-            $key   = VarExporter::export((string) $key);
-            $value = is_array($value) ? $this->exportArray($value, $entryIndent) : VarExporter::export($value);
+            $exportedKey   = VarExporter::export((string) $key);
+            $exportedValue = is_array($value)
+                ? $this->exportArray($value, $entryIndent)
+                : VarExporter::export($value, VarExporter::TRAILING_COMMA_IN_ARRAY);
 
-            $result .= $entryIndent . $key . ' => ' . $value . ",\n";
+            $result .= $entryIndent . $exportedKey . ' => ' . $exportedValue . ",\n";
         }
 
         return $result . $indent . ']';
@@ -122,6 +117,6 @@ class PhpProcessor extends Processor
 
         ksort($data);
 
-        return $data;
+        return Arr::undot($data);
     }
 }

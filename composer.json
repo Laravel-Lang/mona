@@ -30,11 +30,11 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-zip": "*",
+        "brick/varexporter": "^0.7",
         "laravel/prompts": "^0.3.26",
         "league/commonmark": "^2.10.7",
         "symfony/console": "^7.4 || ^8.1",
-        "symfony/polyfill-php86": "^1.43",
-        "symfony/var-exporter": "^7.4 || ^8.1"
+        "symfony/polyfill-php86": "^1.43"
     },
     "require-dev": {
         "composer/class-map-generator": "^1.9",
