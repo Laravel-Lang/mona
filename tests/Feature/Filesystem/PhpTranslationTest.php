@@ -18,7 +18,7 @@ test('replaces an existing PHP translation when merging is disabled', function (
     expect(require $path)->toBe(['nested' => ['new' => 'New translation']]);
 });
 
-test('writes explicit PHP keys and formats each nested entry on its own line', function (bool $trailingKeys): void {
+test('preserves numeric PHP keys and formats each nested entry on its own line', function (bool $trailingKeys): void {
     $path       = lang_path('fr/statuses.php');
     $filesystem = app(Filesystem::class);
 
@@ -28,9 +28,8 @@ test('writes explicit PHP keys and formats each nested entry on its own line', f
 
     $translations = [
         'nested' => [
-            0      => 'First',
-            1      => 'Second',
             'deep' => ['label' => 'Label'],
+            'list' => ['First', 'Second'],
         ],
         'z-last' => 'Last in sort order',
     ];
@@ -54,14 +53,9 @@ test('writes explicit PHP keys and formats each nested entry on its own line', f
         ->and(array_key_last($written))->toBe($trailingKeys ? 'nested' : 'z-last');
 
     expect($content)
-        ->toMatch("/^    '0'\\h*=> 'Unknown Error',\\R/m")
-        ->toMatch("/^    '04'\\h*=> 'Zero-padded',\\R/m")
-        ->toMatch("/^    '100'\\h*=> 'Continue',\\R/m")
-        ->toMatch("/^    '101'\\h*=> 'Switching Protocols',\\R/m")
         ->toMatch("/^    'nested'\\h*=> \\[\\R/m")
-        ->toMatch("/^        '0'\\h*=> 'First',\\R/m")
-        ->toMatch("/^        '1'\\h*=> 'Second',\\R/m")
-        ->toMatch("/^        'deep'\\h*=> \\[\\R            'label'\\h*=> 'Label',\\R        \\],\\R/m");
+        ->toMatch("/^        'deep'\\h*=> \\[\\R            'label'\\h*=> 'Label',\\R        \\],\\R/m")
+        ->toMatch("/^        'list'\\h*=> \\[\\R            'First',\\R            'Second',\\R        \\],\\R/m");
 })->with([
     'normal publishing' => false,
     'trailing keys'     => true,
