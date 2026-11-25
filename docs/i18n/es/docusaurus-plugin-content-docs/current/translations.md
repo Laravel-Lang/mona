@@ -53,7 +53,7 @@ Ejecuta `php artisan help lang:add` para comprobar si el comando está registrad
 
 ## JSON de reserva {#json-fallback}
 
-Si falta una clave JSON, `laravel-lang/json-fallback` agrega una búsqueda en el JSON de la configuración regional de reserva antes de pasar a las traducciones PHP. Common incluye este paquete. Para instalarlo por separado, ejecuta `composer require "laravel-lang/json-fallback:20.*"`.
+Si falta una clave JSON, `laravel-lang/json-fallback` agrega una búsqueda en el JSON de la configuración regional de reserva antes de pasar a las traducciones PHP. Common incluye este paquete. Para instalarlo por separado, ejecuta `composer require laravel-lang/json-fallback`.
 
 Agrega `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` a los proveedores de la aplicación en `bootstrap/providers.php`. Si la aplicación incluye explícitamente `Illuminate\Translation\TranslationServiceProvider`, reemplaza esa entrada por el proveedor de Mona. [Registro de proveedores en Laravel](https://laravel.com/docs/13.x/providers#registering-providers)
 

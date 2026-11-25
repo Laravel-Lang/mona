@@ -53,7 +53,7 @@ php artisan lang:rm de_CH
 
 ## Резервні переклади JSON {#json-fallback}
 
-Пакет `laravel-lang/json-fallback` додає пошук у JSON-файлі резервної локалі перед переходом до перекладів PHP, коли ключа немає в JSON. Пакет входить до Common. Щоб установити його окремо, виконайте `composer require "laravel-lang/json-fallback:20.*"`.
+Пакет `laravel-lang/json-fallback` додає пошук у JSON-файлі резервної локалі перед переходом до перекладів PHP, коли ключа немає в JSON. Пакет входить до Common. Щоб установити його окремо, виконайте `composer require laravel-lang/json-fallback`.
 
 Додайте `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` до сервіс-провайдерів застосунку в `bootstrap/providers.php`. Якщо застосунок явно реєструє `Illuminate\Translation\TranslationServiceProvider`, замініть цей запис провайдером Mona. [Реєстрація сервіс-провайдерів Laravel](https://laravel.com/docs/13.x/providers#registering-providers)
 

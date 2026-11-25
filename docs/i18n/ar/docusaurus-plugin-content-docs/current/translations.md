@@ -53,7 +53,7 @@ php artisan lang:rm de_CH
 
 ## الرجوع إلى ترجمات JSON الاحتياطية {#json-fallback}
 
-تضيف `laravel-lang/json-fallback` البحث في JSON للإعداد المحلي الاحتياطي عند فقدان مفتاح JSON، قبل الانتقال إلى ترجمات PHP. تتضمن Common هذه الحزمة. ولتثبيتها بشكل مستقل، شغّل `composer require "laravel-lang/json-fallback:20.*"`.
+تضيف `laravel-lang/json-fallback` البحث في JSON للإعداد المحلي الاحتياطي عند فقدان مفتاح JSON، قبل الانتقال إلى ترجمات PHP. تتضمن Common هذه الحزمة. ولتثبيتها بشكل مستقل، شغّل `composer require laravel-lang/json-fallback`.
 
 أضف `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` إلى مزوّدي التطبيق في `bootstrap/providers.php`. وإذا كان التطبيق يدرج `Illuminate\Translation\TranslationServiceProvider` صراحةً، فاستبدل ذلك المدخل بمزوّد Mona. [تسجيل مزوّد في Laravel](https://laravel.com/docs/13.x/providers#registering-providers)
 

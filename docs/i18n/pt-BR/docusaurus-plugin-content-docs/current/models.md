@@ -6,7 +6,7 @@ description: Armazene, leia e consulte atributos localizados do Eloquent com o L
 `laravel-lang/models` adiciona atributos traduzidos a um modelo Eloquent existente. Cada linha de tradução armazena uma localidade e seus valores de atributos. O pacote está incluído no Common e requer a extensão Intl do PHP.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## Adicionar traduções a um modelo {#add-translations-to-a-model}

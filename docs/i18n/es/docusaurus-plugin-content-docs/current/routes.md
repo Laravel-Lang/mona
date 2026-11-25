@@ -6,7 +6,7 @@ description: Registra URL localizadas y selecciona la configuración regional de
 `laravel-lang/routes` selecciona la configuración regional al recibir una solicitud y genera URL para grupos de rutas localizadas. El paquete se incluye en Common.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 Asegúrate de que estén [instaladas las configuraciones regionales que usas en las URL](./translations.md). Configura los nombres de parámetros, el middleware y el comportamiento de la configuración regional predeterminada en [`config/localization_routes.php`](./configure.md).

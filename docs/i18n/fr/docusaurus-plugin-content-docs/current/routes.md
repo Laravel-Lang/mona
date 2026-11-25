@@ -6,7 +6,7 @@ description: "Enregistrez des URL localisées et déterminez la langue de Larave
 `laravel-lang/routes` détermine la langue lors du traitement de la requête et génère les URL des groupes de routes localisées. Common inclut ce paquet.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 Assurez-vous que [les langues utilisées dans vos URL sont installées](./translations.md). Configurez les noms des paramètres, les middlewares et le comportement de la langue par défaut dans [`config/localization_routes.php`](./configure.md).

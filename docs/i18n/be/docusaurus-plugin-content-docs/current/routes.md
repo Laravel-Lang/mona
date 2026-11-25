@@ -6,7 +6,7 @@ description: "Рэгіструйце лакалізаваныя URL і выбі�
 `laravel-lang/routes` выбірае лакаль падчас апрацоўкі запыту і генеруе URL для лакалізаваных груп маршрутаў. Пакет уваходзіць у Common.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 Пераканайцеся, што [лакалі, выкарыстаныя ў URL, усталяваныя](./translations.md). Імёны параметраў, мідлвар і паводзіны для лакалі па змаўчанні наладжваюцца ў [`config/localization_routes.php`](./configure.md).

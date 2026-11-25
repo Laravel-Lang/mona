@@ -7,10 +7,10 @@ Laravel-Lang veröffentlicht Übersetzungen für Laravel und sein Ökosystem. Da
 
 ## Schnellstart {#quick-start}
 
-Führe diese Befehle im Stammverzeichnis einer Laravel-12- oder Laravel-13-Anwendung mit Composer, PHP `^8.3` und den PHP-Erweiterungen `intl` und `json` aus. Deine Laravel-Version kann eine neuere PHP-Version voraussetzen. Der Installationsbefehl verwendet die stabilen Composer-Pakete der Reihe 20.x, sobald sie veröffentlicht sind.
+Führe diese Befehle im Stammverzeichnis einer Laravel-12- oder Laravel-13-Anwendung mit Composer, PHP `^8.3` und den PHP-Erweiterungen `intl` und `json` aus. Deine Laravel-Version kann eine neuere PHP-Version voraussetzen.
 
 ```bash
-composer require "laravel-lang/common:20.*"
+composer require laravel-lang/common
 php artisan lang:add fr
 ```
 
@@ -30,11 +30,11 @@ Setze `APP_LOCALE=fr` in der Datei `.env` deiner Anwendung, um Französisch als 
 
 ## Einen Release Candidate testen {#try-a-release-candidate}
 
-Verwende zum Testen eines veröffentlichten Release Candidate für 20.x eine separate Laravel-Testanwendung. Setze die Mindeststabilität in dieser Anwendung auf `RC`, damit Composer auch die passenden Laravel-Lang-Abhängigkeiten installieren kann. Wähle eine Version auf [Packagist](https://packagist.org/packages/laravel-lang/common). Das Beispiel verwendet `20.0-rc2`.
+Verwende zum Testen eines veröffentlichten Release Candidate für 20.x eine separate Laravel-Testanwendung. Setze die Mindeststabilität in dieser Anwendung auf `RC`, damit Composer auch die passenden Laravel-Lang-Abhängigkeiten installieren kann. Wähle eine Version auf [Packagist](https://packagist.org/packages/laravel-lang/common). Ersetze `<release-candidate>` durch die gewählte Version.
 
 ```bash
 composer config minimum-stability RC
 composer config prefer-stable true
-composer require "laravel-lang/common:20.0-rc2"
+composer require "laravel-lang/common:<release-candidate>"
 php artisan lang:add fr
 ```

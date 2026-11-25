@@ -53,7 +53,7 @@ Buyruq har bir lokal uchun `DONE`, `PROTECTED`, `INVALID`, `SKIP` yoki `FAILED` 
 
 ## Zaxira JSON tarjimalari {#json-fallback}
 
-`laravel-lang/json-fallback` JSON kaliti topilmaganda PHP tarjimalariga o‘tishdan oldin zaxira lokalning JSON faylidan qidirishni qo‘shadi. Paket Common tarkibiga kiradi. Alohida o‘rnatish uchun `composer require "laravel-lang/json-fallback:20.*"` buyrug‘ini bajaring.
+`laravel-lang/json-fallback` JSON kaliti topilmaganda PHP tarjimalariga o‘tishdan oldin zaxira lokalning JSON faylidan qidirishni qo‘shadi. Paket Common tarkibiga kiradi. Alohida o‘rnatish uchun `composer require laravel-lang/json-fallback` buyrug‘ini bajaring.
 
 `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` ni `bootstrap/providers.php` faylidagi ilova provayderlariga qo‘shing. Ilovada `Illuminate\Translation\TranslationServiceProvider` aniq ko‘rsatilgan bo‘lsa, ushbu yozuvni Mona provayderiga almashtiring. [Laravel provayderlarini ro‘yxatdan o‘tkazish](https://laravel.com/docs/13.x/providers#registering-providers)
 

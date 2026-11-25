@@ -10,7 +10,7 @@ Le Publisher détecte les packs de traduction installés avec Composer. Un pack 
 Installez le pack dans votre application Laravel et mettez à jour les langues que vous utilisez déjà. Par exemple, le pack Actions ajoute des libellés pour les boutons et autres commandes.
 
 ```bash
-composer require "laravel-lang/actions:20.*"
+composer require laravel-lang/actions
 php artisan lang:update
 ```
 
@@ -81,7 +81,7 @@ Lors de la publication du français, les deux fichiers recherchent la phrase ang
 
 Dans l’application, `__('Enable audit trail')` lit la traduction JSON et `__('audit.enable')` lit la traduction PHP. Les traductions du pack sont prioritaires sur les entrées de Library pour une même phrase. Si la phrase est absente des deux dictionnaires, le Publisher utilise la valeur source.
 
-Donnez un nom Composer propre au paquet et remplacez `self.version` dans le modèle par une contrainte adaptée, telle que `^20.0`. Utilisez les codes de langue canoniques pour les répertoires des dictionnaires. Placez les traductions standard dans `default.json` et les variantes dans des fichiers comme `inline.json`.
+Donnez un nom Composer propre au paquet et remplacez `self.version` dans le modèle par une contrainte adaptée. Utilisez les codes de langue canoniques pour les répertoires des dictionnaires. Placez les traductions standard dans `default.json` et les variantes dans des fichiers comme `inline.json`.
 
 ### Appliquer des traductions sous conditions {#apply-translations-conditionally}
 

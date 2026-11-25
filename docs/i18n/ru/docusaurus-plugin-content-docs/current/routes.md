@@ -6,7 +6,7 @@ description: Регистрируйте локализованные URL и вы
 `laravel-lang/routes` выбирает локаль при обработке запроса и генерирует URL для групп локализованных маршрутов. Пакет входит в Common.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 Убедитесь, что [локали из URL установлены](./translations.md). Настройте имена параметров, мидлвари и поведение локали по умолчанию в [`config/localization_routes.php`](./configure.md).

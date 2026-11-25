@@ -7,10 +7,10 @@ Laravel-Lang 为 Laravel 及其生态中的软件包发布译文。`laravel-lang
 
 ## 快速开始 {#quick-start}
 
-请在 Laravel 12 或 13 应用的根目录下运行这些命令。环境需安装 Composer、PHP `^8.3` 以及 PHP 的 `intl` 和 `json` 扩展。你的 Laravel 版本可能需要更新的 PHP 版本。安装命令适用于正式发布后的 20.x 稳定版 Composer 软件包。
+请在 Laravel 12 或 13 应用的根目录下运行这些命令。环境需安装 Composer、PHP `^8.3` 以及 PHP 的 `intl` 和 `json` 扩展。你的 Laravel 版本可能需要更新的 PHP 版本。
 
 ```bash
-composer require "laravel-lang/common:20.*"
+composer require laravel-lang/common
 php artisan lang:add fr
 ```
 
@@ -30,11 +30,11 @@ __('auth.failed', locale: 'fr');
 
 ## 试用候选版本 {#try-a-release-candidate}
 
-请在单独的 Laravel 测试应用中试用已发布的 20.x 候选版本。将该应用的最低稳定性设为 `RC`，以便 Composer 同时安装版本匹配的 Laravel-Lang 依赖。在 [Packagist](https://packagist.org/packages/laravel-lang/common) 上选择已列出的版本。以下示例使用 `20.0-rc2`。
+请在单独的 Laravel 测试应用中试用已发布的 20.x 候选版本。将该应用的最低稳定性设为 `RC`，以便 Composer 同时安装版本匹配的 Laravel-Lang 依赖。在 [Packagist](https://packagist.org/packages/laravel-lang/common) 上选择已列出的版本。将 `<release-candidate>` 替换为所选版本。
 
 ```bash
 composer config minimum-stability RC
 composer config prefer-stable true
-composer require "laravel-lang/common:20.0-rc2"
+composer require "laravel-lang/common:<release-candidate>"
 php artisan lang:add fr
 ```

@@ -6,7 +6,7 @@ description: ローカライズされた URL を登録し、リクエストか�
 `laravel-lang/routes` はリクエスト時にロケールを選択し、ローカライズされたルートグループの URL を生成します。このパッケージは Common に含まれています。
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 [URL で使用するロケールがインストール済み](./translations.md)であることを確認してください。パラメーター名、ミドルウェア、既定のロケールの動作は [`config/localization_routes.php`](./configure.md) で設定します。

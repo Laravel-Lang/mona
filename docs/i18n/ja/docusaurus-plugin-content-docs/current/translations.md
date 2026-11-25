@@ -53,7 +53,7 @@ php artisan lang:rm de_CH
 
 ## JSON フォールバック {#json-fallback}
 
-JSON にキーが見つからない場合、`laravel-lang/json-fallback` は PHP の翻訳を探す前にフォールバックロケールの JSON を検索します。このパッケージは Common に含まれます。個別にインストールするには `composer require "laravel-lang/json-fallback:20.*"` を実行してください。
+JSON にキーが見つからない場合、`laravel-lang/json-fallback` は PHP の翻訳を探す前にフォールバックロケールの JSON を検索します。このパッケージは Common に含まれます。個別にインストールするには `composer require laravel-lang/json-fallback` を実行してください。
 
 `bootstrap/providers.php` のアプリケーションプロバイダーに `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` を追加します。`Illuminate\Translation\TranslationServiceProvider` を明示的に登録している場合は、そのエントリを Mona のプロバイダーに置き換えます。[Laravel のプロバイダー登録](https://laravel.com/docs/13.x/providers#registering-providers)
 

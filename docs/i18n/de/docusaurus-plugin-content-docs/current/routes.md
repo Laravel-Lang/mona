@@ -6,7 +6,7 @@ description: "Registriere lokalisierte URLs und ermittle die Laravel-Locale aus 
 `laravel-lang/routes` ermittelt die Locale beim Verarbeiten der Anfrage und erstellt URLs für lokalisierte Routengruppen. Das Paket ist in Common enthalten.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 Stelle sicher, dass die [in deinen URLs verwendeten Locales installiert sind](./translations.md). Parameternamen, Middleware und das Verhalten der Standard-Locale konfigurierst du in [`config/localization_routes.php`](./configure.md).

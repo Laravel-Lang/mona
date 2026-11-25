@@ -53,7 +53,7 @@ php artisan lang:rm de_CH
 
 ## JSON 대체 번역 {#json-fallback}
 
-`laravel-lang/json-fallback`은 JSON 키가 없을 때 PHP 번역을 찾기 전에 대체 로캘의 JSON에서도 조회하도록 합니다. Common에 포함된 패키지입니다. 별도로 설치하려면 `composer require "laravel-lang/json-fallback:20.*"`을 실행하세요.
+`laravel-lang/json-fallback`은 JSON 키가 없을 때 PHP 번역을 찾기 전에 대체 로캘의 JSON에서도 조회하도록 합니다. Common에 포함된 패키지입니다. 별도로 설치하려면 `composer require laravel-lang/json-fallback`을 실행하세요.
 
 `bootstrap/providers.php`의 애플리케이션 프로바이더 목록에 `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class`를 추가하세요. 애플리케이션이 `Illuminate\Translation\TranslationServiceProvider`를 명시적으로 등록했다면 해당 항목을 Mona 프로바이더로 교체합니다. [Laravel 프로바이더 등록](https://laravel.com/docs/13.x/providers#registering-providers)
 

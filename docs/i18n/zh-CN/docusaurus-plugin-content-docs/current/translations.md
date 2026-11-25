@@ -53,7 +53,7 @@ php artisan lang:rm de_CH
 
 ## JSON 回退 {#json-fallback}
 
-当 JSON 键缺失时，`laravel-lang/json-fallback` 会先在回退语言区域的 JSON 中查找，再查找 PHP 译文。Common 已包含此包。单独安装时，请运行 `composer require "laravel-lang/json-fallback:20.*"`。
+当 JSON 键缺失时，`laravel-lang/json-fallback` 会先在回退语言区域的 JSON 中查找，再查找 PHP 译文。Common 已包含此包。单独安装时，请运行 `composer require laravel-lang/json-fallback`。
 
 将 `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` 添加到 `bootstrap/providers.php` 的应用服务提供者列表。如果应用显式列出了 `Illuminate\Translation\TranslationServiceProvider`，请将该条目替换为 Mona 的服务提供者。[Laravel 服务提供者注册说明](https://laravel.com/docs/13.x/providers#registering-providers)
 

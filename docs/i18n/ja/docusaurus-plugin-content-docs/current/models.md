@@ -6,7 +6,7 @@ description: Laravel-Lang Models を使って翻訳された Eloquent 属性を�
 `laravel-lang/models` は既存の Eloquent モデルに翻訳可能な属性を追加します。各翻訳行にはロケールとそのロケールの属性値を格納します。このパッケージは Common に含まれ、PHP の Intl 拡張機能が必要です。
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## モデルに翻訳を追加する {#add-translations-to-a-model}

@@ -6,7 +6,7 @@ description: نشانی‌های بومی‌شده را ثبت کنید و زب�
 `laravel-lang/routes` زبان منطقه‌ای را هنگام رسیدن درخواست انتخاب می‌کند و برای گروه‌های مسیر بومی‌شده URL می‌سازد. این بسته در Common گنجانده شده است.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 مطمئن شوید [زبان‌های منطقه‌ای به‌کاررفته در URLها نصب شده‌اند](./translations.md). نام پارامترها، میان‌افزارها و رفتار زبان منطقه‌ای پیش‌فرض را در [`config/localization_routes.php`](./configure.md) تنظیم کنید.

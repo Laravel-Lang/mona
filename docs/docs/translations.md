@@ -45,7 +45,7 @@ Run `php artisan help lang:add` to check that the command is registered. If it i
 
 ## JSON fallback
 
-`laravel-lang/json-fallback` adds lookup in the fallback locale's JSON before continuing to PHP translations when a JSON key is missing. Common includes the package. For a separate 20.x installation, run `composer require "laravel-lang/json-fallback:20.*"`.
+`laravel-lang/json-fallback` adds lookup in the fallback locale's JSON before continuing to PHP translations when a JSON key is missing. Common includes the package. For a separate installation, run `composer require laravel-lang/json-fallback`.
 
 Add `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` to the application providers in `bootstrap/providers.php`. If the application explicitly lists `Illuminate\Translation\TranslationServiceProvider`, replace that entry with the Mona provider. [Laravel provider registration](https://laravel.com/docs/13.x/providers#registering-providers)
 

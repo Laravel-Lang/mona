@@ -7,10 +7,10 @@ Laravel-Lang Laravel va uning ekotizimidagi paketlar uchun tarjimalarni nashr qi
 
 ## Tez boshlash {#quick-start}
 
-Quyidagi buyruqlarni Composer, PHP `^8.3`, `intl` va `json` kengaytmalari mavjud bo‘lgan Laravel 12 yoki 13 ilovasining asosiy katalogida bajaring. Laravel versiyangiz PHP’ning yangiroq versiyasini talab qilishi mumkin. O‘rnatish buyrug‘i 20.x turkumidagi barqaror Composer paketlari nashr qilingach, ularni o‘rnatadi.
+Quyidagi buyruqlarni Composer, PHP `^8.3`, `intl` va `json` kengaytmalari mavjud bo‘lgan Laravel 12 yoki 13 ilovasining asosiy katalogida bajaring. Laravel versiyangiz PHP’ning yangiroq versiyasini talab qilishi mumkin.
 
 ```bash
-composer require "laravel-lang/common:20.*"
+composer require laravel-lang/common
 php artisan lang:add fr
 ```
 
@@ -30,11 +30,11 @@ Fransuz tilini standart til qilish uchun ilovaning `.env` faylida `APP_LOCALE=fr
 
 ## Reliz nomzodini sinab ko‘rish {#try-a-release-candidate}
 
-E’lon qilingan 20.x reliz nomzodini sinash uchun alohida Laravel sinov ilovasidan foydalaning. Composer mos Laravel-Lang bog‘liqliklarini ham o‘rnata olishi uchun shu ilovadagi minimal barqarorlik darajasini `RC` ga sozlang. [Packagist](https://packagist.org/packages/laravel-lang/common) ro‘yxatidan versiyani tanlang. Misolda `20.0-rc2` ishlatiladi.
+E’lon qilingan 20.x reliz nomzodini sinash uchun alohida Laravel sinov ilovasidan foydalaning. Composer mos Laravel-Lang bog‘liqliklarini ham o‘rnata olishi uchun shu ilovadagi minimal barqarorlik darajasini `RC` ga sozlang. [Packagist](https://packagist.org/packages/laravel-lang/common) ro‘yxatidan versiyani tanlang. `<release-candidate>` o‘rniga tanlagan versiyangizni kiriting.
 
 ```bash
 composer config minimum-stability RC
 composer config prefer-stable true
-composer require "laravel-lang/common:20.0-rc2"
+composer require "laravel-lang/common:<release-candidate>"
 php artisan lang:add fr
 ```

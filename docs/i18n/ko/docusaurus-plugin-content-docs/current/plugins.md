@@ -10,7 +10,7 @@ Publisher는 Composer로 설치된 번역 팩을 찾습니다. 팩은 `laravel_l
 Laravel 애플리케이션에 팩을 설치하고 현재 사용하는 로캘을 업데이트하세요. 예를 들어 Actions 팩은 버튼과 기타 작업의 레이블을 추가합니다.
 
 ```bash
-composer require "laravel-lang/actions:20.*"
+composer require laravel-lang/actions
 php artisan lang:update
 ```
 
@@ -81,7 +81,7 @@ return [
 
 애플리케이션에서 `__('Enable audit trail')`은 JSON 번역을, `__('audit.enable')`은 PHP 번역을 읽습니다. 동일한 문구에 대해서는 팩의 번역이 공용 Library 항목보다 우선합니다. 두 사전에 모두 문구가 없으면 Publisher는 원본 값을 사용합니다.
 
-팩의 고유한 Composer 이름을 지정하고 템플릿의 `self.version`을 `^20.0`과 같은 버전 제약으로 바꾸세요. 사전 디렉터리에는 표준 로캘 코드를 사용하세요. 기본 번역은 `default.json`에, 스타일 변형은 `inline.json` 같은 파일에 넣으세요.
+팩의 고유한 Composer 이름을 지정하고 템플릿의 `self.version`을 지원하는 버전에 맞는 제약으로 바꾸세요. 사전 디렉터리에는 표준 로캘 코드를 사용하세요. 기본 번역은 `default.json`에, 스타일 변형은 `inline.json` 같은 파일에 넣으세요.
 
 ### 조건부로 번역 적용하기 {#apply-translations-conditionally}
 

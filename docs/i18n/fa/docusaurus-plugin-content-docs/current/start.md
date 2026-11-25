@@ -7,10 +7,10 @@ Laravel-Lang ترجمه‌های Laravel و بسته‌های زیست‌بوم 
 
 ## شروع سریع {#quick-start}
 
-این فرمان‌ها را از پوشهٔ ریشهٔ برنامهٔ Laravel 12 یا 13 با Composer، PHP `^8.3` و افزونه‌های PHP به نام `intl` و `json` اجرا کنید. نسخهٔ Laravel شما ممکن است به نسخهٔ جدیدتری از PHP نیاز داشته باشد. فرمان نصب پس از انتشار بسته‌های پایدار Composer از شاخهٔ 20.x آن‌ها را نصب می‌کند.
+این فرمان‌ها را از پوشهٔ ریشهٔ برنامهٔ Laravel 12 یا 13 با Composer، PHP `^8.3` و افزونه‌های PHP به نام `intl` و `json` اجرا کنید. نسخهٔ Laravel شما ممکن است به نسخهٔ جدیدتری از PHP نیاز داشته باشد.
 
 ```bash
-composer require "laravel-lang/common:20.*"
+composer require laravel-lang/common
 php artisan lang:add fr
 ```
 
@@ -30,11 +30,11 @@ __('auth.failed', locale: 'fr');
 
 ## آزمایش نسخهٔ نامزد انتشار {#try-a-release-candidate}
 
-برای آزمایش نامزد انتشار منتشرشدهٔ 20.x، از یک برنامهٔ آزمایشی جداگانهٔ Laravel استفاده کنید. حداقل پایداری آن برنامه را روی `RC` بگذارید تا Composer بتواند وابستگی‌های هم‌نسخهٔ Laravel-Lang را هم نصب کند. نسخه‌ای را از [Packagist](https://packagist.org/packages/laravel-lang/common) انتخاب کنید. نمونه از `20.0-rc2` استفاده می‌کند.
+برای آزمایش نامزد انتشار منتشرشدهٔ 20.x، از یک برنامهٔ آزمایشی جداگانهٔ Laravel استفاده کنید. حداقل پایداری آن برنامه را روی `RC` بگذارید تا Composer بتواند وابستگی‌های هم‌نسخهٔ Laravel-Lang را هم نصب کند. نسخه‌ای را از [Packagist](https://packagist.org/packages/laravel-lang/common) انتخاب کنید. `<release-candidate>` را با نسخه‌ای که انتخاب کرده‌اید جایگزین کنید.
 
 ```bash
 composer config minimum-stability RC
 composer config prefer-stable true
-composer require "laravel-lang/common:20.0-rc2"
+composer require "laravel-lang/common:<release-candidate>"
 php artisan lang:add fr
 ```

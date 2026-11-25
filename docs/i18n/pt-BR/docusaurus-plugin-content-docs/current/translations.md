@@ -53,7 +53,7 @@ Execute `php artisan help lang:add` para verificar se o comando está registrado
 
 ## Fallback de JSON {#json-fallback}
 
-Quando uma chave JSON está ausente, `laravel-lang/json-fallback` acrescenta uma consulta ao JSON da localidade de fallback antes de seguir para as traduções PHP. O Common inclui o pacote. Para instalá-lo separadamente, execute `composer require "laravel-lang/json-fallback:20.*"`.
+Quando uma chave JSON está ausente, `laravel-lang/json-fallback` acrescenta uma consulta ao JSON da localidade de fallback antes de seguir para as traduções PHP. O Common inclui o pacote. Para instalá-lo separadamente, execute `composer require laravel-lang/json-fallback`.
 
 Adicione `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` aos provedores da aplicação em `bootstrap/providers.php`. Se a aplicação listar explicitamente `Illuminate\Translation\TranslationServiceProvider`, substitua essa entrada pelo provedor do Mona. [Registro de provedores no Laravel](https://laravel.com/docs/13.x/providers#registering-providers)
 

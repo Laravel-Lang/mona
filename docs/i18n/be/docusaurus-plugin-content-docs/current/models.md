@@ -6,7 +6,7 @@ description: "Захоўвайце, чытайце і шукайце лакал�
 `laravel-lang/models` дадае перакладзеныя атрыбуты да наяўнай мадэлі Eloquent. Кожны радок перакладу змяшчае лакаль і значэнні атрыбутаў для яе. Пакет уваходзіць у Common і патрабуе PHP Intl.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## Даданне перакладаў да мадэлі {#add-translations-to-a-model}

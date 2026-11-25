@@ -6,7 +6,7 @@ description: Зберігайте, читайте й запитуйте лока
 Пакет `laravel-lang/models` додає перекладені атрибути до наявної моделі Eloquent. Кожен рядок перекладу містить локаль і значення атрибутів для неї. Пакет входить до Common і потребує розширення PHP Intl.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## Додавання перекладів до моделі {#add-translations-to-a-model}

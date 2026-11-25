@@ -6,7 +6,7 @@ description: Laravel-Lang Models로 현지화된 Eloquent 속성을 저장하고
 `laravel-lang/models`는 기존 Eloquent 모델에 번역 가능한 속성을 추가합니다. 각 번역 행은 로캘과 해당 로캘의 속성값을 저장합니다. 이 패키지는 Common에 포함되며 PHP Intl이 필요합니다.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## 모델에 번역 추가하기 {#add-translations-to-a-model}

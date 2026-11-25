@@ -6,7 +6,7 @@ description: "Laravel-Lang Models bilan mahalliylashtirilgan Eloquent atributlar
 `laravel-lang/models` mavjud Eloquent modeliga tarjima qilinadigan atributlarni qo‘shadi. Har bir tarjima satrida lokal va shu lokalga tegishli atribut qiymatlari saqlanadi. Paket Common tarkibiga kiradi va PHP Intl’ni talab qiladi.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## Modelga tarjimalar qo‘shish {#add-translations-to-a-model}

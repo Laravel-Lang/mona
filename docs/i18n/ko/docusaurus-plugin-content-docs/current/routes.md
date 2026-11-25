@@ -6,7 +6,7 @@ description: 현지화된 URL을 등록하고 요청에서 Laravel 로캘을 선
 `laravel-lang/routes`는 요청을 처리할 때 로캘을 선택하고 현지화 라우트 그룹의 URL을 생성합니다. 이 패키지는 Common에 포함됩니다.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 [URL에 사용하는 로캘이 설치되어 있는지 확인하세요](./translations.md). 매개변수 이름, 미들웨어, 기본 로캘 동작은 [`config/localization_routes.php`](./configure.md)에서 설정합니다.

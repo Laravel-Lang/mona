@@ -10,7 +10,7 @@ Der Publisher erkennt mit Composer installierte Übersetzungspakete. Ein Paket s
 Installiere das Paket in deiner Laravel-Anwendung und aktualisiere die bereits verwendeten Locales. Das Paket Actions ergänzt zum Beispiel Beschriftungen für Schaltflächen und andere Aktionen.
 
 ```bash
-composer require "laravel-lang/actions:20.*"
+composer require laravel-lang/actions
 php artisan lang:update
 ```
 
@@ -81,7 +81,7 @@ Bei der Veröffentlichung für Französisch schlagen beide Einträge den englisc
 
 In der Anwendung liest `__('Enable audit trail')` die JSON-Übersetzung und `__('audit.enable')` die PHP-Übersetzung. Die Paketübersetzungen haben für denselben Text Vorrang vor den Einträgen der gemeinsamen Library. Fehlt der Text in beiden Wörterbüchern, verwendet der Publisher den Quellwert.
 
-Gib dem Paket einen eigenen Composer-Namen und ersetze `self.version` aus der Vorlage durch eine passende Versionsvorgabe wie `^20.0`. Verwende kanonische Locale-Codes als Verzeichnisnamen für Wörterbücher. Lege Standardübersetzungen in `default.json` und Stilvarianten in Dateien wie `inline.json` ab.
+Gib dem Paket einen eigenen Composer-Namen und ersetze `self.version` aus der Vorlage durch eine passende Versionsvorgabe. Verwende kanonische Locale-Codes als Verzeichnisnamen für Wörterbücher. Lege Standardübersetzungen in `default.json` und Stilvarianten in Dateien wie `inline.json` ab.
 
 ### Übersetzungen abhängig von Bedingungen anwenden {#apply-translations-conditionally}
 

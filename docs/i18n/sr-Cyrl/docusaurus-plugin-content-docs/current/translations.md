@@ -53,7 +53,7 @@ php artisan lang:rm de_CH
 
 ## Резервни JSON преводи {#json-fallback}
 
-`laravel-lang/json-fallback` додаје претрагу JSON-а резервног локала пре преласка на PHP преводе када недостаје JSON кључ. Common садржи пакет. За засебну инсталацију покрените `composer require "laravel-lang/json-fallback:20.*"`.
+`laravel-lang/json-fallback` додаје претрагу JSON-а резервног локала пре преласка на PHP преводе када недостаје JSON кључ. Common садржи пакет. За засебну инсталацију покрените `composer require laravel-lang/json-fallback`.
 
 Додајте `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` сервисним провајдерима апликације у `bootstrap/providers.php`. Ако апликација изричито наводи `Illuminate\Translation\TranslationServiceProvider`, замените тај унос провајдером из Mona. [Регистрација сервисног провајдера у Laravel-у](https://laravel.com/docs/13.x/providers#registering-providers)
 

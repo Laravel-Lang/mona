@@ -6,7 +6,7 @@ description: با Laravel-Lang Models ویژگی‌های بومی‌شدهٔ El
 `laravel-lang/models` ویژگی‌های ترجمه‌شده را به مدل موجود Eloquent اضافه می‌کند. هر ردیف ترجمه، یک زبان منطقه‌ای و مقدار ویژگی‌ها برای آن زبان را ذخیره می‌کند. این بسته در Common گنجانده شده و به افزونهٔ Intl در PHP نیاز دارد.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## افزودن ترجمه به مدل {#add-translations-to-a-model}

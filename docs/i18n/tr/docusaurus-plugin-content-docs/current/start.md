@@ -7,10 +7,10 @@ Laravel-Lang, Laravel ve ekosistemindeki paketler için çeviriler yayımlar. `l
 
 ## Hızlı başlangıç {#quick-start}
 
-Bu komutları Composer, PHP `^8.3` ve `intl` ile `json` PHP uzantılarının bulunduğu Laravel 12 veya 13 uygulamasının kök dizininde çalıştırın. Laravel sürümünüz daha yeni bir PHP sürümü gerektirebilir. Kurulum komutu, yayımlandıktan sonra 20.x serisinin kararlı Composer paketlerini kullanır.
+Bu komutları Composer, PHP `^8.3` ve `intl` ile `json` PHP uzantılarının bulunduğu Laravel 12 veya 13 uygulamasının kök dizininde çalıştırın. Laravel sürümünüz daha yeni bir PHP sürümü gerektirebilir.
 
 ```bash
-composer require "laravel-lang/common:20.*"
+composer require laravel-lang/common
 php artisan lang:add fr
 ```
 
@@ -30,11 +30,11 @@ Fransızcayı varsayılan dil yapmak için uygulamanızın `.env` dosyasında `A
 
 ## Sürüm adayını deneme {#try-a-release-candidate}
 
-Yayımlanmış bir 20.x sürüm adayını denemek için ayrı bir Laravel test uygulaması kullanın. Composer’ın aynı sürümdeki Laravel-Lang bağımlılıklarını da kurabilmesi için bu uygulamanın asgari kararlılık düzeyini `RC` olarak ayarlayın. [Packagist](https://packagist.org/packages/laravel-lang/common) listesinden bir sürüm seçin. Örnekte `20.0-rc2` kullanılır.
+Yayımlanmış bir 20.x sürüm adayını denemek için ayrı bir Laravel test uygulaması kullanın. Composer’ın aynı sürümdeki Laravel-Lang bağımlılıklarını da kurabilmesi için bu uygulamanın asgari kararlılık düzeyini `RC` olarak ayarlayın. [Packagist](https://packagist.org/packages/laravel-lang/common) listesinden bir sürüm seçin. `<release-candidate>` yerine seçtiğiniz sürümü yazın.
 
 ```bash
 composer config minimum-stability RC
 composer config prefer-stable true
-composer require "laravel-lang/common:20.0-rc2"
+composer require "laravel-lang/common:<release-candidate>"
 php artisan lang:add fr
 ```

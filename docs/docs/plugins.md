@@ -10,7 +10,7 @@ Publisher discovers translation packs installed with Composer. A pack provides a
 Install the pack in your Laravel application and update the locales you already use. For example, the Actions pack adds labels for buttons and other actions.
 
 ```bash
-composer require "laravel-lang/actions:20.*"
+composer require laravel-lang/actions
 php artisan lang:update
 ```
 
@@ -33,7 +33,7 @@ Each pack brings in Publisher and the shared Library. Its manifest specifies whi
 
 ## Create a pack
 
-Use the [translation template](https://github.com/Laravel-Lang/mona/tree/main/src/TranslationsTemplate) as a starting point. Give the pack its own Composer name, such as `acme/audit-translations`. Replace the template's `self.version` requirements with Composer constraints for the Laravel-Lang release line you support, such as `^20.0`. Require `laravel-lang/publisher` and add `laravel-lang/library` if your pack relies on the shared translations.
+Use the [translation template](https://github.com/Laravel-Lang/mona/tree/main/src/TranslationsTemplate) as a starting point. Give the pack its own Composer name, such as `acme/audit-translations`. Replace the template's `self.version` requirements with Composer constraints for the Laravel-Lang release line you support. Require `laravel-lang/publisher` and add `laravel-lang/library` if your pack relies on the shared translations.
 
 Place the manifest at the root of your pack. Composer installs the pack under the application's vendor directory, where Publisher discovers manifests without a Laravel service provider. This example publishes a JSON file and a PHP translation group for every installed locale.
 

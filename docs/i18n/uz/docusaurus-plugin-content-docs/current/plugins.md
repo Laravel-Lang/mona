@@ -10,7 +10,7 @@ Publisher Composer orqali o‘rnatilgan tarjima paketlarini aniqlaydi. Paket `la
 Paketni Laravel ilovangizga o‘rnating va foydalanayotgan lokallarni yangilang. Masalan, Actions paketi tugmalar va boshqa amallar uchun yozuvlarni qo‘shadi.
 
 ```bash
-composer require "laravel-lang/actions:20.*"
+composer require laravel-lang/actions
 php artisan lang:update
 ```
 
@@ -81,7 +81,7 @@ Fransuzcha tarjimalar nashr qilinganda ikkala manba ham paketingizdagi `locales/
 
 Ilovada `__('Enable audit trail')` JSON tarjimasini, `__('audit.enable')` esa PHP tarjimasini o‘qiydi. Bir xil ibora uchun paket tarjimasi umumiy Library yozuvidan ustun turadi. Ibora ikkala lug‘atda ham bo‘lmasa, Publisher manba qiymatidan foydalanadi.
 
-Paketga alohida Composer nomi bering va shablondagi `self.version` talablarini `^20.0` kabi versiya cheklovi bilan almashtiring. Lug‘at kataloglari uchun kanonik lokal kodlaridan foydalaning. Odatdagi tarjimalarni `default.json`, uslub variantlarini esa `inline.json` kabi fayllarda saqlang.
+Paketga alohida Composer nomi bering va shablondagi `self.version` talablarini qo‘llab-quvvatlanadigan versiyaga mos cheklov bilan almashtiring. Lug‘at kataloglari uchun kanonik lokal kodlaridan foydalaning. Odatdagi tarjimalarni `default.json`, uslub variantlarini esa `inline.json` kabi fayllarda saqlang.
 
 ### Tarjimalarni shartga qarab qo‘llash {#apply-translations-conditionally}
 

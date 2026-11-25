@@ -10,7 +10,7 @@ Publisher, Composer ile kurulan çeviri paketlerini keşfeder. Paket, bir `larav
 Paketi Laravel uygulamanıza kurun ve kullandığınız yerel ayarları güncelleyin. Örneğin Actions paketi, düğmelere ve diğer eylemlere etiketler ekler.
 
 ```bash
-composer require "laravel-lang/actions:20.*"
+composer require laravel-lang/actions
 php artisan lang:update
 ```
 
@@ -81,7 +81,7 @@ Fransızca yayımlanırken her ikisi de İngilizce ifadeyi paketinizin `locales/
 
 Uygulamada `__('Enable audit trail')` JSON çevirisini, `__('audit.enable')` PHP çevirisini okur. Aynı ifade için paket çevirileri ortak Library girdilerinden önceliklidir. İfade iki sözlükte de yoksa Publisher kaynak değeri kullanır.
 
-Pakete kendi Composer adını verin ve şablondaki `self.version` ifadelerini `^20.0` gibi uygun sürüm kısıtlarıyla değiştirin. Sözlük dizinlerinde standart yerel ayar kodlarını kullanın. Standart çevirileri `default.json`, stil çeşitlerini `inline.json` gibi dosyalara koyun.
+Pakete kendi Composer adını verin ve şablondaki `self.version` ifadelerini desteklediğiniz sürüme uygun kısıtlarla değiştirin. Sözlük dizinlerinde standart yerel ayar kodlarını kullanın. Standart çevirileri `default.json`, stil çeşitlerini `inline.json` gibi dosyalara koyun.
 
 ### Çevirileri koşullu uygulama {#apply-translations-conditionally}
 

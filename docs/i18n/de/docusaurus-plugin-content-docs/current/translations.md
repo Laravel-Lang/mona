@@ -53,7 +53,7 @@ Prüfe mit `php artisan help lang:add`, ob der Befehl registriert ist. Falls er 
 
 ## JSON-Fallback {#json-fallback}
 
-`laravel-lang/json-fallback` ergänzt bei fehlendem JSON-Schlüssel eine Suche im JSON der Fallback-Locale vor der Suche in PHP-Übersetzungen. Das Paket ist in Common enthalten. Für eine separate Installation führe `composer require "laravel-lang/json-fallback:20.*"` aus.
+`laravel-lang/json-fallback` ergänzt bei fehlendem JSON-Schlüssel eine Suche im JSON der Fallback-Locale vor der Suche in PHP-Übersetzungen. Das Paket ist in Common enthalten. Für eine separate Installation führe `composer require laravel-lang/json-fallback` aus.
 
 Füge `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` in `bootstrap/providers.php` zu den Providern der Anwendung hinzu. Falls die Anwendung `Illuminate\Translation\TranslationServiceProvider` ausdrücklich aufführt, ersetze diesen Eintrag durch den Mona-Provider. [Provider-Registrierung in Laravel](https://laravel.com/docs/13.x/providers#registering-providers)
 

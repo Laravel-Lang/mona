@@ -6,7 +6,7 @@ description: 注册本地化 URL，并根据请求选择 Laravel 的语言区域
 `laravel-lang/routes` 在处理请求时选择语言区域，并为本地化路由组生成 URL。Common 已包含此包。
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 确认 [URL 中使用的语言区域已安装](./translations.md)。在 [`config/localization_routes.php`](./configure.md) 中配置参数名、中间件和默认语言区域的行为。

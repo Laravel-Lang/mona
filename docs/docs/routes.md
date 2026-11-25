@@ -6,7 +6,7 @@ description: Register localized URLs and select the Laravel locale from a reques
 `laravel-lang/routes` selects the locale at request time and generates URLs for localized route groups. The package is included in Common.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 Make sure the [locales used in your URLs are installed](./translations.md). Configure parameter names, middleware, and default-locale behavior in [`config/localization_routes.php`](./configure.md).

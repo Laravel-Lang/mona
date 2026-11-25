@@ -6,7 +6,7 @@ description: "Laravel-Lang Models ile yerelleştirilmiş Eloquent öznitelikleri
 `laravel-lang/models`, mevcut bir Eloquent modeline çevrilebilir öznitelikler ekler. Her çeviri satırı bir yerel ayarı ve o yerel ayara ait öznitelik değerlerini saklar. Paket Common’a dahildir ve PHP Intl gerektirir.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## Modele çeviri ekleme {#add-translations-to-a-model}

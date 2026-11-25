@@ -53,7 +53,7 @@ Komutun kayıtlı olup olmadığını `php artisan help lang:add` ile kontrol ed
 
 ## JSON çevirilerinde yedek dil {#json-fallback}
 
-`laravel-lang/json-fallback`, bir JSON anahtarı bulunamadığında PHP çevirilerine geçmeden önce yedek yerel ayarın JSON dosyasında arama yapılmasını sağlar. Common bu paketi içerir. Ayrı kurmak için `composer require "laravel-lang/json-fallback:20.*"` çalıştırın.
+`laravel-lang/json-fallback`, bir JSON anahtarı bulunamadığında PHP çevirilerine geçmeden önce yedek yerel ayarın JSON dosyasında arama yapılmasını sağlar. Common bu paketi içerir. Ayrı kurmak için `composer require laravel-lang/json-fallback` çalıştırın.
 
 `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` sınıfını `bootstrap/providers.php` dosyasındaki uygulama sağlayıcılarına ekleyin. Uygulama `Illuminate\Translation\TranslationServiceProvider` sağlayıcısını açıkça listeliyorsa bu girdiyi Mona sağlayıcısıyla değiştirin. [Laravel’de sağlayıcı kaydı](https://laravel.com/docs/13.x/providers#registering-providers)
 

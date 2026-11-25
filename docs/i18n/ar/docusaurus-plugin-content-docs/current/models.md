@@ -6,7 +6,7 @@ description: "خزّن سمات Eloquent المترجمة واقرأها واس�
 تضيف `laravel-lang/models` سمات مترجمة إلى نموذج Eloquent قائم. يخزّن كل صف ترجمة إعدادًا محليًا وقيم السمات لذلك الإعداد. تندرج الحزمة ضمن Common وتتطلب امتداد Intl في PHP.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## إضافة الترجمات إلى نموذج {#add-translations-to-a-model}

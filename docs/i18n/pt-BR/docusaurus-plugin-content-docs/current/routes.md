@@ -6,7 +6,7 @@ description: Registre URLs localizadas e selecione a localidade do Laravel a par
 `laravel-lang/routes` seleciona a localidade durante a requisição e gera URLs para grupos de rotas localizadas. O pacote está incluído no Common.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 Verifique se as [localidades usadas nas URLs estão instaladas](./translations.md). Configure os nomes de parâmetros, os middlewares e o comportamento da localidade padrão em [`config/localization_routes.php`](./configure.md).

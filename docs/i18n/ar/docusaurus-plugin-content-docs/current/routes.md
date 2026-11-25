@@ -6,7 +6,7 @@ description: "سجّل عناوين URL موطّنة وحدّد الإعداد �
 تختار `laravel-lang/routes` الإعداد المحلي عند معالجة الطلب وتولّد عناوين URL لمجموعات المسارات الموطّنة. تندرج الحزمة ضمن Common.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 تأكّد من [تثبيت الإعدادات المحلية المستخدمة في عناوين URL](./translations.md). اضبط أسماء المعاملات والبرمجيات الوسيطة وسلوك الإعداد المحلي الافتراضي في [`config/localization_routes.php`](./configure.md).

@@ -7,10 +7,10 @@ Laravel-Lang публікуе пераклады для Laravel і пакета�
 
 ## Хуткі пачатак {#quick-start}
 
-Выконвайце гэтыя каманды з каранёвай папкі праграмы на Laravel 12 або 13 з Composer, PHP `^8.3` і пашырэннямі PHP `intl` і `json`. Вашай версіі Laravel можа спатрэбіцца навейшая версія PHP. Каманда ўсталявання прызначана для стабільных пакетаў Composer лінейкі 20.x пасля іх публікацыі.
+Выконвайце гэтыя каманды з каранёвай папкі праграмы на Laravel 12 або 13 з Composer, PHP `^8.3` і пашырэннямі PHP `intl` і `json`. Вашай версіі Laravel можа спатрэбіцца навейшая версія PHP.
 
 ```bash
-composer require "laravel-lang/common:20.*"
+composer require laravel-lang/common
 php artisan lang:add fr
 ```
 
@@ -30,11 +30,11 @@ __('auth.failed', locale: 'fr');
 
 ## Паспрабаваць рэліз-кандыдат {#try-a-release-candidate}
 
-Каб паспрабаваць апублікаваны рэліз-кандыдат 20.x, выкарыстоўвайце асобную тэставую праграму Laravel. Задайце для яе мінімальную стабільнасць `RC`, каб Composer мог усталяваць адпаведныя залежнасці Laravel-Lang. Выберыце версію з [Packagist](https://packagist.org/packages/laravel-lang/common). У прыкладзе выкарыстоўваецца `20.0-rc2`.
+Каб паспрабаваць апублікаваны рэліз-кандыдат 20.x, выкарыстоўвайце асобную тэставую праграму Laravel. Задайце для яе мінімальную стабільнасць `RC`, каб Composer мог усталяваць адпаведныя залежнасці Laravel-Lang. Выберыце версію з [Packagist](https://packagist.org/packages/laravel-lang/common). Замяніце `<release-candidate>` выбранай версіяй.
 
 ```bash
 composer config minimum-stability RC
 composer config prefer-stable true
-composer require "laravel-lang/common:20.0-rc2"
+composer require "laravel-lang/common:<release-candidate>"
 php artisan lang:add fr
 ```

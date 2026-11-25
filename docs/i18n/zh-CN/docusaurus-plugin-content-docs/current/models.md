@@ -6,7 +6,7 @@ description: 使用 Laravel-Lang Models 存储、读取和查询 Eloquent 的本
 `laravel-lang/models` 可为现有 Eloquent 模型添加可翻译属性。每条翻译记录保存一个语言区域及该语言区域的属性值。Common 已包含此包，使用时需要 PHP Intl 扩展。
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## 为模型添加翻译 {#add-translations-to-a-model}

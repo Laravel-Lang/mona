@@ -53,7 +53,7 @@ php artisan lang:rm de_CH
 
 ## Рэзервовы пошук у JSON {#json-fallback}
 
-Калі ключ JSON адсутнічае, `laravel-lang/json-fallback` дадае пошук у JSON рэзервовай лакалі перад пераходам да перакладаў PHP. Common уключае гэты пакет. Для асобнага ўсталявання выканайце `composer require "laravel-lang/json-fallback:20.*"`.
+Калі ключ JSON адсутнічае, `laravel-lang/json-fallback` дадае пошук у JSON рэзервовай лакалі перад пераходам да перакладаў PHP. Common уключае гэты пакет. Для асобнага ўсталявання выканайце `composer require laravel-lang/json-fallback`.
 
 Дадайце `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` да сэрвіс-правайдараў прыкладання ў `bootstrap/providers.php`. Калі ў прыкладанні яўна пазначаны `Illuminate\Translation\TranslationServiceProvider`, замяніце гэты запіс правайдарам Mona. [Рэгістрацыя сэрвіс-правайдара ў Laravel](https://laravel.com/docs/13.x/providers#registering-providers)
 

@@ -10,7 +10,7 @@ Publisher 会发现通过 Composer 安装的翻译包。翻译包提供 `laravel
 在 Laravel 应用中安装翻译包，然后更新已使用的语言区域。例如，Actions 包会添加按钮和其他操作的标签。
 
 ```bash
-composer require "laravel-lang/actions:20.*"
+composer require laravel-lang/actions
 php artisan lang:update
 ```
 
@@ -81,7 +81,7 @@ return [
 
 在应用中，`__('Enable audit trail')` 读取 JSON 译文，`__('audit.enable')` 读取 PHP 译文。同一短语的包内译文优先于共享 Library 条目。如果两份词典都不包含该短语，Publisher 会使用源值。
 
-为翻译包设置独立的 Composer 名称，并将模板中的 `self.version` 替换为 `^20.0` 等版本约束。词典目录使用规范语言区域代码。标准翻译放在 `default.json`，不同样式放在 `inline.json` 等文件中。
+为翻译包设置独立的 Composer 名称，并将模板中的 `self.version` 替换为 适用于受支持版本的约束。词典目录使用规范语言区域代码。标准翻译放在 `default.json`，不同样式放在 `inline.json` 等文件中。
 
 ### 按条件应用译文 {#apply-translations-conditionally}
 

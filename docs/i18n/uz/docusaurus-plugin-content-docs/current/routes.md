@@ -6,7 +6,7 @@ description: "Mahalliylashtirilgan URL manzillarini ro‘yxatdan o‘tkazing va 
 `laravel-lang/routes` so‘rov vaqtida lokalni tanlaydi va mahalliylashtirilgan marshrut guruhlari uchun URL manzillarini yaratadi. Paket Common tarkibiga kiradi.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 [URL manzillarida ishlatilgan lokallar o‘rnatilganiga](./translations.md) ishonch hosil qiling. Parametr nomlari, middlewarelar va standart lokalning ishlashini [`config/localization_routes.php`](./configure.md) faylida sozlang.

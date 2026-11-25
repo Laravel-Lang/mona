@@ -6,7 +6,7 @@ description: Чувајте, читајте и претражујте локал
 `laravel-lang/models` додаје преведене атрибуте постојећем Eloquent моделу. Сваки ред превода чува локал и вредности атрибута за тај локал. Пакет је укључен у Common и захтева PHP Intl.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## Додавање превода моделу {#add-translations-to-a-model}

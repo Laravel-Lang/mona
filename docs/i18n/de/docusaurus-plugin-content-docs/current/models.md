@@ -6,7 +6,7 @@ description: "Speichere und lies lokalisierte Eloquent-Attribute und frage sie m
 `laravel-lang/models` ergänzt ein vorhandenes Eloquent-Modell um übersetzte Attribute. Jeder Übersetzungsdatensatz speichert eine Locale und die Attributwerte für diese Locale. Das Paket ist in Common enthalten und benötigt die PHP-Erweiterung Intl.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## Übersetzungen zu einem Modell hinzufügen {#add-translations-to-a-model}

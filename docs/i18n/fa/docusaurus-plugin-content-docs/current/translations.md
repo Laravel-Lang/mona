@@ -53,7 +53,7 @@ php artisan lang:rm de_CH
 
 ## ترجمهٔ جایگزین JSON {#json-fallback}
 
-وقتی کلیدی در JSON نباشد، `laravel-lang/json-fallback` پیش از ادامه به ترجمه‌های PHP، جست‌وجو در JSON زبان منطقه‌ای جایگزین را اضافه می‌کند. Common شامل این بسته است. برای نصب جداگانه، `composer require "laravel-lang/json-fallback:20.*"` را اجرا کنید.
+وقتی کلیدی در JSON نباشد، `laravel-lang/json-fallback` پیش از ادامه به ترجمه‌های PHP، جست‌وجو در JSON زبان منطقه‌ای جایگزین را اضافه می‌کند. Common شامل این بسته است. برای نصب جداگانه، `composer require laravel-lang/json-fallback` را اجرا کنید.
 
 `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` را به ارائه‌دهندگان برنامه در `bootstrap/providers.php` اضافه کنید. اگر برنامه صریحاً `Illuminate\Translation\TranslationServiceProvider` را فهرست کرده است، آن مدخل را با ارائه‌دهندهٔ Mona جایگزین کنید. [ثبت ارائه‌دهنده در Laravel](https://laravel.com/docs/13.x/providers#registering-providers)
 

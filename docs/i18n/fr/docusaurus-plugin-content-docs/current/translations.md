@@ -53,7 +53,7 @@ Exécutez `php artisan help lang:add` pour vérifier que la commande est enregis
 
 ## Repli des traductions JSON {#json-fallback}
 
-Lorsqu’une clé JSON est introuvable, `laravel-lang/json-fallback` la recherche dans le JSON de la langue de repli avant de passer aux traductions PHP. Common inclut ce paquet. Pour l’installer séparément, exécutez `composer require "laravel-lang/json-fallback:20.*"`.
+Lorsqu’une clé JSON est introuvable, `laravel-lang/json-fallback` la recherche dans le JSON de la langue de repli avant de passer aux traductions PHP. Common inclut ce paquet. Pour l’installer séparément, exécutez `composer require laravel-lang/json-fallback`.
 
 Ajoutez `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` aux fournisseurs de services de l’application dans `bootstrap/providers.php`. Si l’application déclare explicitement `Illuminate\Translation\TranslationServiceProvider`, remplacez cette entrée par le fournisseur de services de Mona. [Enregistrement des fournisseurs de services Laravel](https://laravel.com/docs/13.x/providers#registering-providers)
 

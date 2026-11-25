@@ -6,7 +6,7 @@ description: Store, read, and query localized Eloquent attributes with Laravel-L
 `laravel-lang/models` adds translated attributes to an existing Eloquent model. Each translation row stores a locale and that locale's attribute values. The package is included in Common and requires PHP Intl.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## Add translations to a model

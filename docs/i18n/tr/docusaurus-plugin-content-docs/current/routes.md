@@ -6,7 +6,7 @@ description: "Yerelleştirilmiş URL’leri kaydedin ve istekten Laravel yerel a
 `laravel-lang/routes`, istek sırasında yerel ayarı seçer ve yerelleştirilmiş rota grupları için URL’ler oluşturur. Paket Common’a dahildir.
 
 ```bash
-composer require "laravel-lang/routes:20.*"
+composer require laravel-lang/routes
 ```
 
 [URL’lerinizde kullanılan yerel ayarların kurulu olduğundan emin olun](./translations.md). Parametre adlarını, ara katmanları ve varsayılan yerel ayarın davranışını [`config/localization_routes.php`](./configure.md) dosyasında yapılandırın.

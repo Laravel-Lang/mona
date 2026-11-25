@@ -7,10 +7,10 @@ description: "ثبّت Laravel-Lang وانشر أولى ترجمات Laravel."
 
 ## البدء السريع {#quick-start}
 
-نفّذ هذه الأوامر من المجلد الجذري لتطبيق Laravel 12 أو 13 باستخدام Composer وPHP `^8.3` وامتدادي `intl` و`json`. قد يتطلب إصدار Laravel لديك إصدارًا أحدث من PHP. يستهدف أمر التثبيت حزم Composer المستقرة من سلسلة 20.x بعد نشرها.
+نفّذ هذه الأوامر من المجلد الجذري لتطبيق Laravel 12 أو 13 باستخدام Composer وPHP `^8.3` وامتدادي `intl` و`json`. قد يتطلب إصدار Laravel لديك إصدارًا أحدث من PHP.
 
 ```bash
-composer require "laravel-lang/common:20.*"
+composer require laravel-lang/common
 php artisan lang:add fr
 ```
 
@@ -30,11 +30,11 @@ __('auth.failed', locale: 'fr');
 
 ## تجربة إصدار مرشّح {#try-a-release-candidate}
 
-استخدم تطبيق Laravel منفصلًا للاختبار عند تجربة إصدار مرشّح منشور من 20.x. اضبط الحد الأدنى للاستقرار في ذلك التطبيق على `RC` حتى يتمكن Composer من تثبيت تبعيات Laravel-Lang المطابقة. اختر إصدارًا مدرجًا في [Packagist](https://packagist.org/packages/laravel-lang/common). يستخدم المثال الإصدار `20.0-rc2`.
+استخدم تطبيق Laravel منفصلًا للاختبار عند تجربة إصدار مرشّح منشور من 20.x. اضبط الحد الأدنى للاستقرار في ذلك التطبيق على `RC` حتى يتمكن Composer من تثبيت تبعيات Laravel-Lang المطابقة. اختر إصدارًا مدرجًا في [Packagist](https://packagist.org/packages/laravel-lang/common). استبدل `<release-candidate>` بالإصدار الذي اخترته.
 
 ```bash
 composer config minimum-stability RC
 composer config prefer-stable true
-composer require "laravel-lang/common:20.0-rc2"
+composer require "laravel-lang/common:<release-candidate>"
 php artisan lang:add fr
 ```

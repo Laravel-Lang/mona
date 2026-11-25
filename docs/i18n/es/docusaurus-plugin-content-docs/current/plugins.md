@@ -10,7 +10,7 @@ Publisher detecta los paquetes de traducción instalados con Composer. Cada paqu
 Instala el paquete en tu aplicación de Laravel y actualiza las configuraciones regionales que ya usas. Por ejemplo, el paquete Actions agrega etiquetas para botones y otras acciones.
 
 ```bash
-composer require "laravel-lang/actions:20.*"
+composer require laravel-lang/actions
 php artisan lang:update
 ```
 
@@ -81,7 +81,7 @@ Al publicar las traducciones al francés, ambas entradas buscan la frase en ingl
 
 En la aplicación, `__('Enable audit trail')` lee la traducción JSON y `__('audit.enable')` lee la traducción PHP. Las traducciones del paquete tienen prioridad sobre las entradas compartidas de Library para la misma frase. Si la frase no está en ninguno de los diccionarios, Publisher usa el valor original.
 
-Asigna al paquete su propio nombre de Composer y sustituye `self.version` en la plantilla por restricciones adecuadas, como `^20.0`. Usa códigos canónicos de configuración regional para los directorios de diccionarios. Guarda las traducciones estándar en `default.json` y las variantes en archivos como `inline.json`.
+Asigna al paquete su propio nombre de Composer y sustituye `self.version` en la plantilla por restricciones adecuadas. Usa códigos canónicos de configuración regional para los directorios de diccionarios. Guarda las traducciones estándar en `default.json` y las variantes en archivos como `inline.json`.
 
 ### Aplicar traducciones de forma condicional {#apply-translations-conditionally}
 

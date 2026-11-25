@@ -6,7 +6,7 @@ description: "Stockez, lisez et interrogez les attributs Eloquent localisés ave
 `laravel-lang/models` ajoute des attributs traduits à un modèle Eloquent existant. Chaque ligne de traduction stocke un code de langue et les valeurs des attributs dans cette langue. Common inclut ce paquet, qui nécessite l’extension PHP Intl.
 
 ```bash
-composer require "laravel-lang/models:20.*"
+composer require laravel-lang/models
 ```
 
 ## Ajouter des traductions à un modèle {#add-translations-to-a-model}

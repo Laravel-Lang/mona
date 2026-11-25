@@ -10,7 +10,7 @@ Publisher は Composer でインストールされた翻訳パックを検出し
 Laravel アプリケーションにパックをインストールし、すでに使用しているロケールを更新します。たとえば Actions パックはボタンなどの操作ラベルを追加します。
 
 ```bash
-composer require "laravel-lang/actions:20.*"
+composer require laravel-lang/actions
 php artisan lang:update
 ```
 
@@ -81,7 +81,7 @@ return [
 
 アプリケーションでは `__('Enable audit trail')` が JSON 翻訳を、`__('audit.enable')` が PHP 翻訳を読み取ります。同じ文言については、パックの翻訳が共有の Library の翻訳に優先します。どちらの辞書にも文言がなければ、Publisher は原文を使用します。
 
-パック固有の Composer 名を付け、テンプレートの `self.version` を `^20.0` など対象リリースの制約に置き換えます。辞書ディレクトリには正規ロケールコードを使います。標準の翻訳は `default.json` に、スタイル別の翻訳は `inline.json` などに置きます。
+パック固有の Composer 名を付け、テンプレートの `self.version` を 対象リリースの制約に置き換えます。辞書ディレクトリには正規ロケールコードを使います。標準の翻訳は `default.json` に、スタイル別の翻訳は `inline.json` などに置きます。
 
 ### 条件付きで翻訳を適用する {#apply-translations-conditionally}
 
