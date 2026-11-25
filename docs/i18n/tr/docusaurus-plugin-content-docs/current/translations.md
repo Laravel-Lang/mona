@@ -31,7 +31,7 @@ Publisher, uygulamanın geçerli ve yedek yerel ayarlarına, dil dizininin kök�
 
 Çeviri paketleri, desteklenen paket ve sürümleri ve hedef dosyaları [eklenti manifestlerinde](./plugins.md) bildirir. Publisher, ortak sözlüklerle paket sözlüklerini birleştirir ve ardından çevirileri her hedef dosyaya işler. İlgisiz anahtarları korur ve sayısal anahtarlar da dâhil olmak üzere eşleşen anahtarların değerlerini değiştirir. Bir ifade sözlüklerde yoksa kaynak ifadeyi yazar. Kendi değişikliklerinizi ayrı dosyalarda tutun veya bakımını üstlendiğiniz hedefleri [yayım dışında bırakın](./configure.md#skip-files-and-force-integrations).
 
-Oluşturulan PHP çeviri dosyaları yüklendiğinde `404` gibi sayısal anahtarlar korunur. Boş olmayan iç içe PHP dizilerinde her öğe ayrı bir satıra yazılır. JSON çeviri sözlükleri, sayısal anahtarlar ardışık olduğunda da her düzeyde dize anahtarları olan nesneler olarak yazılır.
+Publisher, oluşturulan PHP çeviri dosyalarında `'404'` gibi sayısal anahtarlar da dâhil olmak üzere tüm anahtarları açıkça dize olarak yazar. PHP, dosyayı yüklerken `'404'` gibi bir anahtarı `404` tamsayısına dönüştürür. Boş olmayan iç içe PHP dizilerinde her öğe ayrı bir satıra yazılır. JSON çeviri sözlükleri, sayısal anahtarlar ardışık olduğunda da her düzeyde dize anahtarları olan nesneler olarak yazılır.
 
 Publisher, uygulamanın `validation.php` dosyalarında `custom` ve `attributes` üst düzey anahtarlarını, mevcut olduklarında, bu sırayla dosyanın sonuna yerleştirir. Diğer üst düzey anahtarlar alfabetik olarak sıralanır.
 

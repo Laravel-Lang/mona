@@ -31,7 +31,7 @@ Der Publisher ermittelt Locales anhand der aktuellen Locale und der Fallback-Loc
 
 Übersetzungspakete geben unterstützte Pakete, Versionen und Zieldateien in [Plugin-Manifesten](./plugins.md) an. Der Publisher kombiniert die gemeinsamen Wörterbücher und die Paketwörterbücher und führt ihre Übersetzungen mit jeder Zieldatei zusammen. Dabei behält er andere Schlüssel bei und ersetzt übereinstimmende Schlüssel, auch numerische. Fehlt ein Text in den Wörterbüchern, schreibt der Publisher den Quelltext. Lege eigene Überschreibungen in separaten Übersetzungsdateien ab oder [schließe](./configure.md#skip-files-and-force-integrations) die von dir selbst gepflegten generierten Ziele aus.
 
-Generierte PHP-Übersetzungsdateien behalten beim Laden numerische Schlüssel wie `404` bei. In einem nicht leeren verschachtelten PHP-Array erhält jeder Eintrag eine eigene Zeile. JSON-Übersetzungswörterbücher werden auf jeder Ebene als Objekte mit Zeichenkettenschlüsseln geschrieben, auch bei aufeinanderfolgenden numerischen Schlüsseln.
+In generierten PHP-Übersetzungsdateien schreibt der Publisher alle Schlüssel ausdrücklich als Zeichenketten, auch numerische Schlüssel wie `'404'`. Beim Laden der Datei wandelt PHP einen Schlüssel wie `'404'` in die Ganzzahl `404` um. In einem nicht leeren verschachtelten PHP-Array erhält jeder Eintrag eine eigene Zeile. JSON-Übersetzungswörterbücher werden auf jeder Ebene als Objekte mit Zeichenkettenschlüsseln geschrieben, auch bei aufeinanderfolgenden numerischen Schlüsseln.
 
 In den `validation.php`-Dateien der Anwendung setzt der Publisher die Schlüssel `custom` und `attributes` auf oberster Ebene in dieser Reihenfolge ans Ende, sofern sie vorhanden sind. Die übrigen Schlüssel auf oberster Ebene werden alphabetisch sortiert.
 

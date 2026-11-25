@@ -31,7 +31,7 @@ O Publisher identifica localidades a partir das localidades atual e de fallback 
 
 Os pacotes de tradução declaram os pacotes, versões e arquivos de destino compatíveis em [manifestos de plugins](./plugins.md). O Publisher combina os dicionários compartilhados e os dos pacotes, depois mescla as traduções em cada arquivo de destino. Ele preserva as chaves sem correspondência e substitui as chaves correspondentes, inclusive as numéricas. Quando uma frase está ausente dos dicionários, o Publisher grava a frase de origem. Mantenha suas substituições em arquivos de tradução separados ou [ignore](./configure.md#skip-files-and-force-integrations) os destinos gerados que você mantém.
 
-Os arquivos de tradução PHP gerados preservam chaves numéricas como `404` ao serem carregados. Cada item de um array PHP aninhado não vazio fica em uma linha própria. Os dicionários de tradução JSON são gravados como objetos com chaves de texto em todos os níveis, inclusive quando as chaves numéricas são consecutivas.
+Nos arquivos de tradução PHP gerados, o Publisher escreve explicitamente todas as chaves como strings, inclusive chaves numéricas como `'404'`. Ao carregar o arquivo, o PHP converte uma chave como `'404'` no inteiro `404`. Cada item de um array PHP aninhado não vazio fica em uma linha própria. Os dicionários de tradução JSON são gravados como objetos com chaves de texto em todos os níveis, inclusive quando as chaves numéricas são consecutivas.
 
 Nos arquivos `validation.php` da aplicação, o Publisher coloca as chaves de nível superior `custom` e `attributes` no fim do arquivo, nessa ordem, quando presentes. As demais chaves de nível superior ficam em ordem alfabética.
 

@@ -31,7 +31,7 @@ Publisher detecta las configuraciones regionales a partir de la actual y la de r
 
 Los paquetes de traducción declaran los paquetes, las versiones y los archivos de destino compatibles en los [manifiestos de complementos](./plugins.md). Publisher combina los diccionarios compartidos y los de cada paquete, e incorpora sus traducciones en cada archivo de destino. Conserva las claves ajenas a la actualización y reemplaza las claves coincidentes, incluidas las numéricas. Si una frase no existe en los diccionarios, Publisher escribe la frase original. Mantén las traducciones personalizadas en archivos separados o [excluye](./configure.md#skip-files-and-force-integrations) los destinos generados que mantienes tú mismo.
 
-Los archivos de traducción PHP generados conservan claves numéricas como `404` al cargarse. Cada elemento de un array PHP anidado no vacío ocupa su propia línea. Los diccionarios de traducción JSON se escriben como objetos con claves de texto en todos los niveles, incluso cuando las claves numéricas son consecutivas.
+En los archivos de traducción PHP que genera, Publisher escribe de forma explícita todas las claves como cadenas de texto, incluidas las numéricas como `'404'`. Al cargar el archivo, PHP convierte una clave como `'404'` en el entero `404`. Cada elemento de un array PHP anidado no vacío ocupa su propia línea. Los diccionarios de traducción JSON se escriben como objetos con claves de texto en todos los niveles, incluso cuando las claves numéricas son consecutivas.
 
 En los archivos `validation.php` de la aplicación, Publisher coloca las claves de nivel superior `custom` y `attributes` al final, en ese orden, cuando están presentes. Las demás claves de nivel superior se ordenan alfabéticamente.
 

@@ -25,7 +25,7 @@ php artisan lang:update
 
 Translation packs declare supported packages, versions, and target files in [plugin manifests](./plugins.md). The Publisher combines shared and package dictionaries, then merges their translations into each target file. It keeps unrelated keys and replaces matching keys, including numeric keys such as `404` in `http-statuses.php`. When a phrase is missing from the dictionaries, the Publisher writes the source phrase. Keep custom overrides in separate translation files or [skip](./configure.md#skip-files-and-force-integrations) the generated targets that you maintain yourself.
 
-Generated PHP translation files preserve numeric keys such as `404` when loaded. Each entry in a nonempty nested PHP array gets its own line. JSON translation dictionaries are written as objects with string keys at every level, including dictionaries with consecutive numeric keys.
+The Publisher explicitly writes all keys in generated PHP translation files as strings, including numeric keys such as `'404'`. When PHP loads the file, it converts a key such as `'404'` to the integer `404`. Each entry in a nonempty nested PHP array gets its own line. JSON translation dictionaries are written as objects with string keys at every level, including dictionaries with consecutive numeric keys.
 
 In the application's `validation.php` files, the Publisher places any top-level `custom` and `attributes` keys last, in that order. The other top-level keys are sorted alphabetically.
 

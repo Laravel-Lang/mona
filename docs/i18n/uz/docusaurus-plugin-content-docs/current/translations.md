@@ -31,7 +31,7 @@ Publisher lokallarni ilovaning joriy va zaxira lokali, til katalogi ildizidagi f
 
 Tarjima paketlari qo‘llab-quvvatlanadigan paket va versiyalarni, shuningdek maqsad fayllarini [plagin manifestlarida](./plugins.md) e’lon qiladi. Publisher umumiy va paket lug‘atlarini birlashtiradi, so‘ng tarjimalarni har bir maqsad fayliga qo‘shadi. U aloqasiz kalitlarni saqlaydi va mos keladigan kalitlarning qiymatini almashtiradi, bu sonli kalitlarga ham tegishli. Lug‘atlarda ibora topilmasa, Publisher manba iborani yozadi. O‘zingizga xos almashtirishlarni alohida tarjima fayllarida saqlang yoki mustaqil yuritadigan maqsad fayllarini [nashrdan chiqarib tashlang](./configure.md#skip-files-and-force-integrations).
 
-Yaratilgan PHP tarjima fayllari yuklanganda `404` kabi sonli kalitlar saqlanadi. Bo‘sh bo‘lmagan ichma-ich PHP massivining har bir elementi alohida satrga yoziladi. JSON tarjima lug‘atlari barcha darajalarda satrli kalitlarga ega obyektlar sifatida yoziladi, sonli kalitlar ketma-ket bo‘lganda ham.
+Publisher yaratilgan PHP tarjima fayllarida barcha kalitlarni, jumladan `'404'` kabi sonli kalitlarni, satr ko‘rinishida aniq yozadi. PHP faylni yuklaganda `'404'` kabi kalitni `404` butun soniga aylantiradi. Bo‘sh bo‘lmagan ichma-ich PHP massivining har bir elementi alohida satrga yoziladi. JSON tarjima lug‘atlari barcha darajalarda satrli kalitlarga ega obyektlar sifatida yoziladi, sonli kalitlar ketma-ket bo‘lganda ham.
 
 Ilovaning `validation.php` fayllarida Publisher yuqori darajadagi `custom` va `attributes` kalitlari mavjud bo‘lsa, ularni shu tartibda fayl oxiriga joylashtiradi. Yuqori darajadagi qolgan kalitlar alifbo tartibida saralanadi.
 
