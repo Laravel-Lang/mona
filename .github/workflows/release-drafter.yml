@@ -15,4 +15,4 @@ permissions:
 
 jobs:
     Update:
-        uses: Laravel-Lang/.github/.github/workflows/release-drafter.yml@main
+        uses: Laravel-Lang/.github/.github/workflows/release-drafter.yml@7c2f3051b68ae8965f0d8f674e6caaa63536cfa0 # main

@@ -20,7 +20,7 @@ jobs:
         outputs:
             directories: ${{ steps.set-dirs.outputs.directories }}
         steps:
-            -   uses: actions/checkout@v7
+            -   uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
             -   id: set-dirs
                 run: |
@@ -41,9 +41,9 @@ jobs:
         name: ${{ matrix.directory }}, p${{ matrix.php }}, l${{ matrix.laravel }}
 
         steps:
-            -   uses: actions/checkout@v7
+            -   uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-            -   uses: shivammathur/setup-php@v2
+            -   uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
                 with:
                     php-version: ${{ matrix.php }}
 
@@ -63,8 +63,8 @@ jobs:
         name: src/JsonFallback, p${{ matrix.php }}, dev-master
 
         steps:
-            -   uses: actions/checkout@v7
-            -   uses: shivammathur/setup-php@v2
+            -   uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            -   uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
                 with:
                     php-version: ${{ matrix.php }}
 
