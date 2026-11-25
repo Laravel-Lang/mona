@@ -412,8 +412,8 @@ test('publishes HTTP statuses by code and keeps the same codes on repeated updat
     $source = require dirname(__DIR__, 3) . '/src/HttpStatuses/source/http-statuses.php';
 
     writePublisherPackage('laravel-lang/http-statuses', [], ['http-statuses.php' => '{locale}/http-statuses.php'], [
-        'source/http-statuses.php'    => $source,
-        'locales/fr/default.json' => ['Not Found' => 'Introuvable'],
+        'source/http-statuses.php' => $source,
+        'locales/fr/default.json'  => ['Not Found' => 'Introuvable'],
     ]);
 
     $french = lang_path('fr/http-statuses.php');
