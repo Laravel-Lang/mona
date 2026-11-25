@@ -24,7 +24,6 @@ abstract class Processor
 
     /**
      * @param  array<array-key, mixed>  $default
-     *
      * @return array<array-key, mixed>
      */
     public function read(string $path, ?string $key = null, array $default = []): array
