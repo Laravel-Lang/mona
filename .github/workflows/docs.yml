@@ -1,0 +1,110 @@
+name: Documentation
+
+on:
+    workflow_dispatch:
+    release:
+        types:
+            - published
+
+concurrency:
+    group: pages
+    cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+    build:
+        name: Build Docusaurus
+        permissions:
+            contents: read
+            pages: write
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        defaults:
+            run:
+                working-directory: docs
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+                with:
+                    ref: ${{ github.sha }}
+                    persist-credentials: false
+
+            -   name: Setup Node.js
+                uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+                with:
+                    node-version-file: docs/.node-version
+                    cache: npm
+                    cache-dependency-path: docs/package-lock.json
+
+            -   name: Setup GitHub Pages
+                uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d
+
+            -   name: Configure SWC native cache
+                run: |
+                    swc_cache="$(mktemp -d /tmp/swc-native.XXXXXX)"
+                    printf 'SWC_NATIVE_BINDING_CACHE=%s\n' "$swc_cache" >> "$GITHUB_ENV"
+
+            -   name: Install dependencies
+                run: npm ci
+
+            -   name: Type check
+                run: npm run typecheck
+
+            -   name: Build documentation
+                run: npm run build
+
+            -   name: Upload GitHub Pages artifact
+                uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9
+                with:
+                    path: docs/build
+
+    deploy:
+        name: Deploy to GitHub Pages
+        needs: build
+        permissions:
+            id-token: write
+            pages: write
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+
+        steps:
+            -   name: Deploy documentation
+                id: deployment
+                uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346
+
+    context7:
+        name: Refresh Context7
+        needs: deploy
+        permissions:
+            id-token: write
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+
+        steps:
+            -   name: Refresh documentation
+                env:
+                    CONTEXT7_API_KEY: ${{ secrets.CONTEXT7_API_KEY }}
+                run: |
+                    response=$(curl --silent --show-error \
+                        --request POST \
+                        --url https://context7.com/api/v1/refresh \
+                        --header "Authorization: Bearer ${CONTEXT7_API_KEY}" \
+                        --header "Content-Type: application/json" \
+                        --data '{"libraryName":"/llmstxt/feeds_dragon-code_pro_llms_txt"}' \
+                        --write-out '\n%{http_code}')
+                    status="${response##*$'\n'}"
+                    body="${response%$'\n'*}"
+
+                    if [[ "${status}" == 2* ]]; then
+                        printf '%s\n' "${body}"
+                    elif [[ "${status}" == "400" && "${body}" == *"user-has-active-task"* ]]; then
+                        printf '%s\n' "Context7 refresh is already in progress."
+                    else
+                        printf '%s\n' "${body}" >&2
+                        exit 1
+                    fi
