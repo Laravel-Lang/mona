@@ -86,6 +86,15 @@ readonly class Filesystem
             : $this->storePhp($path, $items, $merge);
     }
 
+    /**
+     * @param  array<array-key, mixed>  $items
+     * @param  list<string>  $trailingKeys
+     */
+    public function storePhpArrayWithTrailingKeys(string $path, array $items, array $trailingKeys, bool $merge = false): void
+    {
+        $this->store($path, $this->phpProcessor->renderWithTrailingKeys($path, $items, $trailingKeys, $merge));
+    }
+
     public function store(string $path, string $content): void
     {
         $this->filesystem->ensureDirectoryExists(
