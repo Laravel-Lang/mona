@@ -17,8 +17,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function array_merge;
 use function array_replace;
 use function array_values;
+use function is_int;
+use function is_string;
 use function json_encode;
 use function ksort;
 use function rtrim;
@@ -27,9 +30,10 @@ use function rtrim;
     name       : 'migrate-locales',
     description: 'Convert a legacy Laravel-Lang project to Mona locale files',
     help       : <<<'HELP'
-        Reads source/ and locales/ from one legacy project and keeps the original files.
+        Reads source/ and locales/ from one legacy project and keeps files in source/.
         Writes default.json, inline.json, and _settings.json into locale subdirectories of the target.
         When a phrase already exists in the target dictionary, the migrated translation takes precedence.
+        Deletes migrated legacy dictionaries and exclusion files, including when a separate target is used.
         HELP,
     usages     : ['path/to/project --target=path/to/new/locales'],
 )]
@@ -71,13 +75,13 @@ final class MigrateLocalesCommand
             $targetPath = $target . '/' . $locale . '/_settings.json';
 
             $sourceData = $this->filesystem->read($sourcePath);
-            $targetData = $this->filesystem->read($targetPath)['excludes'] ?? [];
 
             if ($sourceData === []) {
                 continue;
             }
 
-            $data = array_values(array_merge($targetData, $sourceData));
+            $targetData = $this->filesystem->read($targetPath, 'excludes');
+            $data       = array_values(array_merge($targetData, $sourceData));
 
             ksort($data);
 
@@ -152,6 +156,7 @@ final class MigrateLocalesCommand
         }
     }
 
+    /** @param array<array-key, mixed> $keys */
     protected function processPhp(string $sourcePath, string $targetPath, array $keys): void
     {
         $sourceData = $this->filesystem->read($sourcePath);
@@ -171,6 +176,11 @@ final class MigrateLocalesCommand
         $this->filesystem->ensureDelete($sourcePath);
     }
 
+    /**
+     * @param  array<array-key, mixed>  $source
+     * @param  array<array-key, mixed>  $target
+     * @return array<array-key, mixed>
+     */
     protected function combine(array $source, array $target): array
     {
         $result = [];
@@ -178,7 +188,7 @@ final class MigrateLocalesCommand
         foreach ($target as $key => $value) {
             $newKey = $source[$key] ?? null;
 
-            if (! $newKey) {
+            if (! $newKey || (! is_int($newKey) && ! is_string($newKey))) {
                 continue;
             }
 
@@ -188,8 +198,9 @@ final class MigrateLocalesCommand
         return $result;
     }
 
+    /** @param array<array-key, mixed> $data */
     protected function encode(array $data): string
     {
-        return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        return json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 }

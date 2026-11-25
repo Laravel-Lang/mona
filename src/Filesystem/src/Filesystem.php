@@ -10,6 +10,7 @@ use LaravelLang\Filesystem\Processors\JsonProcessor;
 use LaravelLang\Filesystem\Processors\PhpProcessor;
 use Symfony\Component\Finder\SplFileInfo;
 
+use function array_values;
 use function base_path;
 use function dirname;
 use function mb_strtolower;
@@ -53,7 +54,7 @@ readonly class Filesystem
     /** @return list<SplFileInfo> */
     public function files(string $path): array
     {
-        return $this->filesystem->allFiles($path);
+        return array_values($this->filesystem->allFiles($path));
     }
 
     /**
