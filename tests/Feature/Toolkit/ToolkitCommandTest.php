@@ -87,7 +87,7 @@ it('prunes obsolete translations and preserves active translations and metadata'
             0 => 'Zéro', 1 => 'Un', 'Hello' => 'Bonjour', 'World' => 'Monde',
         ])
         ->and(json_decode($this->toolkitFilesystem->get($locales . '/fr/numeric.json'), flags: JSON_THROW_ON_ERROR))
-        ->toEqual(['0' => 'Zéro'])
+        ->toEqual((object) ['0' => 'Zéro'])
         ->and($this->toolkitFilesystem->get($locales . '/fr/_settings.json'))->toBe('{"excludes":["Hello"]}')
         ->and($this->toolkitFilesystem->get($locales . '/fr/_status.json'))->toBe('{"messages":{"Hello":"Hello"}}')
         ->and($this->toolkitFilesystem->get($locales . '/retired/messages.json'))->toBe('{"Obsolete":"Périmé"}');
