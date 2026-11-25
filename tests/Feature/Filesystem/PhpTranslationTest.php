@@ -18,18 +18,19 @@ test('replaces an existing PHP translation when merging is disabled', function (
     expect(require $path)->toBe(['nested' => ['new' => 'New translation']]);
 });
 
-test('preserves numeric PHP keys and formats each nested entry on its own line', function (bool $trailingKeys): void {
+test('quotes numeric PHP keys and formats each nested entry on its own line', function (bool $trailingKeys): void {
     $path       = lang_path('fr/statuses.php');
     $filesystem = app(Filesystem::class);
 
     file_put_contents($path, <<<'PHP'
-        <?php return ['Unknown Error', 100 => 'Continue', 'Switching Protocols', '04' => 'Zero-padded'];
+        <?php return ['Unknown Error', 100 => 'Continue', 'Switching Protocols', '04' => 'Zero-padded', -5 => 'Negative'];
         PHP);
 
     $translations = [
         'nested' => [
             'deep' => ['label' => 'Label'],
             'list' => ['First', 'Second'],
+            'text' => "An example:\n    '100' => 'Continue',",
         ],
         'z-last' => 'Last in sort order',
     ];
@@ -44,18 +45,23 @@ test('preserves numeric PHP keys and formats each nested entry on its own line',
     $written = require $path;
 
     expect($written)
-        ->toHaveCount(6)
+        ->toHaveCount(7)
         ->and($written[0])->toBe('Unknown Error')
         ->and($written[100])->toBe('Continue')
         ->and($written[101])->toBe('Switching Protocols')
         ->and($written['04'])->toBe('Zero-padded')
+        ->and($written[-5])->toBe('Negative')
         ->and($written['nested'])->toEqual($translations['nested'])
         ->and(array_key_last($written))->toBe($trailingKeys ? 'nested' : 'z-last');
 
     expect($content)
+        ->toMatch("/^    '-5'\\h*=> 'Negative',\\R/m")
+        ->toMatch("/^    '0'\\h*=> 'Unknown Error',\\R/m")
+        ->toMatch("/^    '100'\\h*=> 'Continue',\\R/m")
+        ->toMatch("/^    '101'\\h*=> 'Switching Protocols',\\R/m")
         ->toMatch("/^    'nested'\\h*=> \\[\\R/m")
         ->toMatch("/^        'deep'\\h*=> \\[\\R            'label'\\h*=> 'Label',\\R        \\],\\R/m")
-        ->toMatch("/^        'list'\\h*=> \\[\\R            'First',\\R            'Second',\\R        \\],\\R/m");
+        ->toMatch("/^        'list'\\h*=> \\[\\R            '0'\\h*=> 'First',\\R            '1'\\h*=> 'Second',\\R        \\],\\R/m");
 })->with([
     'normal publishing' => false,
     'trailing keys'     => true,
