@@ -1,518 +1,141 @@
 {
-    "af": {
-        "native": "Afrikaans",
-        "localized": "Afrikaanka"
-    },
-    "ak": {
-        "native": "Akan",
-        "localized": "Akan"
-    },
-    "am": {
-        "native": "አማርኛ",
-        "localized": "Axmaar"
-    },
-    "ar": {
-        "native": "العربية",
-        "localized": "Carabi"
-    },
-    "as": {
-        "native": "অসমীয়া",
-        "localized": "Asaamiis"
-    },
-    "az": {
-        "native": "Azərbaycan",
-        "localized": "Asarbayjan"
-    },
-    "be": {
-        "native": "Беларуская",
-        "localized": "Beleruusiyaan"
-    },
-    "bg": {
-        "native": "Български",
-        "localized": "Bulgeeriyaan"
-    },
-    "bho": {
-        "native": "भोजपुरी",
-        "localized": "U Dhashay Bhohp"
-    },
-    "bm": {
-        "native": "Bamanakan",
-        "localized": "Bambaara"
-    },
-    "bn": {
-        "native": "বাংলা",
-        "localized": "Bangladesh"
-    },
+    "af": { "code": "ZAR", "numeric": 710, "native": "Suid-Afrikaanse rand", "localized": "Randka Koonfur Afrika" },
+    "ak": { "code": "GHS", "numeric": 936, "native": "Ghana Sidi", "localized": "Sedida Gana" },
+    "am": { "code": "ETB", "numeric": 230, "native": "የኢትዮጵያ ብር", "localized": "Birta Itoobbiya" },
+    "ar": { "code": "EGP", "numeric": 818, "native": "جنيه مصري", "localized": "Bowndka Masar" },
+    "as": { "code": "INR", "numeric": 356, "native": "ভাৰতীয় ৰুপী", "localized": "Rubiga Hindiya" },
+    "az": { "code": "AZN", "numeric": 944, "native": "Azərbaycan Manatı", "localized": "Manaata Asarbeyjan" },
+    "be": { "code": "BYN", "numeric": 840, "native": "беларускі рубель", "localized": "Rubalka Belarus" },
+    "bg": { "code": "BGN", "numeric": 975, "native": "Български лев", "localized": "Lefta Bulgariya" },
+    "bho": { "code": "INR", "numeric": 356, "native": "INR", "localized": "Rubiga Hindiya" },
+    "bm": { "code": "XOF", "numeric": 952, "native": "sefa Fraŋ (BCEAO)", "localized": "Faranka CFA Galbeedka Afrika" },
+    "bn": { "code": "BDT", "numeric": 50, "native": "বাংলাদেশী টাকা", "localized": "Taka Bangledesh" },
     "bs": {
-        "native": "Bosanski",
-        "localized": "Bosniyaan"
-    },
-    "ca": {
-        "native": "Català",
-        "localized": "Katalaan"
-    },
-    "ceb": {
-        "native": "Cebuano",
-        "localized": "Sebuano"
-    },
-    "ckb": {
-        "native": "کوردیی ناوەندی",
-        "localized": "Bartamaha Kurdish"
-    },
-    "cs": {
-        "native": "Čeština",
-        "localized": "Jeeg"
-    },
-    "cy": {
-        "native": "Cymraeg",
-        "localized": "Welsh"
-    },
-    "da": {
-        "native": "Dansk",
-        "localized": "Dhaanish"
-    },
-    "de": {
-        "native": "Deutsch",
-        "localized": "Jarmal"
-    },
-    "de_AT": {
-        "native": "Deutsch (Österreich)",
-        "localized": "Jarmal (Awsteriya)"
-    },
-    "de_CH": {
-        "native": "Deutsch (Schweiz)",
-        "localized": "Jarmal (Swiiserlaand)"
-    },
-    "doi": {
-        "native": "डोगरी",
-        "localized": "Dogri"
-    },
-    "ee": {
-        "native": "Eʋegbe",
-        "localized": "Eewe"
-    },
-    "el": {
-        "native": "Ελληνικά",
-        "localized": "Giriik"
-    },
-    "en": {
-        "native": "English",
-        "localized": "Ingiriisi"
-    },
-    "en_CA": {
-        "native": "English (Canada)",
-        "localized": "Ingiriisi (Kanada)"
-    },
-    "eo": {
-        "native": "Esperanto",
-        "localized": "Isberaanto"
-    },
-    "es": {
-        "native": "Español",
-        "localized": "Isbaanish"
-    },
-    "et": {
-        "native": "Eesti",
-        "localized": "Istooniyaan"
-    },
-    "eu": {
-        "native": "Euskara",
-        "localized": "Basquu"
-    },
-    "fa": {
-        "native": "فارسی",
-        "localized": "Faarisi"
-    },
-    "fi": {
-        "native": "Suomi",
-        "localized": "Finishka"
-    },
-    "fil": {
-        "native": "Filipino",
-        "localized": "Filibiino"
-    },
-    "fr": {
-        "native": "Français",
-        "localized": "Faransiis"
-    },
-    "fy": {
-        "native": "Frysk",
-        "localized": "Firiisiyan Galbeed"
-    },
-    "ga": {
-        "native": "Gaeilge",
-        "localized": "Ayrish"
-    },
-    "gd": {
-        "native": "Gàidhlig",
-        "localized": "Iskot Giilik"
-    },
-    "gl": {
-        "native": "Galego",
-        "localized": "Galiisiyaan"
-    },
-    "gu": {
-        "native": "ગુજરાતી",
-        "localized": "Gujaraati"
-    },
-    "ha": {
-        "native": "Hausa",
-        "localized": "Hawsa"
-    },
-    "haw": {
-        "native": "ʻŌlelo Hawaiʻi",
-        "localized": "Hawaay"
-    },
-    "he": {
-        "native": "עברית",
-        "localized": "Cibraani"
-    },
-    "hi": {
-        "native": "हिन्दी",
-        "localized": "Hindi"
-    },
-    "hr": {
-        "native": "Hrvatski",
-        "localized": "Koro’eeshiyaan"
-    },
-    "ht": {
-        "native": "Créole Haïtien",
-        "localized": "Heeytiyaan Karawle"
-    },
-    "hu": {
-        "native": "Magyar",
-        "localized": "Hangariyaan"
-    },
-    "hy": {
-        "native": "Հայերեն",
-        "localized": "Armeeniyaan"
-    },
-    "id": {
-        "native": "Indonesia",
-        "localized": "Indunusiyaan"
-    },
-    "ig": {
-        "native": "Igbo",
-        "localized": "Igbo"
-    },
-    "is": {
-        "native": "Íslenska",
-        "localized": "Ayslandays"
-    },
-    "it": {
-        "native": "Italiano",
-        "localized": "Talyaani"
-    },
-    "ja": {
-        "native": "日本語",
-        "localized": "Jabaaniis"
-    },
-    "ka": {
-        "native": "ქართული",
-        "localized": "Joorijiyaan"
-    },
-    "kk": {
-        "native": "Қазақ Тілі",
-        "localized": "Kasaaq"
-    },
-    "km": {
-        "native": "ខ្មែរ",
-        "localized": "Kamboodhian"
-    },
-    "kn": {
-        "native": "ಕನ್ನಡ",
-        "localized": "Kannadays"
-    },
-    "ko": {
-        "native": "한국어",
-        "localized": "Kuuriyaan"
-    },
-    "ku": {
-        "native": "Kurdî",
-        "localized": "Kurdishka"
-    },
-    "ky": {
-        "native": "Кыргызча",
-        "localized": "Kirgiis"
-    },
-    "lb": {
-        "native": "Lëtzebuergesch",
-        "localized": "Luksaamboorgish"
-    },
-    "lg": {
-        "native": "Luganda",
-        "localized": "Gandha"
-    },
-    "ln": {
-        "native": "Lingála",
-        "localized": "Lingala"
-    },
-    "lo": {
-        "native": "ລາວ",
-        "localized": "Lao"
-    },
-    "lt": {
-        "native": "Lietuvių",
-        "localized": "Lituwaanays"
-    },
-    "lv": {
-        "native": "Latviešu",
-        "localized": "Laatfiyaan"
-    },
-    "mai": {
-        "native": "मैथिली",
-        "localized": "Dadka Maithili"
-    },
-    "mg": {
-        "native": "Malagasy",
-        "localized": "Malagaasi"
-    },
-    "mi": {
-        "native": "Māori",
-        "localized": "Maaoori"
-    },
-    "mk": {
-        "native": "Македонски",
-        "localized": "Masadooniyaan"
-    },
-    "ml": {
-        "native": "മലയാളം",
-        "localized": "Malayalam"
-    },
-    "mn": {
-        "native": "Монгол",
-        "localized": "Mangooli"
-    },
-    "mni_Mtei": {
-        "native": "Manipuri",
-        "localized": "Maniburi"
-    },
-    "mr": {
-        "native": "मराठी",
-        "localized": "Maarati"
-    },
-    "ms": {
-        "native": "Melayu",
-        "localized": "Malaay"
-    },
-    "mt": {
-        "native": "Malti",
-        "localized": "Maltiis"
-    },
-    "my": {
-        "native": "မြန်မာ",
-        "localized": "Burmese"
-    },
-    "nb": {
-        "native": "Norsk Bokmål",
-        "localized": "Nawrijii Bokmål"
-    },
-    "ne": {
-        "native": "नेपाली",
-        "localized": "Nebaali"
-    },
-    "nl": {
-        "native": "Nederlands",
-        "localized": "Holandays"
-    },
-    "nn": {
-        "native": "Norsk Nynorsk",
-        "localized": "Nawriijiga Nynorsk"
-    },
-    "oc": {
-        "native": "Occitan",
-        "localized": "Occitan"
-    },
-    "om": {
-        "native": "Oromoo",
-        "localized": "Oromo"
-    },
-    "or": {
-        "native": "ଓଡ଼ିଆ",
-        "localized": "Oodhiya"
-    },
-    "pa": {
-        "native": "ਪੰਜਾਬੀ",
-        "localized": "Bunjaabi"
-    },
-    "pl": {
-        "native": "Polski",
-        "localized": "Boolish"
-    },
-    "ps": {
-        "native": "پښتو",
-        "localized": "Bashtuu"
-    },
-    "pt": {
-        "native": "Português",
-        "localized": "Boortaqiis"
-    },
-    "pt_BR": {
-        "native": "Português (Brasil)",
-        "localized": "Boortaqiis (Baraasiil)"
-    },
-    "qu": {
-        "native": "Runasimi",
-        "localized": "Quwejuwa"
-    },
-    "ro": {
-        "native": "Română",
-        "localized": "Romanka"
-    },
-    "ru": {
-        "native": "Русский",
-        "localized": "Ruush"
-    },
-    "rw": {
-        "native": "Kinyarwanda",
-        "localized": "Ruwaandha"
-    },
-    "sa": {
-        "native": "संस्कृत भाषा",
-        "localized": "Sanskrit"
-    },
-    "sc": {
-        "native": "Sardu",
-        "localized": "Sardinian"
-    },
-    "sd": {
-        "native": "سنڌي",
-        "localized": "Siindhi"
-    },
-    "si": {
-        "native": "සිංහල",
-        "localized": "Sinhaleys"
-    },
-    "sk": {
-        "native": "Slovenčina",
-        "localized": "Isloofaak"
-    },
-    "sl": {
-        "native": "Slovenščina",
-        "localized": "Islofeeniyaan"
-    },
-    "sn": {
-        "native": "Chishona",
-        "localized": "Shoona"
-    },
-    "so": {
-        "native": "Soomaali",
-        "localized": "Soomaali"
-    },
-    "sq": {
-        "native": "Shqip",
-        "localized": "Albeeniyaan"
-    },
-    "sr_Cyrl": {
-        "native": "Српски",
-        "localized": "Seerbiyaan"
-    },
-    "sr_Latn": {
-        "native": "Srpski",
-        "localized": "Seerbiyaan"
-    },
-    "sr_Latn_ME": {
-        "native": "Srpski (Crna Gora)",
-        "localized": "Seerbiyaan (Moontenegro)"
-    },
-    "su": {
-        "native": "Basa Sunda",
-        "localized": "Suudaaniis"
-    },
-    "sv": {
-        "native": "Svenska",
-        "localized": "Iswiidhish"
-    },
-    "sw": {
-        "native": "Kiswahili",
-        "localized": "Sawaaxili"
-    },
-    "ta": {
-        "native": "தமிழ்",
-        "localized": "Tamiil"
-    },
-    "te": {
-        "native": "తెలుగు",
-        "localized": "Teluugu"
-    },
-    "tg": {
-        "native": "Тоҷикӣ",
-        "localized": "Taajik"
-    },
-    "th": {
-        "native": "ไทย",
-        "localized": "Taaylandays"
-    },
-    "ti": {
-        "native": "ትግርኛ",
-        "localized": "Tigrinya"
-    },
-    "tk": {
-        "native": "Türkmen Dili",
-        "localized": "Turkumaanish"
-    },
-    "tl": {
-        "native": "Tagalog",
-        "localized": "Tagalog"
-    },
-    "tr": {
-        "native": "Türkçe",
-        "localized": "Turkish"
-    },
-    "tt": {
-        "native": "Татар",
-        "localized": "Taatar"
-    },
-    "ug": {
-        "native": "ئۇيغۇرچە",
-        "localized": "Uighur"
-    },
-    "uk": {
-        "native": "Українська",
-        "localized": "Yukreeniyaan"
-    },
-    "ur": {
-        "native": "اردو",
-        "localized": "Urduu"
-    },
-    "uz_Cyrl": {
-        "native": "Ўзбекча",
-        "localized": "Usbakis"
-    },
-    "uz_Latn": {
-        "native": "O‘zbek",
-        "localized": "Usbakis"
-    },
-    "vi": {
-        "native": "Tiếng Việt",
-        "localized": "Fiitnaamays"
-    },
+        "code": "BAM",
+        "numeric": 977,
+        "native": "Bosanskohercegovačka konvertibilna marka",
+        "localized": "Konfatibal Maakta Bosnia-Hersogofina"
+    },
+    "ca": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "Yuuroo" },
+    "ceb": { "code": "PHP", "numeric": 608, "native": "Philippine Peso", "localized": "Biso Filibin" },
+    "ckb": { "code": "IQD", "numeric": 368, "native": "IQD", "localized": "Dinaarka Ciraaq" },
+    "cs": { "code": "CZK", "numeric": 203, "native": "česká koruna", "localized": "Korunada Jeek" },
+    "cy": { "code": "GBP", "numeric": 826, "native": "Punt Prydain", "localized": "Bowndka Biritishka" },
+    "da": { "code": "DKK", "numeric": 208, "native": "dansk krone", "localized": "Koronka Danishka" },
+    "de": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "Yuuroo" },
+    "de_AT": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "Yuuroo" },
+    "de_CH": { "code": "CHF", "numeric": 756, "native": "Schweizer Franken", "localized": "Faranka Iswiska" },
+    "doi": { "code": "INR", "numeric": 356, "native": "भारती रपेऽ", "localized": "Rubiga Hindiya" },
+    "ee": { "code": "GHS", "numeric": 936, "native": "ghana siɖi", "localized": "Sedida Gana" },
+    "el": { "code": "EUR", "numeric": 978, "native": "Ευρώ", "localized": "Yuuroo" },
+    "en": { "code": "USD", "numeric": 840, "native": "US Dollar", "localized": "Doolarka Mareeykanka" },
+    "en_CA": { "code": "CAD", "numeric": 124, "native": "Canadian Dollar", "localized": "Doolarka Kanada" },
+    "eo": { "code": "USD", "numeric": 840, "native": "", "localized": "" },
+    "es": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "Yuuroo" },
+    "et": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "Yuuroo" },
+    "eu": { "code": "EUR", "numeric": 978, "native": "euroa", "localized": "Yuuroo" },
+    "fa": { "code": "IRR", "numeric": 364, "native": "ریال ایران", "localized": "Riyaalka Iran" },
+    "fi": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "Yuuroo" },
+    "fil": { "code": "PHP", "numeric": 608, "native": "Piso ng Pilipinas", "localized": "Biso Filibin" },
+    "fr": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "Yuuroo" },
+    "fy": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "Yuuroo" },
+    "ga": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "Yuuroo" },
+    "gd": { "code": "GBP", "numeric": 826, "native": "Punnd Sasannach", "localized": "Bowndka Biritishka" },
+    "gl": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "Yuuroo" },
+    "gu": { "code": "INR", "numeric": 356, "native": "ભારતીય રૂપિયા", "localized": "Rubiga Hindiya" },
+    "ha": { "code": "NGN", "numeric": 566, "native": "Nairar Najeriya", "localized": "Nairada Neyjeeriya" },
+    "haw": { "code": "USD", "numeric": 840, "native": "USD", "localized": "Doolarka Mareeykanka" },
+    "he": { "code": "ILS", "numeric": 376, "native": "שקל חדש", "localized": "Niyuu Shekelka Israaiil" },
+    "hi": { "code": "INR", "numeric": 356, "native": "भारतीय रुपया", "localized": "Rubiga Hindiya" },
+    "hr": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "Yuuroo" },
+    "ht": { "code": "HTG", "numeric": 332, "native": "gourde haïtienne", "localized": "Goordada Hiyati" },
+    "hu": { "code": "HUF", "numeric": 348, "native": "magyar forint", "localized": "Forintiska Hangari" },
+    "hy": { "code": "AMD", "numeric": 51, "native": "հայկական դրամ", "localized": "Daraamka Armeniya" },
+    "id": { "code": "IDR", "numeric": 360, "native": "Rupiah Indonesia", "localized": "Rubiah Indonesiya" },
+    "ig": { "code": "NGN", "numeric": 566, "native": "Naịra", "localized": "Nairada Neyjeeriya" },
+    "is": { "code": "ISK", "numeric": 352, "native": "íslensk króna", "localized": "Koronada Eysland" },
+    "it": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "Yuuroo" },
+    "ja": { "code": "JPY", "numeric": 392, "native": "日本円", "localized": "Yenta Jabaan" },
+    "ka": { "code": "GEL", "numeric": 981, "native": "ქართული ლარი", "localized": "Laariga Joorjiya" },
+    "kk": { "code": "KZT", "numeric": 398, "native": "Қазақстан теңгесі", "localized": "Tengeda Kasakhstan" },
+    "km": { "code": "KHR", "numeric": 116, "native": "រៀល​កម្ពុជា", "localized": "Riyf kambodiya" },
+    "kn": { "code": "INR", "numeric": 356, "native": "ಭಾರತೀಯ ರೂಪಾಯಿ", "localized": "Rubiga Hindiya" },
+    "ko": { "code": "KRW", "numeric": 410, "native": "대한민국 원", "localized": "Wonka Koonfur Kuuriya" },
+    "ku": { "code": "TRY", "numeric": 949, "native": "TRY", "localized": "Liirada Turkiga" },
+    "ky": { "code": "KGS", "numeric": 417, "native": "Кыргызстан сому", "localized": "Somta Kiyrgiystan" },
+    "lb": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "Yuuroo" },
+    "lg": { "code": "UGX", "numeric": 800, "native": "Silingi eya Yuganda", "localized": "Shilingka Yugandha" },
+    "ln": { "code": "CDF", "numeric": 976, "native": "Falánga ya Kongó", "localized": "Faranka Kongo" },
+    "lo": { "code": "LAK", "numeric": 418, "native": "ລາວ ກີບ", "localized": "Kib Laoti" },
+    "lt": { "code": "EUR", "numeric": 978, "native": "Euras", "localized": "Yuuroo" },
+    "lv": { "code": "EUR", "numeric": 978, "native": "eiro", "localized": "Yuuroo" },
+    "mai": { "code": "INR", "numeric": 356, "native": "भारतीय रुपया", "localized": "Rubiga Hindiya" },
+    "mg": { "code": "MGA", "numeric": 969, "native": "Ariary", "localized": "Arayrida Madagaskar" },
+    "mi": { "code": "NZD", "numeric": 554, "native": "Tāra o Aotearoa", "localized": "Doolarka Niyuu Siyalaan" },
+    "mk": { "code": "MKD", "numeric": 807, "native": "Македонски денар", "localized": "Denaarka Masedoniya" },
+    "ml": { "code": "INR", "numeric": 356, "native": "ഇന്ത്യൻ രൂപ", "localized": "Rubiga Hindiya" },
+    "mn": { "code": "MNT", "numeric": 496, "native": "Монгол төгрөг", "localized": "Tugrikta Mongoliya" },
+    "mni_Mtei": { "code": "INR", "numeric": 356, "native": "Indian Rupee", "localized": "Rubiga Hindiya" },
+    "mr": { "code": "INR", "numeric": 356, "native": "भारतीय रुपया", "localized": "Rubiga Hindiya" },
+    "ms": { "code": "MYR", "numeric": 458, "native": "Ringgit Malaysia", "localized": "Ringitda Malayshiya" },
+    "mt": { "code": "EUR", "numeric": 978, "native": "ewro", "localized": "Yuuroo" },
+    "my": { "code": "MMK", "numeric": 104, "native": "မြန်မာ ကျပ်", "localized": "Kayatda Mayanmaar" },
+    "nb": { "code": "NOK", "numeric": 578, "native": "norske kroner", "localized": "Koronka Norway" },
+    "ne": { "code": "NPR", "numeric": 524, "native": "नेपाली रूपैयाँ", "localized": "Rubiga Nebal" },
+    "nl": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "Yuuroo" },
+    "nn": { "code": "NOK", "numeric": 578, "native": "norske kroner", "localized": "Koronka Norway" },
+    "oc": { "code": "EUR", "numeric": 978, "native": "EUR", "localized": "Yuuroo" },
+    "om": { "code": "ETB", "numeric": 230, "native": "Itoophiyaa Birrii", "localized": "Birta Itoobbiya" },
+    "or": { "code": "INR", "numeric": 356, "native": "ଭାରତୀୟ ଟଙ୍କା", "localized": "Rubiga Hindiya" },
+    "pa": { "code": "INR", "numeric": 356, "native": "ਭਾਰਤੀ ਰੁਪਇਆ", "localized": "Rubiga Hindiya" },
+    "pl": { "code": "PLN", "numeric": 985, "native": "złoty polski", "localized": "Solotida Bolaan" },
+    "ps": { "code": "AFN", "numeric": 971, "native": "افغانۍ", "localized": "Afgan Afgani" },
+    "pt": { "code": "BRL", "numeric": 986, "native": "Real brasileiro", "localized": "Realka Barasil" },
+    "pt_BR": { "code": "BRL", "numeric": 986, "native": "Real brasileiro", "localized": "Realka Barasil" },
+    "qu": { "code": "PEN", "numeric": 604, "native": "Sol Peruano", "localized": "Solsha Beeru" },
+    "ro": { "code": "RON", "numeric": 946, "native": "leu românesc", "localized": "Liyuuda Romaniya" },
+    "ru": { "code": "RUB", "numeric": 643, "native": "российский рубль", "localized": "Rubalka Ruushka" },
+    "rw": { "code": "RWF", "numeric": 646, "native": "RWF", "localized": "Faranka Ruwanda" },
+    "sa": { "code": "INR", "numeric": 356, "native": "भारतीय रूप्यकम्", "localized": "Rubiga Hindiya" },
+    "sc": { "code": "EUR", "numeric": 978, "native": "èuro", "localized": "Yuuroo" },
+    "sd": { "code": "PKR", "numeric": 586, "native": "پاڪستاني رپي", "localized": "Rubiga Bakistan" },
+    "si": { "code": "LKR", "numeric": 144, "native": "ශ්‍රී ලංකා රුපියල", "localized": "Rubiga Siri lanka" },
+    "sk": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "Yuuroo" },
+    "sl": { "code": "EUR", "numeric": 978, "native": "evro", "localized": "Yuuroo" },
+    "sn": { "code": "USD", "numeric": 840, "native": "Dora re Amerika", "localized": "Doolarka Mareeykanka" },
+    "so": { "code": "SOS", "numeric": 706, "native": "Shilingka Soomaaliya", "localized": "Shilingka Soomaaliya" },
+    "sq": { "code": "ALL", "numeric": 8, "native": "Leku shqiptar", "localized": "Lekta Albaniya" },
+    "sr_Cyrl": { "code": "RSD", "numeric": 941, "native": "српски динар", "localized": "Dinaarka Serbiya" },
+    "sr_Latn": { "code": "RSD", "numeric": 941, "native": "srpski dinar", "localized": "Dinaarka Serbiya" },
+    "sr_Latn_ME": { "code": "EUR", "numeric": 978, "native": "Evro", "localized": "Yuuroo" },
+    "su": { "code": "IDR", "numeric": 360, "native": "Rupee Indonésia", "localized": "Rubiah Indonesiya" },
+    "sv": { "code": "SEK", "numeric": 752, "native": "svensk krona", "localized": "Koronka Isweden" },
+    "sw": { "code": "TZS", "numeric": 834, "native": "Shilingi ya Tanzania", "localized": "Shilingka Tansaaniya" },
+    "ta": { "code": "INR", "numeric": 356, "native": "இந்திய ரூபாய்", "localized": "Rubiga Hindiya" },
+    "te": { "code": "INR", "numeric": 356, "native": "భారతదేశ రూపాయి", "localized": "Rubiga Hindiya" },
+    "tg": { "code": "TJS", "numeric": 972, "native": "Сомонӣ", "localized": "Somoonida Tajikistan" },
+    "th": { "code": "THB", "numeric": 764, "native": "บาท", "localized": "Baatka Taylaan" },
+    "ti": { "code": "ETB", "numeric": 230, "native": "ብር", "localized": "Birta Itoobbiya" },
+    "tk": { "code": "TMT", "numeric": 934, "native": "Türkmen manady", "localized": "Manaata Turkmenistan" },
+    "tl": { "code": "PHP", "numeric": 608, "native": "Philippine Peso", "localized": "Biso Filibin" },
+    "tr": { "code": "TRY", "numeric": 949, "native": "Türk Lirası", "localized": "Liirada Turkiga" },
+    "tt": { "code": "RUB", "numeric": 643, "native": "Россия сумы", "localized": "Rubalka Ruushka" },
+    "ug": { "code": "CNY", "numeric": 156, "native": "جۇڭگو يۈەنى", "localized": "Yuwanta Shiinaha" },
+    "uk": { "code": "UAH", "numeric": 980, "native": "українська гривня", "localized": "Hirfiniyada Yukreeyn" },
+    "ur": { "code": "PKR", "numeric": 586, "native": "پاکستانی روپیہ", "localized": "Rubiga Bakistan" },
+    "uz_Cyrl": { "code": "UZS", "numeric": 860, "native": "Ўзбекистон сўм", "localized": "Somta Usbekistan" },
+    "uz_Latn": { "code": "UZS", "numeric": 860, "native": "O‘zbekiston so‘mi", "localized": "Somta Usbekistan" },
+    "vi": { "code": "VND", "numeric": 704, "native": "Đồng Việt Nam", "localized": "Dongta Fitnaam" },
     "xh": {
-        "native": "Isixhosa",
-        "localized": "Hoosta"
+        "code": "ZAR",
+        "numeric": 710,
+        "native": "IRandi yaseMzantsi Afrika",
+        "localized": "Randka Koonfur Afrika"
     },
-    "yi": {
-        "native": "ייִדיש",
-        "localized": "Yadhish"
-    },
-    "yo": {
-        "native": "Èdè Yorùbá",
-        "localized": "Yoruuba"
-    },
-    "zh_CN": {
-        "native": "中文 (中国)",
-        "localized": "Shiinaha Mandarin (Shiinaha)"
-    },
-    "zh_HK": {
-        "native": "中文 (中国香港特别行政区)",
-        "localized": "Shiinaha Mandarin (Hong Kong)"
-    },
-    "zh_TW": {
-        "native": "中文 (台湾)",
-        "localized": "Shiinaha Mandarin (Taywaan)"
-    },
-    "zu": {
-        "native": "Isizulu",
-        "localized": "Zuulu"
-    }
+    "yi": { "code": "USD", "numeric": 840, "native": "", "localized": "" },
+    "yo": { "code": "NGN", "numeric": 566, "native": "Náírà Nàìjíríà", "localized": "Nairada Neyjeeriya" },
+    "zh_CN": { "code": "CNY", "numeric": 156, "native": "人民币", "localized": "Yuwanta Shiinaha" },
+    "zh_HK": { "code": "HKD", "numeric": 344, "native": "港元", "localized": "Doolarka Hoon Koon" },
+    "zh_TW": { "code": "TWD", "numeric": 901, "native": "新台币", "localized": "Doolarka Taywaanta Cusub" },
+    "zu": { "code": "ZAR", "numeric": 710, "native": "i-South African Rand", "localized": "Randka Koonfur Afrika" }
 }
