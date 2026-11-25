@@ -1,6 +1,7 @@
 {
     "excludes": [
         "Admin",
+        "OK",
         "Start",
         "filter",
         "status",
