@@ -183,11 +183,19 @@
 - [x] Обновить файлы переводов через утилиту миграции.
 - [x] Очистить проект от технических файлов.
 - [ ] Создать и настроить репозитории:
-    - [ ] Заархивировать
-        - [ ] Native Country Names
-        - [ ] Native Currency Names
-        - [ ] Native Locale Names
-    - [ ] Создать:
+    - [x] Заархивировать
+        - [x] Native Country Names
+        - [x] Native Currency Names
+        - [x] Native Locale Names
+    - [x] Создать:
+        - [x] Country Names
+        - [x] Currency Names
+        - [x] Exceptions
+        - [x] Filesystem
+        - [x] Library
+        - [x] Locale Names
+        - [x] Toolkit
+    - [ ] Настроить:
         - [ ] Country Names
         - [ ] Currency Names
         - [ ] Exceptions
