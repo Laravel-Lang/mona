@@ -1,6 +1,7 @@
 name: Autolabeler
 
 on:
+    # Fork PR labeling requires an Actions policy allowing this event for this workflow.
     pull_request_target:
         types:
             - opened
