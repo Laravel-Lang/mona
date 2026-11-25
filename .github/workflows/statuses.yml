@@ -18,9 +18,11 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            -   uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+            -   uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+            -   uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
                 with:
-                    ref: main
+                    node-version: 'latest'
 
             -   uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
                 with:
@@ -28,7 +30,9 @@ jobs:
                     extensions: intl, zip
 
             -   name: Install dependencies
-                run: composer update --no-progress --no-interaction
+                run: |
+                    composer update --no-progress --no-interaction
+                    npm i
 
             -   name: Update status
                 run: |
@@ -38,6 +42,11 @@ jobs:
                     php src/Toolkit/bin/toolkit status src/Lang
                     php src/Toolkit/bin/toolkit status src/MoonShine
                     php src/Toolkit/bin/toolkit status src/StarterKits
+
+            -   name: Fix styles
+                run: |
+                    npx biome lint --write
+                    npx biome format --write
 
             -   name: Create a Pull Request
                 uses: peter-evans/create-pull-request@3ffccacd46053766916f087ce41d627c0b8cf2d1 # v8.1.3
