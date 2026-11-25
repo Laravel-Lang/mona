@@ -1,0 +1,9 @@
+{
+    "excludes": [
+        "Action",
+        "Actions",
+        "Archive",
+        "Image",
+        "Introduction"
+    ]
+}

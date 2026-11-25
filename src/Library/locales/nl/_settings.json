@@ -1,0 +1,8 @@
+{
+    "excludes": [
+        "Details",
+        "Open",
+        "Start",
+        "Stop"
+    ]
+}
