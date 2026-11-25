@@ -28,9 +28,9 @@ it('migrates legacy dictionaries to an explicit or default target', function (bo
 
     $fixtures = [
         $jsonSource                   => '{"greeting":"Hello","invalid":"Invalid :ATTRIBUTE"}',
-        $phpSource                    => '<?php return ["nested" => ["name" => "Name", "invalid" => "Missing :attribute", "required" => "Required :attribute"]];',
+        $phpSource                    => '<?php return ["nested" => ["name" => "Name", "status" => 403, "unsupported" => true, "invalid" => "Missing :attribute", "required" => "Required :attribute"]];',
         $legacy . '/json.json'        => '{"Hello":"Bonjour","0":"0","Name":"Nom JSON"}',
-        $legacy . '/php.json'         => '{"nested.name":"Nom","nested.obsolete":"Ancien"}',
+        $legacy . '/php.json'         => '{"nested.name":"Nom","nested.status":"Interdit","nested.unsupported":"Invalide","nested.obsolete":"Ancien"}',
         $legacy . '/json-inline.json' => '{"Invalid :ATTRIBUTE":"Attribut invalide"}',
         $legacy . '/php-inline.json'  => '{"nested.invalid":"Attribut manquant","nested.required":"Attribut requis"}',
         $legacy . '/_excludes.json'   => '["Name","Hello"]',
@@ -46,6 +46,7 @@ it('migrates legacy dictionaries to an explicit or default target', function (bo
     expect($tester->getStatusCode())->toBe(Command::SUCCESS, $tester->getErrorOutput())
         ->and($filesystem->json($locale . '/default.json'))->toBe([
             0                  => '0',
+            403                => 'Interdit',
             'Another greeting' => 'Bonjour',
             'Hello'            => 'Bonjour',
             'Name'             => 'Nom',
