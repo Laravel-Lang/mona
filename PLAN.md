@@ -195,14 +195,14 @@
         - [x] Library
         - [x] Locale Names
         - [x] Toolkit
-    - [ ] Настроить:
-        - [ ] Country Names
-        - [ ] Currency Names
-        - [ ] Exceptions
-        - [ ] Filesystem
-        - [ ] Library
-        - [ ] Locale Names
-        - [ ] Toolkit
+    - [x] Настроить:
+        - [x] Country Names
+        - [x] Currency Names
+        - [x] Exceptions
+        - [x] Filesystem
+        - [x] Library
+        - [x] Locale Names
+        - [x] Toolkit
 - [ ] Реализовать split репозитории (посмотреть как это сделано в
   MoonShine https://github.com/moonshine-software/moonshine/blob/5.x/repair-monorepo.sh).
 - [ ] Перевести Mona в публичную область видимости.
