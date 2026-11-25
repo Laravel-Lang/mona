@@ -518,6 +518,34 @@ test('publishes the application validation sections after the sorted rules', fun
         ->and(File::getRequire(lang_path('vendor/demo/fr/validation.php')))->toBe($sorted);
 });
 
+test('removes the default custom validation message when publishing translations', function (string $directory): void {
+    $rules       = ['required' => 'This field is required.'];
+    $placeholder = ['attribute-name' => ['rule-name' => 'custom-message']];
+    $custom      = ['attribute-name' => ['required' => 'Enter a name.'], 'email' => ['required' => 'Enter an email.']];
+
+    writePublisherPackage('tests/translations', [], ['validation.php' => $directory . '{locale}/validation.php'], [
+        'source/validation.php' => $rules + ['custom' => $placeholder],
+    ]);
+
+    $french = lang_path($directory . 'fr/validation.php');
+    $german = lang_path($directory . 'de/validation.php');
+
+    writePublisherFiles([$french => $rules + ['custom' => array_replace_recursive($custom, $placeholder)]]);
+
+    artisan('lang:update')->assertSuccessful()->run();
+
+    expect(File::getRequire($french))->toEqual($rules + ['custom' => $custom])
+        ->and(File::getRequire($german))->toBe($rules);
+
+    $custom['attribute-name']['rule-name'] = 'Use a different name.';
+
+    writePublisherFiles([$french => $rules + ['custom' => $custom]]);
+
+    artisan('lang:update')->assertSuccessful()->run();
+
+    expect(File::getRequire($french))->toEqual($rules + ['custom' => $custom]);
+})->with(['application' => '', 'vendor' => 'vendor/demo/']);
+
 test('publishes smart punctuation for each locale when enabled', function (bool $enabled): void {
     config()->set('localization_punctuation.enabled', $enabled);
 

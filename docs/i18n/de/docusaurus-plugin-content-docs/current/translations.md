@@ -35,6 +35,8 @@ In generierten PHP-Übersetzungsdateien schreibt der Publisher alle Schlüssel a
 
 In den `validation.php`-Dateien der Anwendung setzt der Publisher die Schlüssel `custom` und `attributes` auf oberster Ebene in dieser Reihenfolge ans Ende, sofern sie vorhanden sind. Die übrigen Schlüssel auf oberster Ebene werden alphabetisch sortiert.
 
+Beim Veröffentlichen oder Aktualisieren der `validation.php`-Dateien der Anwendung und der Pakete entfernt der Publisher den Laravel-Beispieleintrag `custom.attribute-name.rule-name`, wenn sein Wert `custom-message` ist. Andere benutzerdefinierte Meldungen bleiben erhalten. Ist `custom` nach dem Entfernen des Beispiels leer, lässt der Publisher den Schlüssel weg.
+
 Führe `lang:update` nach Änderungen an Composer-Abhängigkeiten oder [Veröffentlichungseinstellungen](./configure.md) aus. Prüfe die generierten Änderungen.
 
 Führe in einem frischen Checkout vor dem Veröffentlichen `composer install` aus. Liefere die generierten Dateien mit der Anwendung aus oder erstelle sie bei der Bereitstellung, sofern das Sprachverzeichnis beschreibbar ist. Wenn die Dateien fehlen, führe `php artisan lang:add fr de_CH --no-interaction` mit den benötigten Codes aus. Aktualisiere vorhandene Dateien mit `php artisan lang:update --no-interaction`.

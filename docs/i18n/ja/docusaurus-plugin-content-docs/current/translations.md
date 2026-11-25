@@ -35,6 +35,8 @@ Publisher は、アプリケーションの現在のロケールとフォール�
 
 アプリケーションの `validation.php` では、トップレベルに `custom` や `attributes` があれば、Publisher はそれらをこの順でファイルの末尾に配置します。その他のトップレベルのキーはアルファベット順に並びます。
 
+アプリケーションやパッケージの `validation.php` を公開または更新するとき、Laravel のサンプル項目 `custom.attribute-name.rule-name` の値が `custom-message` なら、Publisher はその項目を削除します。ほかのカスタムメッセージは保持され、サンプルを削除した結果 `custom` が空になった場合は、そのキーも省略されます。
+
 Composer の依存関係や[公開設定](./configure.md)を変更した後は、`lang:update` を実行して生成された差分を確認します。
 
 チェックアウト直後は、翻訳を公開する前に `composer install` を実行してください。生成したファイルをアプリケーションと一緒にデプロイするか、翻訳ディレクトリが書き込み可能な状態でデプロイ時に生成します。ファイルがない場合は、必要なロケールコードを指定して `php artisan lang:add fr de_CH --no-interaction` を実行します。既存のファイルは `php artisan lang:update --no-interaction` で更新します。

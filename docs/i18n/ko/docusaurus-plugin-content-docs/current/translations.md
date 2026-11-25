@@ -35,6 +35,8 @@ Publisher는 생성한 PHP 번역 파일에서 `'404'` 같은 숫자 키를 포�
 
 애플리케이션의 `validation.php` 파일에 최상위 키인 `custom`과 `attributes`가 있으면 Publisher는 해당 키를 이 순서대로 파일 끝에 배치합니다. 나머지 최상위 키는 알파벳순으로 정렬합니다.
 
+애플리케이션과 패키지의 `validation.php` 파일을 게시하거나 업데이트할 때, Laravel 예제 항목 `custom.attribute-name.rule-name`의 값이 `custom-message`이면 Publisher는 해당 항목을 제거합니다. 다른 사용자 정의 메시지는 유지하며, 예제를 제거한 뒤 `custom`이 비어 있으면 이 키도 생략합니다.
+
 Composer 의존성이나 [게시 설정](./configure.md)을 바꾼 뒤에는 `lang:update`를 실행합니다. 생성된 변경 사항을 검토하세요.
 
 프로젝트를 새로 체크아웃했다면 번역을 게시하기 전에 `composer install`을 실행하세요. 생성한 파일을 애플리케이션과 함께 배포하거나 번역 디렉터리에 쓰기 권한이 있을 때 배포 중에 생성하세요. 파일이 없으면 필요한 코드로 `php artisan lang:add fr de_CH --no-interaction`을 실행하세요. 기존 파일은 `php artisan lang:update --no-interaction`으로 갱신하세요.

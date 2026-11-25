@@ -35,6 +35,8 @@ En los archivos de traducción PHP que genera, Publisher escribe de forma explí
 
 En los archivos `validation.php` de la aplicación, Publisher coloca las claves de nivel superior `custom` y `attributes` al final, en ese orden, cuando están presentes. Las demás claves de nivel superior se ordenan alfabéticamente.
 
+Al publicar o actualizar los archivos `validation.php` de la aplicación y los paquetes, Publisher elimina el ejemplo de Laravel `custom.attribute-name.rule-name` si su valor es `custom-message`. Conserva los demás mensajes personalizados y omite la clave `custom` si queda vacía tras eliminar el ejemplo.
+
 Ejecuta `lang:update` después de cambiar las dependencias de Composer o la [configuración de publicación](./configure.md). Revisa el diff generado.
 
 En una copia recién descargada, ejecuta `composer install` antes de publicar traducciones. Despliega los archivos generados con la aplicación o créalos durante el despliegue si el directorio de traducciones admite escritura. Si faltan los archivos, ejecuta `php artisan lang:add fr de_CH --no-interaction` con los códigos necesarios. Si ya existen, actualízalos con `php artisan lang:update --no-interaction`.

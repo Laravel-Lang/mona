@@ -35,6 +35,8 @@ Publisher, oluşturulan PHP çeviri dosyalarında `'404'` gibi sayısal anahtarl
 
 Publisher, uygulamanın `validation.php` dosyalarında `custom` ve `attributes` üst düzey anahtarlarını, mevcut olduklarında, bu sırayla dosyanın sonuna yerleştirir. Diğer üst düzey anahtarlar alfabetik olarak sıralanır.
 
+Publisher, uygulamanın ve paketlerin `validation.php` dosyalarını yayımlarken veya güncellerken değeri `custom-message` olan `custom.attribute-name.rule-name` Laravel örneğini kaldırır. Diğer özel mesajları korur ve örnek kaldırıldıktan sonra `custom` boş kalırsa bu anahtarı da kaldırır.
+
 Composer bağımlılıklarını veya [yayım ayarlarını](./configure.md) değiştirdikten sonra `lang:update` komutunu çalıştırın. Oluşan değişiklikleri inceleyin.
 
 Projenin yeni bir kopyasında çevirileri yayımlamadan önce `composer install` çalıştırın. Oluşturulan dosyaları uygulamayla birlikte dağıtın veya çeviri dizini yazılabilirken dağıtım sırasında oluşturun. Dosyalar yoksa gereken kodlarla `php artisan lang:add fr de_CH --no-interaction` çalıştırın. Var olan dosyaları `php artisan lang:update --no-interaction` ile güncelleyin.

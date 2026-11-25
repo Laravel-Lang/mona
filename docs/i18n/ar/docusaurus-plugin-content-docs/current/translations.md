@@ -35,6 +35,8 @@ php artisan lang:update
 
 في ملفات `validation.php` الخاصة بالتطبيق، تضع Publisher المفتاحين `custom` و`attributes` من المستوى الأعلى في نهاية الملف بهذا الترتيب عند وجودهما. وتُرتّب بقية مفاتيح المستوى الأعلى أبجديًا.
 
+عند نشر ملفات `validation.php` الخاصة بالتطبيق والحزم أو تحديثها، تحذف Publisher مثال Laravel ‏`custom.attribute-name.rule-name` إذا كانت قيمته `custom-message`. وتُبقي على الرسائل المخصصة الأخرى وتحذف المفتاح `custom` إذا أصبح فارغًا بعد إزالة المثال.
+
 شغّل `lang:update` بعد تغيير تبعيات Composer أو [إعدادات النشر](./configure.md). راجع الفروق الناتجة.
 
 نفّذ `composer install` قبل النشر في نسخة جديدة من المشروع. انشر ملفات الترجمة المولّدة مع التطبيق أو أنشئها أثناء النشر إذا كان مجلد الترجمات قابلًا للكتابة. إذا كانت الملفات غائبة، فاستخدم `php artisan lang:add fr de_CH --no-interaction` مع الرموز المطلوبة. وإذا كانت موجودة، فحدّثها باستخدام `php artisan lang:update --no-interaction`.

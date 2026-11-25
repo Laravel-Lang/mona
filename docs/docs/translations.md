@@ -29,6 +29,8 @@ The Publisher explicitly writes all keys in generated PHP translation files as s
 
 In the application's `validation.php` files, the Publisher places any top-level `custom` and `attributes` keys last, in that order. The other top-level keys are sorted alphabetically.
 
+When publishing or updating application and vendor `validation.php` files, the Publisher removes the Laravel example `custom.attribute-name.rule-name` if its value is `custom-message`. It keeps other custom messages and omits `custom` if the removal leaves it empty.
+
 Run `lang:update` after changing Composer dependencies or [publication settings](./configure.md). Review the generated diff.
 
 On a fresh checkout, run `composer install` before publishing. Deploy the generated language files with the application or generate them during deployment, when the language directory is writable. If the files are absent, run `php artisan lang:add fr de_CH --no-interaction` with the application's locale codes to create and populate their directories. If the files are already present, run `php artisan lang:update --no-interaction` to refresh them.

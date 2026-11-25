@@ -35,6 +35,8 @@ Publisher 从应用当前及回退语言区域、翻译目录根下的文件或�
 
 在应用的 `validation.php` 文件中，Publisher 会将存在的顶层键 `custom` 和 `attributes` 按此顺序放在文件末尾。其余顶层键按字母顺序排列。
 
+发布或更新应用和第三方包的 `validation.php` 文件时，如果 Laravel 示例项 `custom.attribute-name.rule-name` 的值为 `custom-message`，Publisher 就会将其移除。其他自定义消息会保留。如果移除示例后 `custom` 为空，Publisher 也会移除该键。
+
 修改 Composer 依赖或[发布设置](./configure.md)后，请运行 `lang:update` 并检查生成的变更。
 
 在新检出的项目中，请先运行 `composer install`，再发布译文。部署时可以随应用一起发布生成的文件，也可以在翻译目录可写的情况下现场生成。如果尚无文件，请使用所需的代码运行 `php artisan lang:add fr de_CH --no-interaction`。已有文件可通过 `php artisan lang:update --no-interaction` 更新。

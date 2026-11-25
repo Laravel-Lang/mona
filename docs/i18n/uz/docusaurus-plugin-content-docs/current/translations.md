@@ -35,6 +35,8 @@ Publisher yaratilgan PHP tarjima fayllarida barcha kalitlarni, jumladan `'404'` 
 
 Ilovaning `validation.php` fayllarida Publisher yuqori darajadagi `custom` va `attributes` kalitlari mavjud bo‘lsa, ularni shu tartibda fayl oxiriga joylashtiradi. Yuqori darajadagi qolgan kalitlar alifbo tartibida saralanadi.
 
+Ilova va paketlarning `validation.php` fayllarini e’lon qilish yoki yangilashda Publisher Laravel’dagi `custom.attribute-name.rule-name` namunasini, agar uning qiymati `custom-message` bo‘lsa, olib tashlaydi. Boshqa maxsus xabarlar saqlanadi. Namuna olib tashlanganidan keyin `custom` bo‘sh qolsa, Publisher bu kalitni ham olib tashlaydi.
+
 Composer bog‘liqliklari yoki [nashr sozlamalari](./configure.md) o‘zgargach, `lang:update` buyrug‘ini bajaring. Hosil bo‘lgan farqlarni ko‘rib chiqing.
 
 Loyihaning yangi nusxasida tarjimalarni nashr qilishdan oldin `composer install` buyrug‘ini bajaring. Yaratilgan fayllarni ilova bilan birga joylashtiring yoki yozish mumkin bo‘lgan tarjima katalogida joylashtirish vaqtida yarating. Fayllar hali yo‘q bo‘lsa, kerakli kodlar bilan `php artisan lang:add fr de_CH --no-interaction` buyrug‘ini bajaring. Mavjud fayllarni `php artisan lang:update --no-interaction` bilan yangilang.

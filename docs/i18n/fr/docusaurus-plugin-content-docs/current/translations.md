@@ -35,6 +35,8 @@ Dans les fichiers de traduction PHP générés, le Publisher écrit explicitemen
 
 Dans les fichiers `validation.php` de l’application, Publisher place les clés de premier niveau `custom` et `attributes` à la fin, dans cet ordre, si elles sont présentes. Les autres clés de premier niveau sont triées par ordre alphabétique.
 
+Lors de la publication ou de la mise à jour des fichiers `validation.php` de l’application et des paquets, Publisher supprime l’exemple Laravel `custom.attribute-name.rule-name` si sa valeur est `custom-message`. Il conserve les autres messages personnalisés et omet la clé `custom` si elle devient vide après cette suppression.
+
 Exécutez `lang:update` après avoir modifié les dépendances Composer ou les [paramètres de publication](./configure.md). Examinez les différences générées.
 
 Sur une copie fraîche du projet, exécutez `composer install` avant de publier les traductions. Déployez les fichiers générés avec l’application ou générez-les au déploiement si le répertoire des traductions est accessible en écriture. En l’absence de fichiers, exécutez `php artisan lang:add fr de_CH --no-interaction` avec les codes nécessaires. Si les fichiers sont déjà présents, actualisez-les avec `php artisan lang:update --no-interaction`.
