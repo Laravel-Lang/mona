@@ -1,9 +1,16 @@
 {
     "excludes": [
-        "Action",
-        "Actions",
-        "Archive",
-        "Image",
-        "Introduction"
+        "compilation",
+        "concept",
+        "conditions",
+        "date",
+        "description",
+        "image",
+        "images",
+        "message",
+        "minute",
+        "photo",
+        "slug",
+        "type"
     ]
 }

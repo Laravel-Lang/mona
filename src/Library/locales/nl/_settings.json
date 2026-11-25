@@ -1,8 +1,11 @@
 {
     "excludes": [
-        "Details",
-        "Open",
-        "Start",
-        "Stop"
+        "concept",
+        "filter",
+        "login",
+        "portfolio",
+        "slug",
+        "status",
+        "type"
     ]
 }

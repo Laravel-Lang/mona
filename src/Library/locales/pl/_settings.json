@@ -1,5 +1,7 @@
 {
     "excludes": [
-        "Tag"
+        "portfolio",
+        "status",
+        "tag"
     ]
 }
