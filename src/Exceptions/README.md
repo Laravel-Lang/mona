@@ -12,7 +12,7 @@
 
 ## Documentation
 
-See the [documentation](https://laravel-lang.com/start) for detailed information.
+[Set up the monorepo to develop the shared exception classes.](https://laravel-lang.com/contributing#develop-packages)
 
 ## Contributing
 

@@ -6,7 +6,7 @@ description: "Laravel-Lang Models ile yerelleştirilmiş Eloquent öznitelikleri
 `laravel-lang/models`, mevcut bir Eloquent modeline çevrilebilir öznitelikler ekler. Her çeviri satırı bir yerel ayarı ve o yerel ayara ait öznitelik değerlerini saklar. Paket Common’a dahildir ve PHP Intl gerektirir.
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## Modele çeviri ekleme {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 Oluşturucu, temel modele `LaravelLang\Models\HasTranslations` trait’ini ekler ve ona eşlik eden `ArticleTranslation` modelini, bir migration dosyasını ve bir IDE yardımcı dosyasını oluşturur. Migration, makaleye başvuran bir yabancı anahtar, benzersiz bir `(item_id, locale)` çifti ve çeviri değerleri için null kabul eden metin sütunları oluşturur. Bu değerleri zaten temel tabloda tutuyorsanız yeni modelin erişim metotlarına güvenmeden önce bunları çeviri satırlarına taşıyın.
 
 Model `app/Models` dışındaysa oluşturucuyu çalıştırmadan önce modelin dizinini [`localization_models.directories`](./configure.md) ayarına ekleyin.
+
+Modeli ve sütunları etkileşimli olarak seçmek için `php artisan make:model-translation` çalıştırın. Listeyi boş bırakırsanız üreteç `title` ve `description` kullanır. Sonradan alan eklemek için yeni bir migration oluşturun ve alanı çeviri modelinin doldurulabilir özniteliklerine ve dönüşümlerine ekleyin.
 
 ## Çevrilmiş öznitelikleri yazma ve okuma {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+Modeller `translations()` ilişkisini önceden yükler. `orWhereTranslation()` ve `orWhereTranslationLike()` alternatif koşullar ekler. `orderByTranslation()` tek bir yerel ayara göre sıralar ve varsayılan olarak geçerli yerel ayarı kullanır.
 
 ## Değişiklikleri izleme ve IDE yardımcı dosyalarını yenileme {#observe-changes-and-refresh-ide-helpers}
 

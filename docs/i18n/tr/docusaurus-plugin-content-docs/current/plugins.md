@@ -10,7 +10,7 @@ Publisher, Composer ile kurulan çeviri paketlerini keşfeder. Paket, bir `larav
 Paketi Laravel uygulamanıza kurun ve kullandığınız yerel ayarları güncelleyin. Örneğin Actions paketi, düğmelere ve diğer eylemlere etiketler ekler.
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ Fransızca yayımlanırken her ikisi de İngilizce ifadeyi paketinizin `locales/
 
 Uygulamada `__('Enable audit trail')` JSON çevirisini, `__('audit.enable')` PHP çevirisini okur. Aynı ifade için paket çevirileri ortak Library girdilerinden önceliklidir. İfade iki sözlükte de yoksa Publisher kaynak değeri kullanır.
 
+Pakete kendi Composer adını verin ve şablondaki `self.version` ifadelerini `^20.0` gibi uygun sürüm kısıtlarıyla değiştirin. Sözlük dizinlerinde standart yerel ayar kodlarını kullanın. Standart çevirileri `default.json`, stil çeşitlerini `inline.json` gibi dosyalara koyun.
+
 ### Çevirileri koşullu uygulama {#apply-translations-conditionally}
 
 | Manifest özelliği | Eşlemenin uygulandığı durum |
@@ -91,3 +93,13 @@ Uygulamada `__('Enable audit trail')` JSON çevirisini, `__('audit.enable')` PHP
 | `vendor` ve `project: true` | Kök projenin Composer adı `vendor` ile eşleşir. Publisher bu kipte adı kontrol eder. |
 
 Bir eşlemenin hem kurulu bir bağımlılığa hem de o adı taşıyan bir kök projeye uygulanması gerekiyorsa iki manifest girdisi kullanın. Eski bir sağlayıcıyı dönüştürmek için [yükseltme kılavuzuna](./upgrade.md), atlama kuralları ve zorunlu paket eşlemesi için [yapılandırmaya](./configure.md) bakın.
+
+### Paketi Laravel uygulamasında test etme {#test-a-pack-in-a-laravel-application}
+
+Paket, test uygulamasıyla aynı üst dizindeyse komutları uygulamanın kök dizininde çalıştırın. `lang/fr.json` ve `lang/fr/audit.php` dosyalarını inceleyin, uygulamanın yerel ayarını `fr` yapın ve iki anahtarı test edin. Paketi değiştirdikten sonra `php artisan lang:update` çalıştırın.
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

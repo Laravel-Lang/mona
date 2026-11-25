@@ -19,7 +19,9 @@ php artisan vendor:publish --tag=localization_main
 | `localization_models.php` | [翻译模型后缀、筛选和生成路径](./models.md) |
 | `localization_map.php` | 语言区域元数据，如文字系统、地区和书写方向 |
 
-更改配置后，请清除配置缓存。运行 `php artisan lang:update`，重新生成受发布设置影响的译文。
+Laravel 会用应用中的值覆盖每个顶层配置项。如果修改 `localization_punctuation.php` 中的 `locales` 数组，请保留仍需使用的语言区域默认规则。
+
+更改配置后，如果配置已缓存，请运行 `php artisan config:clear` 清除缓存。运行 `php artisan lang:update`，重新生成受发布设置影响的译文。
 
 ## 翻译风格 {#translation-styles}
 
@@ -47,6 +49,8 @@ php artisan vendor:publish --tag=localization_main
 
 Artisan 可以接受 `de-CH`，而 Laravel 和已发布的文件使用 `de_CH`。请将 `APP_LOCALE` 和 `APP_FALLBACK_LOCALE` 设置为规范代码。转换和查找示例请参阅[语言区域和名称](./locales.md)。
 
+匹配别名时区分大小写。请为每个语言区域使用唯一的别名，并避免与其他语言区域的规范代码重复。
+
 ## 跳过文件和强制启用集成 {#skip-files-and-force-integrations}
 
 - `localization_main.skip` 使用不区分大小写的 `*` 模式匹配以 `/` 分隔的完整路径，可排除源文件、词典和发布目标。例如，`['*/lang/fr/validation.php']` 会阻止 Publisher 在使用 `lang/` 的应用中写入该目标文件。
@@ -57,3 +61,16 @@ Artisan 可以接受 `de-CH`，而 Laravel 和已发布的文件使用 `de_CH`�
 ## 智能标点 {#smart-punctuation}
 
 设置 `LOCALIZATION_PUNCTUATION_ENABLED=true`，即可在发布的译文中启用排版用引号、破折号和省略号。在 `localization_punctuation.common` 中编辑通用规则，在 `localization_punctuation.locales` 中按规范语言区域代码设置覆盖规则。Publisher 下次写入译文时会应用这些规则。
+
+## 语言区域元数据 {#locale-metadata}
+
+`localization_map.locales` 将规范代码映射到书写系统（`type`）、地区语言区域（`regional`）和可选的书写方向（`direction`）。如果未设置方向，请使用 `Direction::LeftToRight`。
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

@@ -6,7 +6,7 @@ description: "Speichere und lies lokalisierte Eloquent-Attribute und frage sie m
 `laravel-lang/models` ergänzt ein vorhandenes Eloquent-Modell um übersetzte Attribute. Jeder Übersetzungsdatensatz speichert eine Locale und die Attributwerte für diese Locale. Das Paket ist in Common enthalten und benötigt die PHP-Erweiterung Intl.
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## Übersetzungen zu einem Modell hinzufügen {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 Der Generator ergänzt das Basismodell um den Trait `LaravelLang\Models\HasTranslations` und erstellt das zugehörige Modell `ArticleTranslation`, eine Migration und einen IDE-Helper. Die Migration legt einen Fremdschlüssel zum Artikel, ein eindeutiges Wertepaar `(item_id, locale)` und String-Spalten für die übersetzten Werte an, die NULL zulassen. Wenn du diese Werte bereits in der Basistabelle speicherst, migriere sie in die Übersetzungsdatensätze, bevor du die Accessors des neuen Modells verwendest.
 
 Liegt das Modell außerhalb von `app/Models`, ergänze sein Verzeichnis in [`localization_models.directories`](./configure.md), bevor du den Generator ausführst.
+
+Starte `php artisan make:model-translation`, um Modell und Spalten interaktiv auszuwählen. Ohne Spalteneingabe verwendet der Generator `title` und `description`. Lege für ein späteres Feld eine neue Migration an und ergänze die zuweisbaren Attribute und Casts im Übersetzungsmodell.
 
 ## Übersetzte Attribute schreiben und lesen {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+Modelle laden die Relation `translations()` vorab. `orWhereTranslation()` und `orWhereTranslationLike()` ergänzen alternative Bedingungen. `orderByTranslation()` sortiert nach einer einzelnen Locale, standardmäßig der aktuellen.
 
 ## Änderungen beobachten und IDE-Helper aktualisieren {#observe-changes-and-refresh-ide-helpers}
 

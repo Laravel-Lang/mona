@@ -5,6 +5,8 @@ description: "أضف ترجمات التطبيق والحزم التابعة و�
 
 تندرج Publisher ضمن حزم الترجمة الرسمية. تكتب أوامر Artisan التابعة لها ترجمات PHP وJSON في مجلد اللغة في التطبيق، وهو عادةً `lang/`. ويمكن أيضًا كتابة ملفات خاصة بحزم معيّنة في `lang/vendor/`.
 
+نفّذ أوامر Artisan من المجلد الجذري للتطبيق. يحدّد `lang_path()` مجلد الترجمات.
+
 ## إضافة الإعدادات المحلية {#add-locales}
 
 مرّر [رمز إعداد محلي](./available-locales.md) واحدًا أو أكثر، وافصل بينها بمسافات. تُقبل الأسماء البديلة المضبوطة كمدخلات، بينما تستخدم الملفات الناتجة الرموز المعتمدة.
@@ -15,11 +17,15 @@ php artisan lang:add fr de_CH
 
 ينشئ الأمر مجلدات الإعدادات المحلية ثم يحدّث **جميع الإعدادات المحلية المثبّتة**، بما فيها الإعدادان الحالي والاحتياطي للتطبيق. وعند غياب الوسيطات، يسأل إن كنت تريد تثبيت جميع الإعدادات المدعومة. مرّر الرموز صراحةً في عمليات الأتمتة.
 
+يفشل الأمر قبل إنشاء أي مجلد إذا كان أحد الرموز غير معروف.
+
 ## تحديث الترجمات {#update-translations}
 
 ```bash
 php artisan lang:update
 ```
+
+يحدّث `lang:update` جميع الإعدادات المحلية المثبّتة ولا يقبل رموزًا بوصفها وسائط.
 
 تكتشف Publisher الإعدادات المحلية من الإعدادين الحالي والاحتياطي للتطبيق ومن الملفات أو المجلدات في جذر مجلد اللغة ومن ملفات JSON ضمن `lang/vendor/<package>/`. وجود مجلد ترجمات PHP لإحدى الحزم وحده لا يجعل إعدادها المحلي مثبّتًا. استخدم `lang:add` لذلك الإعداد لإنشاء مجلده في التطبيق.
 
@@ -27,20 +33,30 @@ php artisan lang:update
 
 شغّل `lang:update` بعد تغيير تبعيات Composer أو [إعدادات النشر](./configure.md). راجع الفروق الناتجة.
 
+نفّذ `composer install` قبل النشر في نسخة جديدة من المشروع. انشر ملفات الترجمة المولّدة مع التطبيق أو أنشئها أثناء النشر إذا كان مجلد الترجمات قابلًا للكتابة. إذا كانت الملفات غائبة، فاستخدم `php artisan lang:add fr de_CH --no-interaction` مع الرموز المطلوبة. وإذا كانت موجودة، فحدّثها باستخدام `php artisan lang:update --no-interaction`.
+
 ## إزالة الإعدادات المحلية {#remove-locales}
 
 ```bash
 php artisan lang:rm de_CH
 ```
 
+يمكن تمرير الرموز المعتمدة أو الأسماء البديلة المضبوطة.
+
 يحذف هذا الأمر المجلد والملف بصيغة JSON للرمز المعتمد من جذر مجلد اللغة ومن كل مجلد مباشر ضمن `lang/vendor/<package>/`، بما في ذلك أي ملفات مخصّصة بداخلهما. الإعدادان المحليان الحالي والاحتياطي محميان. وعند غياب الوسيطات، يسأل الأمر إن كنت تريد إزالة كل الإعدادات غير المحمية، وتكون الإجابة الافتراضية بالنفي. عندما يكون مجلد الإعداد المحلي رابطًا، يزيل الأمر الرابط نفسه.
 
 يعرض الأمر `DONE` أو `PROTECTED` أو `INVALID` أو `SKIP` أو `FAILED` لكل إعداد محلي. إذا بقي ملف أو مجلد بعد محاولة الإزالة، يعرض الأمر مساره وينتهي برمز يدل على الفشل. افحص النتيجة لكل إعداد محلي، إذ قد تظهر `PROTECTED` و`INVALID` و`SKIP` مع رمز نجاح.
 
+## العثور على أوامر Artisan {#find-the-artisan-commands}
+
+شغّل `php artisan help lang:add` للتحقق من تسجيل الأمر. إذا لم يظهر، فتحقّق من تثبيت الحزمة باستخدام `composer show laravel-lang/publisher` ثم شغّل `php artisan package:discover`. عند تعطيل الاكتشاف التلقائي لحزمتي Config وPublisher، سجّل `LaravelLang\Config\LangConfigServiceProvider::class` و`LaravelLang\Publisher\LangPublisherServiceProvider::class` في `bootstrap/providers.php`.
+
 ## الرجوع إلى ترجمات JSON الاحتياطية {#json-fallback}
 
-تضيف `laravel-lang/json-fallback` البحث في JSON للإعداد المحلي الاحتياطي عند فقدان مفتاح JSON، قبل الانتقال إلى ترجمات PHP. تتضمن Common هذه الحزمة. ولتثبيتها بشكل مستقل، شغّل `composer require laravel-lang/json-fallback`.
+تضيف `laravel-lang/json-fallback` البحث في JSON للإعداد المحلي الاحتياطي عند فقدان مفتاح JSON، قبل الانتقال إلى ترجمات PHP. تتضمن Common هذه الحزمة. ولتثبيتها بشكل مستقل، شغّل `composer require "laravel-lang/json-fallback:20.*"`.
 
 أضف `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` إلى مزوّدي التطبيق في `bootstrap/providers.php`. وإذا كان التطبيق يدرج `Illuminate\Translation\TranslationServiceProvider` صراحةً، فاستبدل ذلك المدخل بمزوّد Mona. [تسجيل مزوّد في Laravel](https://laravel.com/docs/13.x/providers#registering-providers)
 
 إذا كانت الفرنسية هي الإعداد المحلي الحالي والإنجليزية هي الاحتياطي، يمكن الآن إرجاع قيمة مفتاح غائب عن `lang/fr.json` من `lang/en.json`.
+
+عندما تريد حصر البحث في الإعداد المحلي المطلوب، استخدم `Lang::get($key, fallback: false)` عبر واجهة `Illuminate\Support\Facades\Lang`.

@@ -54,12 +54,15 @@ Laravel-Lang verwendet jetzt kanonische Locale-Codes für gespeicherte Werte, et
 
 Die aktuelle Version unterstützt Laravel 12 und 13 und benötigt PHP `^8.3`. Setze in `composer.json` deiner Anwendung die Versionsvorgabe für jedes der unten aufgeführten Pakete, das in `require` oder `require-dev` steht, auf `^20.0`. Hast du nur `laravel-lang/common` installiert, musst du nur diese Anforderung ändern.
 
+Prüfe vor der Installation von `20.x` oder dem Upgrade, ob die benötigte Composer-Paketversion auf Packagist verfügbar ist. Das Mona-Release und die passenden Composer-Pakete können zu unterschiedlichen Zeiten erscheinen.
+
 | Verwendung | Composer-Pakete |
 | --- | --- |
 | Komplettpaket | `laravel-lang/common` |
 | Übersetzungspakete | `laravel-lang/lang`, `laravel-lang/starter-kits`, `laravel-lang/moonshine`, `laravel-lang/actions`, `laravel-lang/attributes`, `laravel-lang/http-statuses` |
-| Veröffentlichung und Konfiguration | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback` |
+| Veröffentlichung und Konfiguration | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback`, `laravel-lang/library` |
 | Anwendungsintegrationen | `laravel-lang/locales`, `laravel-lang/locale-list`, `laravel-lang/routes`, `laravel-lang/models` |
+| Gemeinsame Hilfsbibliotheken | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | Paketvorlage | `laravel-lang/translations-template` |
 
 Wenn deine Installation nur den Standardablauf für Übersetzungen nutzt, aktualisiere die Abhängigkeiten und veröffentliche die Übersetzungen erneut.
@@ -278,7 +281,7 @@ Ersetze Importe und Registrierungen in deinen Routen, `bootstrap/app.php` und ei
 
 Wenn du Modell-Middleware mit einem Guard erstellt hast, übergib ihn als Laravel-Middleware-Parameter, etwa `LocalizationByModelMiddleware::class . ':admin'`. Der Benutzer-Resolver erwartet ein Eloquent-Modell. Injiziere in eigenen Middleware-Unterklassen `LaravelLang\Config\Services\RouteLangConfig`, lies die Quellennamen aus `$this->routeConfig->name` und gib aus `detect()` den Wert `int|string|null` zurück. Ersetze direkte Referenzen auf `LaravelLang\Routes\Services\Route` durch `LaravelLang\Routes\Services\RouteService`.
 
-Teste jede von der Anwendung verwendete Quelle. Die Header-Erkennung verwendet jetzt PHP Intl und übernimmt das aus `Accept-Language` ermittelte Sprachfeld. Wenn du priorisierte Browsereinstellungen oder regionsspezifische Treffer genutzt hast, implementiere diese Auswahl in eigener Middleware. Eine spätere Middleware kann eine frühere Quelle überschreiben, auch die Locale aus der URL. Ändere die Reihenfolge der konfigurierten Listen, wenn die URL Vorrang haben soll.
+Teste jede von der Anwendung verwendete Quelle. Die Header-Erkennung prüft installierte Sprachen mit PHP Intl in der Reihenfolge aus `Accept-Language`. Sie versucht zuerst das vollständige Sprach-Tag und dann die Basissprache. Eine spätere Middleware kann die Locale einer früheren Quelle überschreiben. Soll die URL bei Routen mit Präfix maßgeblich sein, verwende dort nur die Middleware zur Locale-Auswahl aus der URL.
 
 Teste URL-Generierung und Anfragen separat. `localization_routes.hide` unterdrückt das Segment der Fallback-Locale bei der URL-Generierung. `localization_routes.redirect` leitet Anfragen mit Präfix für die aktuelle Locale zur Route ohne Präfix um. Eine benannte Route mit Präfix leitet bei einer ungültigen oder nicht installierten Locale ebenfalls zur Route ohne Präfix um.
 
@@ -310,7 +313,7 @@ Mit einem Alias `de_CH` → `de-CH` und installiertem Schweizer Hochdeutsch grei
 
 Rufe `translated()`, `whereTranslation()` und verwandte Scopes über den Eloquent Query Builder auf. Übergib als Locale-Zeichenkette des Scopes einen Code oder Alias. Verwende für `orderByTranslation()` entweder `'asc'`, `'desc'` oder `SortDirection`. Wenn du mit `whereTranslation()` oder `whereTranslationLike()` eine andere als die aktuelle Locale oder Fallback-Locale abfragst, setze `localization_models.filter` auf `false` oder frage `translationsRaw()` direkt ab.
 
-Aktualisiere Ereignisempfänger, die `$event->locale->value` aufrufen oder `$event->locale` mit einem Enum `Locale` vergleichen. `TranslationHasBeenSetEvent` und `TranslationHasBeenForgetEvent` enthalten jetzt einen Alias als Zeichenkette für eine ausdrücklich angegebene Locale. Beide Ereignisse enthalten `null`, wenn der Aufrufer die Locale weglässt. Wandle einen Alias mit `Locales::fromAlias()` um, bevor du ihn als dauerhaften Schlüssel verwendest. Das Set-Ereignis wird beim Zuweisen des Attributs vor `save()` ausgelöst. Verwende `event(new …)`, um eines der drei Modellübersetzungsereignisse manuell auszulösen.
+Aktualisiere Ereignisempfänger, die `$event->locale->value` aufrufen oder `$event->locale` mit einem Enum `Locale` vergleichen. `TranslationHasBeenSetEvent` und `TranslationHasBeenForgetEvent` enthalten jetzt einen Alias als Zeichenkette für eine ausdrücklich angegebene Locale. Das Set-Ereignis enthält `null`, wenn der Aufrufer die Locale weglässt. Wandle einen Alias mit `Locales::fromAlias()` um, bevor du ihn als dauerhaften Schlüssel verwendest. Das Set-Ereignis wird beim Zuweisen des Attributs vor `save()` ausgelöst. Verwende `event(new …)`, um eines der drei Modellübersetzungsereignisse manuell auszulösen.
 
 Wenn du generierte IDE-Helper beibehalten möchtest, führe `php artisan lang:models-helper` aus, nachdem du die Importe und Suchpfade für Modelle aktualisiert hast. [Modellübersetzungen](./models.md)
 

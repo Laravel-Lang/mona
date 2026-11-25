@@ -52,12 +52,15 @@ Mona هو المستودع الذي يصدر حزم Laravel-Lang معًا. وا�
 
 يدعم الإصدار الحالي Laravel 12 و13 ويتطلب PHP `^8.3`. في ملف `composer.json` لتطبيقك، اضبط قيد الإصدار على `^20.0` لكل حزمة من الحزم أدناه مدرجة في `require` أو `require-dev`. إذا ثبّتَّ `laravel-lang/common` وحدها، فهي المتطلب الوحيد الذي تحتاج إلى تغييره.
 
+قبل تثبيت الإصدار `20.x` أو الترقية إليه، تحقّق من توفر إصدار حزمة Composer التي تحتاج إليها على Packagist. قد يتوفر إصدار Mona قبل حزم Composer المطابقة له.
+
 | الاستخدام | حزم Composer |
 | --- | --- |
 | الحزمة الجامعة | `laravel-lang/common` |
 | حزم الترجمة | `laravel-lang/lang`، `laravel-lang/starter-kits`، `laravel-lang/moonshine`، `laravel-lang/actions`، `laravel-lang/attributes`، `laravel-lang/http-statuses` |
-| النشر والإعداد | `laravel-lang/publisher`، `laravel-lang/config`، `laravel-lang/json-fallback` |
+| النشر والإعداد | `laravel-lang/publisher`، `laravel-lang/config`، `laravel-lang/json-fallback`, `laravel-lang/library` |
 | التكامل مع التطبيق | `laravel-lang/locales`، `laravel-lang/locale-list`، `laravel-lang/routes`، `laravel-lang/models` |
+| أدوات مشتركة | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | قالب الحزمة | `laravel-lang/translations-template` |
 
 إذا كان تثبيتك يعتمد فقط على سير عمل الترجمة القياسي، فطبّق تحديث التبعيات وأعد نشر الترجمات.
@@ -276,7 +279,7 @@ $url = localizedRoute('products.show', [
 
 إذا أنشأت برمجية النموذج الوسيطة مع حارس مصادقة، فمرّره كمعامل للبرمجية الوسيطة في Laravel، مثل `LocalizationByModelMiddleware::class . ':admin'`. وتتوقع آلية تحديد المستخدم فيها نموذج Eloquent. في الفئات الفرعية المخصّصة للبرمجيات الوسيطة، احقن `LaravelLang\Config\Services\RouteLangConfig` واقرأ أسماء المصادر من `$this->routeConfig->name` وأعِد `int|string|null` من `detect()`. استبدل المراجع المباشرة إلى `LaravelLang\Routes\Services\Route` بـ `LaravelLang\Routes\Services\RouteService`.
 
-اختبر كل مصدر يستخدمه تطبيقك. يستخدم رصد الترويسة الآن امتداد PHP Intl ويأخذ حقل اللغة المستخلص من `Accept-Language`. إذا كنت تعتمد على ترتيب تفضيلات المتصفح أو المطابقات الخاصة بمنطقة معيّنة، فنفّذ هذا الاختيار في برمجية وسيطة مخصّصة. ويمكن لبرمجية وسيطة لاحقة تجاوز مصدر سابق، بما في ذلك الإعداد المحلي المستخلص من عنوان URL. أعد ترتيب قوائمك إذا كان يجب تقديم عنوان URL.
+اختبر كل مصدر يستخدمه تطبيقك. يرتّب امتداد PHP Intl اللغات في `Accept-Language` حسب تفضيلاتها ويجرّب الوسم الكامل قبل اللغة الأساسية. قد تتجاوز برمجية وسيطة لاحقة إعدادًا محليًا اختاره مصدر سابق. لجعل عنوان URL هو المرجع في المسارات ذات البادئة، أبقِ برمجية تحديد الإعداد المحلي من عنوان URL وحدها في سلسلة تلك المسارات.
 
 اختبر توليد العناوين والطلبات كلًا على حدة. يحذف `localization_routes.hide` مقطع الإعداد المحلي الاحتياطي عند توليد عنوان URL. ويعيد `localization_routes.redirect` توجيه طلبات الإعداد الحالي ذات البادئة إلى المسار دون بادئة. ويعيد المسار المسمّى ذو البادئة أيضًا توجيه الطلب بإعداد غير صالح أو غير مثبّت إلى المسار دون بادئة.
 
@@ -308,7 +311,7 @@ $article->translation('de_CH');
 
 استدعِ `translated()` و`whereTranslation()` والنطاقات ذات الصلة عبر منشئ استعلامات Eloquent. مرّر رمزًا أو اسمًا بديلًا كسلسلة الإعداد المحلي للنطاق. ومع `orderByTranslation()`، استخدم `'asc'` أو `'desc'` أو `SortDirection`. عند الاستعلام عن إعداد غير الحالي والاحتياطي عبر `whereTranslation()` أو `whereTranslationLike()`، اضبط `localization_models.filter` على `false` أو استعلم مباشرةً عبر `translationsRaw()`.
 
-حدّث مستهلكي الأحداث الذين يستدعون `$event->locale->value` أو يقارنون `$event->locale` بتعداد `Locale`. يحمل `TranslationHasBeenSetEvent` و`TranslationHasBeenForgetEvent` الآن اسمًا بديلًا نصيًا عند تحديد إعداد محلي صراحةً. ويحمل الحدثان `null` عندما يحذف المستدعي الإعداد المحلي. حوّل الاسم البديل باستخدام `Locales::fromAlias()` قبل استخدامه مفتاحًا محفوظًا. يُرسل حدث التعيين عند تعيين السمة قبل `save()`. وللإرسال اليدوي لأيّ من أحداث ترجمة النموذج الثلاثة، استخدم `event(new …)`.
+حدّث مستهلكي الأحداث الذين يستدعون `$event->locale->value` أو يقارنون `$event->locale` بتعداد `Locale`. يحمل `TranslationHasBeenSetEvent` و`TranslationHasBeenForgetEvent` الآن اسمًا بديلًا نصيًا عند تحديد إعداد محلي صراحةً. يحمل حدث التعيين `null` عند إغفال الإعداد المحلي. حوّل الاسم البديل باستخدام `Locales::fromAlias()` قبل استخدامه مفتاحًا محفوظًا. يُرسل حدث التعيين عند تعيين السمة قبل `save()`. وللإرسال اليدوي لأيّ من أحداث ترجمة النموذج الثلاثة، استخدم `event(new …)`.
 
 إذا كنت تحتفظ بالملفات المساعدة المولّدة لبيئة التطوير، فشغّل `php artisan lang:models-helper` بعد تحديث الاستيرادات ومسارات اكتشاف النماذج. [ترجمة النماذج](./models.md)
 

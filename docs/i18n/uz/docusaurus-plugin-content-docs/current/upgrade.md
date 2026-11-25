@@ -52,12 +52,15 @@ Laravel-Lang endi saqlanadigan qiymatlar uchun, jumladan nashr qilingan til fayl
 
 Joriy versiya Laravel 12 va 13 ni qo‘llab-quvvatlaydi hamda PHP `^8.3` ni talab qiladi. Ilovangizning `composer.json` faylida `require` yoki `require-dev` ichida bor quyidagi har bir paket uchun `^20.0` cheklovini belgilang. Faqat `laravel-lang/common` ni o‘rnatgan bo‘lsangiz, shu talabning o‘zini o‘zgartirish kifoya.
 
+`20.x` ni o‘rnatish yoki unga yangilashdan oldin kerakli Composer paketi versiyasi Packagist’da mavjudligini tekshiring. Mona relizi va unga mos Composer paketlari turli vaqtda e’lon qilinishi mumkin.
+
 | Vazifasi | Composer paketlari |
 | --- | --- |
 | To‘plam | `laravel-lang/common` |
 | Tarjima paketlari | `laravel-lang/lang`, `laravel-lang/starter-kits`, `laravel-lang/moonshine`, `laravel-lang/actions`, `laravel-lang/attributes`, `laravel-lang/http-statuses` |
-| Nashr qilish va sozlash | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback` |
+| Nashr qilish va sozlash | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback`, `laravel-lang/library` |
 | Ilova integratsiyalari | `laravel-lang/locales`, `laravel-lang/locale-list`, `laravel-lang/routes`, `laravel-lang/models` |
+| Umumiy yordamchi paketlar | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | Paket andozasi | `laravel-lang/translations-template` |
 
 Faqat standart tarjima jarayoni ishlatiladigan o‘rnatmada bog‘liqliklarni yangilang va tarjimalarni qayta nashr qiling.
@@ -276,7 +279,7 @@ Marshrutlaringiz, `bootstrap/app.php` va maxsus middleware ro‘yxatlaridagi imp
 
 Model middlewareni autentifikatsiya mexanizmi bilan yaratgan bo‘lsangiz, uni Laravel middleware parametri sifatida uzating, masalan, `LocalizationByModelMiddleware::class . ':admin'`. Uning foydalanuvchini aniqlash vositasi Eloquent modelini kutadi. Maxsus hosila sinflarda `LaravelLang\Config\Services\RouteLangConfig` ni bog‘liqlik sifatida uzating, manba nomlarini `$this->routeConfig->name` dan o‘qing va `detect()` dan `int|string|null` qaytaring. `LaravelLang\Routes\Services\Route` ga bevosita murojaatlarni `LaravelLang\Routes\Services\RouteService` ga almashtiring.
 
-Ilovangiz foydalanadigan har bir manbani sinang. HTTP sarlavhasi orqali aniqlash endi PHP Intl yordamida `Accept-Language` dan ajratilgan til maydonini oladi. Brauzer afzalliklari tartibi yoki hududga xos moslikka tayangan bo‘lsangiz, tanlovni maxsus middlewareda amalga oshiring. Keyingi middleware oldingi manba qiymatini, jumladan URL’dan olingan lokalni almashtirishi mumkin. Agar URL ustun turishi kerak bo‘lsa, sozlangan ro‘yxatlaringiz tartibini o‘zgartiring.
+Ilovangiz foydalanadigan har bir manbani sinang. Sarlavha orqali aniqlash `Accept-Language` dagi afzallik tartibiga ko‘ra o‘rnatilgan tillarni PHP Intl bilan tekshiradi. Avval to‘liq til tegi, keyin asosiy til sinab ko‘riladi. Keyingi middleware oldingi manba tanlagan lokalni almashtirishi mumkin. Prefiksli marshrutlarda URL lokalni belgilashi uchun ularning zanjirida faqat URL’dan lokal tanlaydigan middlewareni qoldiring.
 
 URL yaratish va so‘rovlarni alohida sinang. `localization_routes.hide` URL yaratilganda zaxira lokal segmentini yashiradi. `localization_routes.redirect` joriy lokal uchun prefiksli so‘rovlarni prefikssiz marshrutga yo‘naltiradi. Nomlangan prefiksli marshrut yaroqsiz yoki o‘rnatilmagan lokalni ham prefikssiz marshrutga yo‘naltiradi.
 
@@ -308,7 +311,7 @@ $article->translation('de_CH');
 
 `translated()`, `whereTranslation()` va tegishli so‘rov doiralarini Eloquent so‘rov tuzuvchisi orqali chaqiring. Doiraning lokal satri sifatida kod yoki muqobil nom uzating. `orderByTranslation()` uchun `'asc'`, `'desc'` yoki `SortDirection` dan foydalaning. `whereTranslation()` yoki `whereTranslationLike()` orqali joriy va zaxira lokallardan boshqa lokalni so‘ranganda, `localization_models.filter` ni `false` qilib belgilang yoki bevosita `translationsRaw()` ga so‘rov yuboring.
 
-`$event->locale->value` ni chaqiradigan yoki `$event->locale` ni `Locale` enumi bilan solishtiradigan hodisa ishlovchilarini yangilang. `TranslationHasBeenSetEvent` va `TranslationHasBeenForgetEvent` endi aniq lokal uchun satr ko‘rinishidagi muqobil nomni olib yuradi. Chaqiruvchi lokalni bermasa, ikkala hodisada ham `null` bo‘ladi. Muqobil nomni saqlanadigan kalit sifatida ishlatishdan oldin `Locales::fromAlias()` bilan o‘giring. Qiymat belgilash hodisasi atributga qiymat tayinlanganda, `save()` dan oldin yuz beradi. Model tarjimasiga oid uchta hodisadan birortasini qo‘lda yuborish uchun `event(new …)` dan foydalaning.
+`$event->locale->value` ni chaqiradigan yoki `$event->locale` ni `Locale` enumi bilan solishtiradigan hodisa ishlovchilarini yangilang. `TranslationHasBeenSetEvent` va `TranslationHasBeenForgetEvent` endi aniq lokal uchun satr ko‘rinishidagi muqobil nomni olib yuradi. Chaqiruvchi lokalni bermasa, qiymat belgilash hodisasida `null` bo‘ladi. Muqobil nomni saqlanadigan kalit sifatida ishlatishdan oldin `Locales::fromAlias()` bilan o‘giring. Qiymat belgilash hodisasi atributga qiymat tayinlanganda, `save()` dan oldin yuz beradi. Model tarjimasiga oid uchta hodisadan birortasini qo‘lda yuborish uchun `event(new …)` dan foydalaning.
 
 Yaratilgan IDE yordamchi fayllarini saqlasangiz, importlar va modellarni aniqlash yo‘llarini yangilagach, `php artisan lang:models-helper` buyrug‘ini bajaring. [Model tarjimalari](./models.md)
 

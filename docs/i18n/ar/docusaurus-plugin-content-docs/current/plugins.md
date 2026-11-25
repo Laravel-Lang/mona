@@ -10,7 +10,7 @@ description: "ثبّت حزم الترجمة أو انشر إضافتك الخا
 ثبّت الحزمة في تطبيق Laravel وحدّث الإعدادات المحلية التي تستخدمها بالفعل. مثلًا، تضيف حزمة Actions تسميات للأزرار وغيرها من الإجراءات.
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ return [
 
 في التطبيق، تقرأ `__('Enable audit trail')` ترجمة JSON، وتقرأ `__('audit.enable')` ترجمة PHP. تكون الأولوية لترجمات الحزمة على مدخلات Library المشتركة للعبارة نفسها. وإذا غابت العبارة عن القاموسين، تستخدم Publisher القيمة المصدرية.
 
+استخدم اسم Composer خاصًا بحزمتك واستبدل متطلبات `self.version` في القالب بقيود مناسبة للإصدار مثل `^20.0`. استخدم رموز الإعدادات المحلية القياسية في أسماء أدلة القواميس. ضع الترجمات الأساسية في `default.json` وأشكالها البديلة في ملفات مثل `inline.json`.
+
 ### تطبيق الترجمات بحسب الشروط {#apply-translations-conditionally}
 
 | خاصية ملف التعريف | متى ينطبق الربط |
@@ -91,3 +93,13 @@ return [
 | `vendor` و`project: true` | اسم مشروع Composer الجذر يطابق `vendor`. تتحقّق Publisher من الاسم في هذا الوضع. |
 
 استخدم مدخلين في ملف التعريف إذا وجب أن ينطبق الربط على تبعية مثبّتة وعلى مشروع جذر يحمل الاسم نفسه. راجع [دليل الترقية](./upgrade.md) لتحويل مزوّد قديم و[الإعداد](./configure.md) لقواعد الاستثناء وفرض مطابقة الحزم.
+
+### اختبار الحزمة في تطبيق Laravel {#test-a-pack-in-a-laravel-application}
+
+شغّل الأوامر من جذر تطبيق الاختبار، على افتراض أن الحزمة موجودة في دليل مجاور. تحقّق من `lang/fr.json` و`lang/fr/audit.php`، واضبط لغة التطبيق على `fr` واختبر مفتاحي الترجمة. بعد تعديل الحزمة، انشر الترجمات مجددًا باستخدام `php artisan lang:update`.
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

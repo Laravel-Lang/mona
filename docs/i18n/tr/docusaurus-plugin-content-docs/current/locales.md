@@ -41,16 +41,19 @@ if (Locales::isInstalled('fr')) {
 
 $canonicalCode = Locales::current(false);
 $displayCode = Locales::current();
-$choices = Locales::data()->installed();
 ```
 
 `set()`, kod, takma ad, `Locale` enum değeri veya `LocaleData` nesnesi kabul eder. Yerel ayar kuruluysa Laravel’in yerel ayarını ilgili standart kodla günceller. Kodun desteklenip desteklenmediğini kontrol etmek için `isAvailable()`, dosya veya koruma durumunu kontrol etmek için `isInstalled()` kullanın. `isProtected()` geçerli ve yedek yerel ayarları saptar.
 
 `current()` önce Laravel’in geçerli yerel ayarını, tanınmıyorsa `fallback()` sonucunu kullanır. `fallback()`, Laravel’de yapılandırılan yedek yerel ayarı çözümler ve ayar bilinmiyorsa `en` döndürür. Her iki metot da standart kodlar için aynı `false` argümanını kabul eder.
 
+Bir takma adı standart koda çözümlemek için `fromAlias()`, standart kodun takma adını almak için `toAlias()` kullanın. Bu dönüşümler, tanınmayan ve boş olmayan metinleri olduğu gibi bırakır. Girdiyi doğrulamak için `isAvailable()` kullanın.
+
+## Yerel ayar seçeneklerini gösterme {#display-locale-choices}
+
 `Locales::info('fr')`, `code`, `alias`, `native` ve `localized` özelliklerine sahip bir `LaravelLang\LocaleNames\LocaleData` nesnesi döndürür. Görüntüleme dili, uygulamanın geçerli yerel ayarıdır. Geçerli yerel ayar için argümanı boş bırakın. Bilinen bir yerel ayarın bilgileri kurulumdan önce alınabilir. Bilinmeyen bir kod `LaravelLang\Exceptions\UnknownLocaleException` hatasına yol açar.
 
-Bir takma adı standart koda çözümlemek için `fromAlias()`, standart kodun takma adını almak için `toAlias()` kullanın. Bu dönüşümler, tanınmayan ve boş olmayan metinleri olduğu gibi bırakır. Girdiyi doğrulamak için `isAvailable()` kullanın.
+Kurulu yerel ayarları `LocaleData` nesneleri olarak almak için `Locales::data()->installed()` kullanın. `data()` başka koleksiyonlar için `available()`, `uninstalled()` ve `protects()`, tekil nesneler için ise `current()` ve `fallback()` sağlar. Dil seçicide değer olarak `alias` gönderilebilir ve etiket olarak `native` adı gösterilebilir.
 
 ## Yerel ayar, ülke ve para birimi adlarını sorgulama {#look-up-locale-country-and-currency-names}
 

@@ -19,7 +19,9 @@ Le tag `localization` publie les cinq fichiers. Chaque nom de fichier sans l’e
 | `localization_models.php` | [Suffixe des modèles de traduction, filtrage et chemins du générateur](./models.md) |
 | `localization_map.php` | Métadonnées de langue, par exemple l’écriture, la région et le sens de lecture |
 
-Après avoir modifié la configuration, videz son cache. Exécutez `php artisan lang:update` pour régénérer les traductions concernées par les paramètres de publication.
+Laravel remplace chaque paramètre de premier niveau par la valeur définie dans l’application. Si vous modifiez le tableau `locales` dans `localization_punctuation.php`, conservez les réglages par défaut des langues dont vous avez encore besoin.
+
+Après une modification, videz le cache de configuration s’il existe avec `php artisan config:clear`. Exécutez `php artisan lang:update` pour régénérer les traductions concernées par les paramètres de publication.
 
 ## Styles de traduction {#translation-styles}
 
@@ -47,6 +49,8 @@ Définissez `localization_main.aliases` sous forme de correspondances entre code
 
 Artisan peut accepter `de-CH`, tandis que Laravel et les fichiers publiés utilisent `de_CH`. Utilisez les codes canoniques pour `APP_LOCALE` et `APP_FALLBACK_LOCALE`. Consultez [Langues et libellés](./locales.md) pour voir des exemples de conversion et de recherche.
 
+La comparaison des alias est sensible à la casse. Attribuez à chaque langue un alias unique, différent des codes canoniques des autres langues.
+
 ## Exclure des fichiers et forcer des intégrations {#skip-files-and-force-integrations}
 
 - `localization_main.skip` compare des motifs `*` sans distinction de casse aux chemins complets, dont le séparateur est `/`. Ce paramètre peut exclure les fichiers sources, les dictionnaires et les destinations de publication. Par exemple, `['*/lang/fr/validation.php']` empêche le Publisher d’écrire ce fichier dans une application qui utilise `lang/`.
@@ -57,3 +61,16 @@ Artisan peut accepter `de-CH`, tandis que Laravel et les fichiers publiés utili
 ## Ponctuation intelligente {#smart-punctuation}
 
 Définissez `LOCALIZATION_PUNCTUATION_ENABLED=true` pour activer les guillemets et tirets typographiques ainsi que les points de suspension dans les traductions publiées. Modifiez `localization_punctuation.common` pour les règles générales et `localization_punctuation.locales` pour les règles particulières définies par code de langue canonique. Le Publisher applique ces règles la prochaine fois qu’il écrit les chaînes publiées.
+
+## Métadonnées des langues {#locale-metadata}
+
+`localization_map.locales` associe les codes canoniques au système d’écriture (`type`), aux paramètres régionaux (`regional`) et à un sens d’écriture facultatif (`direction`). Utilisez `Direction::LeftToRight` si le sens d’écriture est absent.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

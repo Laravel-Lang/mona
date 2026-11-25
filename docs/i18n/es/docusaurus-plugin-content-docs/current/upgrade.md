@@ -54,12 +54,15 @@ Laravel-Lang usa ahora códigos canónicos de configuración regional para los v
 
 La versión actual es compatible con Laravel 12 y 13 y requiere PHP `^8.3`. En `composer.json` de tu aplicación, establece la restricción `^20.0` para cada paquete de la siguiente tabla que figure en `require` o `require-dev`. Si solo tienes instalado `laravel-lang/common`, ese es el único requisito que necesitas cambiar.
 
+Antes de instalar `20.x` o actualizar a esa versión, comprueba que la versión del paquete de Composer que necesitas esté disponible en Packagist. La versión de Mona y sus paquetes de Composer pueden publicarse en momentos distintos.
+
 | Uso | Paquetes de Composer |
 | --- | --- |
 | Paquete conjunto | `laravel-lang/common` |
 | Paquetes de traducción | `laravel-lang/lang`, `laravel-lang/starter-kits`, `laravel-lang/moonshine`, `laravel-lang/actions`, `laravel-lang/attributes`, `laravel-lang/http-statuses` |
-| Publicación y configuración | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback` |
+| Publicación y configuración | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback`, `laravel-lang/library` |
 | Integraciones con la aplicación | `laravel-lang/locales`, `laravel-lang/locale-list`, `laravel-lang/routes`, `laravel-lang/models` |
+| Utilidades compartidas | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | Plantilla de paquete | `laravel-lang/translations-template` |
 
 Si tu instalación solo usa el flujo de trabajo de traducción estándar, actualiza las dependencias y vuelve a publicar las traducciones.
@@ -278,7 +281,7 @@ Reemplaza las importaciones y los registros en tus rutas, `bootstrap/app.php` y 
 
 Si construías el middleware de modelos con un guard, pásalo como parámetro de middleware de Laravel, por ejemplo `LocalizationByModelMiddleware::class . ':admin'`. Su función de resolución de usuario espera un modelo de Eloquent. En subclases de middleware personalizadas, inyecta `LaravelLang\Config\Services\RouteLangConfig`, lee los nombres de las fuentes de `$this->routeConfig->name` y devuelve `int|string|null` desde `detect()`. Reemplaza las referencias directas a `LaravelLang\Routes\Services\Route` por `LaravelLang\Routes\Services\RouteService`.
 
-Prueba cada fuente que use la aplicación. La detección por encabezado ahora usa PHP Intl y toma el campo de idioma extraído de `Accept-Language`. Si dependías del orden de las preferencias del navegador o de coincidencias regionales, implementa esa selección en un middleware personalizado. Un middleware posterior puede sustituir una fuente anterior, incluida la configuración regional de la URL. Reordena las listas configuradas si la URL debe tener prioridad.
+Prueba cada fuente que use la aplicación. La detección por encabezado usa PHP Intl para comprobar los idiomas instalados en el orden de preferencia de `Accept-Language`. Prueba la etiqueta completa antes del idioma base. Un middleware posterior puede sustituir la configuración regional elegida por una fuente anterior. Para que prevalezca la URL en las rutas con prefijo, conserva solo el middleware que obtiene la configuración regional de la URL en la cadena de esas rutas.
 
 Prueba por separado la generación de URL y las solicitudes. `localization_routes.hide` oculta el segmento de configuración regional de reserva al generar una URL. `localization_routes.redirect` redirige las solicitudes con prefijo de la configuración regional actual a la ruta sin prefijo. Una ruta con nombre y prefijo también redirige las configuraciones regionales no válidas o no instaladas a la ruta sin prefijo.
 
@@ -310,7 +313,7 @@ Con un alias `de_CH` → `de-CH` y el alemán de Suiza instalado, ambas llamadas
 
 Llama a `translated()`, `whereTranslation()` y otros ámbitos relacionados mediante el generador de consultas de Eloquent. Pasa un código o alias como cadena de configuración regional al ámbito. Para `orderByTranslation()`, usa `'asc'`, `'desc'` o `SortDirection`. Si consultas una configuración regional distinta de la actual o de reserva mediante `whereTranslation()` o `whereTranslationLike()`, establece `localization_models.filter` en `false` o consulta `translationsRaw()` directamente.
 
-Actualiza los consumidores de eventos que llaman a `$event->locale->value` o comparan `$event->locale` con una enumeración `Locale`. `TranslationHasBeenSetEvent` y `TranslationHasBeenForgetEvent` ahora contienen un alias de cadena cuando se indica una configuración regional. Ambos eventos contienen `null` si se omite. Convierte el alias con `Locales::fromAlias()` antes de usarlo como clave persistente. El evento de asignación se ejecuta al asignar el atributo, antes de `save()`. Para emitir manualmente cualquiera de los tres eventos de traducción de modelos, usa `event(new …)`.
+Actualiza los consumidores de eventos que llaman a `$event->locale->value` o comparan `$event->locale` con una enumeración `Locale`. `TranslationHasBeenSetEvent` y `TranslationHasBeenForgetEvent` ahora contienen un alias de cadena cuando se indica una configuración regional. El evento de asignación contiene `null` si se omite la configuración regional. Convierte el alias con `Locales::fromAlias()` antes de usarlo como clave persistente. El evento de asignación se ejecuta al asignar el atributo, antes de `save()`. Para emitir manualmente cualquiera de los tres eventos de traducción de modelos, usa `event(new …)`.
 
 Si conservas los archivos de ayuda generados para el IDE, ejecuta `php artisan lang:models-helper` después de actualizar las importaciones y las rutas de detección de modelos. [Traducciones de modelos](./models.md)
 

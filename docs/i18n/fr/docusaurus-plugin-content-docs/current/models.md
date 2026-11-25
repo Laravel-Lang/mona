@@ -6,7 +6,7 @@ description: "Stockez, lisez et interrogez les attributs Eloquent localisés ave
 `laravel-lang/models` ajoute des attributs traduits à un modèle Eloquent existant. Chaque ligne de traduction stocke un code de langue et les valeurs des attributs dans cette langue. Common inclut ce paquet, qui nécessite l’extension PHP Intl.
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## Ajouter des traductions à un modèle {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 Le générateur ajoute le trait `LaravelLang\Models\HasTranslations` au modèle principal et crée le modèle associé `ArticleTranslation`, une migration et un fichier d’aide pour l’IDE. La migration crée une clé étrangère vers l’article, une contrainte d’unicité sur la paire `(item_id, locale)` et des colonnes de type chaîne qui acceptent la valeur nulle pour les valeurs traduites. Si la table principale contient déjà ces valeurs, déplacez-les dans les lignes de traduction avant d’utiliser les accesseurs du nouveau modèle.
 
 Si le modèle se trouve en dehors de `app/Models`, ajoutez son répertoire à [`localization_models.directories`](./configure.md) avant de lancer le générateur.
+
+Lancez `php artisan make:model-translation` pour choisir le modèle et ses colonnes de manière interactive. Sans saisie, le générateur utilise `title` et `description`. Pour ajouter un champ plus tard, créez une migration et ajoutez le champ aux attributs assignables et aux conversions du modèle de traduction.
 
 ## Écrire et lire les attributs traduits {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+Les modèles préchargent la relation `translations()`. `orWhereTranslation()` et `orWhereTranslationLike()` ajoutent des conditions alternatives. `orderByTranslation()` trie selon une seule langue, celle en cours par défaut.
 
 ## Observer les changements et actualiser les fichiers d’aide pour l’IDE {#observe-changes-and-refresh-ide-helpers}
 

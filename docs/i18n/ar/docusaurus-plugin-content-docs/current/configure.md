@@ -19,7 +19,9 @@ php artisan vendor:publish --tag=localization_main
 | `localization_models.php` | [لاحقة نموذج الترجمة والتصفية ومسارات المولّد](./models.md) |
 | `localization_map.php` | بيانات الإعداد المحلي، مثل نظام الكتابة والمنطقة واتجاه النص |
 
-بعد تغيير الإعدادات، امسح ذاكرة التخزين المؤقت للإعدادات. شغّل `php artisan lang:update` لإعادة توليد الترجمات التي تأثرت بإعدادات النشر.
+يستبدل Laravel إعدادات المستوى الأعلى بالقيم المحددة في التطبيق. إذا عدّلت مصفوفة `locales` في `localization_punctuation.php`، فأبقِ قواعد الإعدادات المحلية الافتراضية التي ما زلت تحتاج إليها.
+
+بعد تغيير الإعدادات، امسح ذاكرة التخزين المؤقت إن وجدت باستخدام `php artisan config:clear`. شغّل `php artisan lang:update` لتوليد الترجمات المتأثرة بإعدادات النشر من جديد.
 
 ## أساليب الترجمة {#translation-styles}
 
@@ -47,6 +49,8 @@ php artisan vendor:publish --tag=localization_main
 
 يمكن لـ Artisan قبول `de-CH`، بينما يستخدم Laravel والملفات المنشورة `de_CH`. اضبط `APP_LOCALE` و`APP_FALLBACK_LOCALE` على الرموز المعتمدة. راجع [الإعدادات المحلية والأسماء](./locales.md) للاطلاع على أمثلة التحويل والبحث.
 
+مطابقة الاسم البديل حساسة لحالة الأحرف. اختر اسمًا بديلًا فريدًا لكل إعداد محلي، مختلفًا عن الرموز المعتمدة للإعدادات الأخرى.
+
 ## استثناء الملفات وفرض عمليات التكامل {#skip-files-and-force-integrations}
 
 - يطابق `localization_main.skip` الأنماط التي تحتوي على `*` بالمسارات الكاملة المفصولة بالرمز `/` دون تمييز حالة الأحرف. ويمكنه استثناء الملفات المصدرية والقواميس ووجهات النشر. مثلًا، يمنع `['*/lang/fr/validation.php']` حزمة Publisher من الكتابة إلى تلك الوجهة في تطبيق يستخدم `lang/`.
@@ -57,3 +61,16 @@ php artisan vendor:publish --tag=localization_main
 ## علامات الترقيم الذكية {#smart-punctuation}
 
 اضبط `LOCALIZATION_PUNCTUATION_ENABLED=true` لتفعيل علامات الاقتباس والشرطات وعلامة الحذف الطباعية في الترجمات المنشورة. حرّر `localization_punctuation.common` للقواعد العامة و`localization_punctuation.locales` للاستثناءات الخاصة بالرموز المحلية المعتمدة. تُطبَّق هذه القواعد على النصوص في المرة التالية التي تكتبها فيها Publisher.
+
+## البيانات الوصفية للإعداد المحلي {#locale-metadata}
+
+يربط `localization_map.locales` الرموز المعتمدة بالنظام الكتابي (`type`) والإعداد المحلي الإقليمي (`regional`) واتجاه الكتابة الاختياري (`direction`). استخدم `Direction::LeftToRight` إذا لم يُضبط اتجاه.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

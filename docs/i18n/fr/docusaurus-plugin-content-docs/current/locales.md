@@ -41,16 +41,19 @@ if (Locales::isInstalled('fr')) {
 
 $canonicalCode = Locales::current(false);
 $displayCode = Locales::current();
-$choices = Locales::data()->installed();
 ```
 
 `set()` accepte un code, un alias, un cas de l’énumération `Locale` ou un objet `LocaleData`. Si la langue est installée, la méthode définit le code canonique comme langue de Laravel. Utilisez `isAvailable()` pour vérifier si un code est pris en charge, et `isInstalled()` si la présence de fichiers ou la protection de la langue importe. `isProtected()` identifie la langue active et la langue de repli.
 
 `current()` utilise la langue active de Laravel si elle est reconnue, puis recourt à `fallback()`. `fallback()` résout la langue de repli configurée dans Laravel et utilise `en` si elle est inconnue. Les deux méthodes acceptent l’argument `false` pour renvoyer les codes canoniques.
 
+Utilisez `fromAlias()` pour obtenir le code canonique d’un alias et `toAlias()` pour obtenir l’alias d’un code canonique. Ces conversions laissent les chaînes non vides non reconnues telles quelles. Utilisez `isAvailable()` pour valider les entrées.
+
+## Afficher les langues à sélectionner {#display-locale-choices}
+
 `Locales::info('fr')` renvoie un objet `LaravelLang\LocaleNames\LocaleData` qui contient les propriétés `code`, `alias`, `native` et `localized`. La langue d’affichage est celle de l’application. Omettez l’argument pour obtenir la langue active. Vous pouvez interroger une langue connue avant son installation. Un code inconnu déclenche une exception `LaravelLang\Exceptions\UnknownLocaleException`.
 
-Utilisez `fromAlias()` pour obtenir le code canonique d’un alias et `toAlias()` pour obtenir l’alias d’un code canonique. Ces conversions laissent les chaînes non vides non reconnues telles quelles. Utilisez `isAvailable()` pour valider les entrées.
+Utilisez `Locales::data()->installed()` pour obtenir les langues installées sous forme d’objets `LocaleData`. Avec `data()`, `available()`, `uninstalled()` et `protects()` renvoient d’autres collections, tandis que `current()` et `fallback()` renvoient des objets individuels. Un sélecteur de langue peut transmettre `alias` comme valeur et afficher le nom `native` comme libellé.
 
 ## Rechercher les noms de langues, de pays et de devises {#look-up-locale-country-and-currency-names}
 

@@ -49,12 +49,6 @@
     min-block-size: 2.75rem;
 }
 
-.hero .installCommand {
-    max-inline-size: 34rem;
-    margin: 0;
-    border-radius: var(--radius-md);
-}
-
 .codePreview {
     display: grid;
     grid-template-columns: minmax(0, 1fr);

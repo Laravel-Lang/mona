@@ -12,7 +12,7 @@
 
 ## Documentation
 
-See the [documentation](https://laravel-lang.com/start) for detailed information.
+[Edit the shared translation dictionaries.](https://laravel-lang.com/contributing#fix-or-add-a-translation)
 
 ## Contributing
 

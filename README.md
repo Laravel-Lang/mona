@@ -10,13 +10,14 @@
 [![License](https://img.shields.io/packagist/l/laravel-lang/lang.svg?style=flat-square)](https://laravel-lang.com/license)
 
 
+Laravel Lang publishes translations for Laravel and its packages. It also provides tools to localize Eloquent models and routes, and to list locales and translated names.
+
 ## Documentation
 
-See the [documentation](https://laravel-lang.com/start) for detailed information.
-
-## Contributing
-
-Please see [CONTRIBUTING](https://laravel-lang.com/contributing) for details.
+- [Getting started](https://laravel-lang.com/start) explains how to install 20.x and publish your first locale.
+- [Upgrade to 20.x](https://laravel-lang.com/upgrade) covers Composer dependencies, configuration, and existing translations.
+- [Legacy documentation](https://laravel-lang.com/legacy) covers releases before 20.x.
+- [Contributing](https://laravel-lang.com/contributing) covers translation changes, local development, and documentation previews.
 
 ## License
 

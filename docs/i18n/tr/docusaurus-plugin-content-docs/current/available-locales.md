@@ -104,8 +104,8 @@ Listeye kodda [`Locale::values()`](./locales.md#find-supported-and-installed-loc
 | Sanskrit | `sa` |
 | Sardunya dili | `sc` |
 | İskoç Gaelcesi | `gd` |
-| Sırpça | `sr_Cyrl` |
-| Sırpça | `sr_Latn` |
+| Sırpça (Kiril) | `sr_Cyrl` |
+| Sırpça (Latin) | `sr_Latn` |
 | Sırpça (Karadağ) | `sr_Latn_ME` |
 | Şona dili | `sn` |
 | Sindhi dili | `sd` |
@@ -130,8 +130,8 @@ Listeye kodda [`Locale::values()`](./locales.md#find-supported-and-installed-loc
 | Uygurca | `ug` |
 | Ukraynaca | `uk` |
 | Urduca | `ur` |
-| Özbekçe | `uz_Cyrl` |
-| Özbekçe | `uz_Latn` |
+| Özbekçe (Kiril) | `uz_Cyrl` |
+| Özbekçe (Latin) | `uz_Latn` |
 | Vietnamca | `vi` |
 | Galce | `cy` |
 | Zosa dili | `xh` |

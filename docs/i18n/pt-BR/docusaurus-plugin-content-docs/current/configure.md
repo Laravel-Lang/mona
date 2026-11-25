@@ -19,7 +19,9 @@ A tag `localization` publica os cinco arquivos. Cada nome de arquivo sem `.php` 
 | `localization_models.php` | [Sufixo de modelos de tradução, filtros e caminhos do gerador](./models.md) |
 | `localization_map.php` | Metadados de localidades, como sistema de escrita, região e direção |
 
-Depois de alterar a configuração, limpe seu cache. Execute `php artisan lang:update` para gerar novamente as traduções afetadas pelas configurações de publicação.
+O Laravel substitui cada configuração de nível superior pelo valor definido na aplicação. Ao editar o array `locales` de `localization_punctuation.php`, preserve os ajustes padrão das localidades que ainda quiser usar.
+
+Depois de alterar a configuração, limpe o cache existente com `php artisan config:clear`. Execute `php artisan lang:update` para gerar novamente as traduções afetadas pelos ajustes de publicação.
 
 ## Estilos de tradução {#translation-styles}
 
@@ -47,6 +49,8 @@ Defina `localization_main.aliases` como um mapa de códigos canônicos para alia
 
 O Artisan pode aceitar `de-CH`, enquanto o Laravel e os arquivos publicados usam `de_CH`. Defina `APP_LOCALE` e `APP_FALLBACK_LOCALE` com códigos canônicos. Consulte [Localidades e nomes](./locales.md) para exemplos de conversão e consulta.
 
+Os aliases distinguem maiúsculas de minúsculas. Use um alias exclusivo para cada localidade, diferente dos códigos canônicos das outras localidades.
+
 ## Ignorar arquivos e forçar integrações {#skip-files-and-force-integrations}
 
 - `localization_main.skip` compara padrões `*` sem distinção entre maiúsculas e minúsculas com caminhos completos separados por `/`. Pode excluir arquivos de origem, dicionários e destinos de publicação. Por exemplo, `['*/lang/fr/validation.php']` impede que o Publisher grave esse destino em uma aplicação que usa `lang/`.
@@ -57,3 +61,16 @@ O Artisan pode aceitar `de-CH`, enquanto o Laravel e os arquivos publicados usam
 ## Pontuação tipográfica {#smart-punctuation}
 
 Defina `LOCALIZATION_PUNCTUATION_ENABLED=true` para ativar aspas tipográficas, travessões e reticências nas traduções publicadas. Edite `localization_punctuation.common` para regras gerais e `localization_punctuation.locales` para substituições indexadas por código canônico da localidade. As strings publicadas passam a seguir essas regras na próxima vez que o Publisher as gravar.
+
+## Metadados de localidades {#locale-metadata}
+
+`localization_map.locales` mapeia os códigos canônicos para sistema de escrita (`type`), variante regional (`regional`) e direção de escrita opcional (`direction`). Use `Direction::LeftToRight` quando a direção não estiver configurada.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

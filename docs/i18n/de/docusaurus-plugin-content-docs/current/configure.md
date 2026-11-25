@@ -19,7 +19,9 @@ Der Tag `localization` veröffentlicht alle fünf Dateien. Jeder Dateiname ohne 
 | `localization_models.php` | [Suffix für Übersetzungsmodelle, Filter und Generatorpfade](./models.md) |
 | `localization_map.php` | Locale-Metadaten wie Schrift, Region und Schreibrichtung |
 
-Leere nach einer Konfigurationsänderung den Konfigurationscache. Führe `php artisan lang:update` aus, um die von den Veröffentlichungseinstellungen betroffenen Übersetzungen neu zu generieren.
+Laravel überschreibt Einstellungen der obersten Ebene mit den Werten der Anwendung. Wenn du das Array `locales` in `localization_punctuation.php` änderst, behalte die Standardwerte für Locales bei, die du weiterhin nutzen willst.
+
+Leere nach Konfigurationsänderungen einen vorhandenen Cache mit `php artisan config:clear`. Führe `php artisan lang:update` aus, um die von den Veröffentlichungseinstellungen betroffenen Übersetzungen neu zu generieren.
 
 ## Übersetzungsstile {#translation-styles}
 
@@ -47,6 +49,8 @@ Weise in `localization_main.aliases` jedem kanonischen Code den gewünschten Ali
 
 Artisan kann `de-CH` akzeptieren. Laravel und die veröffentlichten Dateien verwenden `de_CH`. Setze `APP_LOCALE` und `APP_FALLBACK_LOCALE` auf kanonische Codes. Beispiele zur Umwandlung und Abfrage findest du unter [Locales und Namen](./locales.md).
 
+Bei Aliasen wird Groß- und Kleinschreibung unterschieden. Verwende für jede Locale einen eindeutigen Alias, der sich von den kanonischen Codes anderer Locales unterscheidet.
+
 ## Dateien ausschließen und Integrationen erzwingen {#skip-files-and-force-integrations}
 
 - `localization_main.skip` gleicht vollständige Pfade mit `/` als Trennzeichen mit `*`-Mustern ab und ignoriert dabei die Groß- und Kleinschreibung. So kannst du Quelldateien, Wörterbücher und Veröffentlichungsziele ausschließen. Zum Beispiel verhindert `['*/lang/fr/validation.php']`, dass der Publisher diese Zieldatei in einer Anwendung mit `lang/` schreibt.
@@ -57,3 +61,16 @@ Artisan kann `de-CH` akzeptieren. Laravel und die veröffentlichten Dateien verw
 ## Intelligente Zeichensetzung {#smart-punctuation}
 
 Setze `LOCALIZATION_PUNCTUATION_ENABLED=true`, um typografische Anführungszeichen, Gedankenstriche und Auslassungspunkte in veröffentlichten Übersetzungen zu aktivieren. Die allgemeinen Regeln bearbeitest du in `localization_punctuation.common`, die Ausnahmen nach kanonischem Locale-Code in `localization_punctuation.locales`. Der Publisher übernimmt die Regeln, wenn er die Übersetzungen das nächste Mal schreibt.
+
+## Locale-Metadaten {#locale-metadata}
+
+`localization_map.locales` ordnet kanonischen Codes die Schrift (`type`), die regionale Locale (`regional`) und die optionale Schreibrichtung (`direction`) zu. Verwende `Direction::LeftToRight`, wenn keine Richtung eingestellt ist.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

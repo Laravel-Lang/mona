@@ -10,7 +10,7 @@ Publisher 会发现通过 Composer 安装的翻译包。翻译包提供 `laravel
 在 Laravel 应用中安装翻译包，然后更新已使用的语言区域。例如，Actions 包会添加按钮和其他操作的标签。
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ return [
 
 在应用中，`__('Enable audit trail')` 读取 JSON 译文，`__('audit.enable')` 读取 PHP 译文。同一短语的包内译文优先于共享 Library 条目。如果两份词典都不包含该短语，Publisher 会使用源值。
 
+为翻译包设置独立的 Composer 名称，并将模板中的 `self.version` 替换为 `^20.0` 等版本约束。词典目录使用规范语言区域代码。标准翻译放在 `default.json`，不同样式放在 `inline.json` 等文件中。
+
 ### 按条件应用译文 {#apply-translations-conditionally}
 
 | 清单属性 | 应用映射的条件 |
@@ -91,3 +93,13 @@ return [
 | `vendor` 和 `project: true` | 根项目的 Composer 名称与 `vendor` 匹配。在此模式下，Publisher 检查项目名。 |
 
 如果映射既要适用于已安装的依赖，又要适用于同名的根项目，请使用两个清单条目。迁移旧版服务提供者请参阅[升级指南](./upgrade.md)，跳过规则和强制包匹配请参阅[配置](./configure.md)。
+
+### 在 Laravel 应用中测试包 {#test-a-pack-in-a-laravel-application}
+
+如果翻译包在测试应用的同级目录中，请在应用根目录运行这些命令。检查 `lang/fr.json` 和 `lang/fr/audit.php`，将应用的语言区域设为 `fr`，测试两个翻译键。修改翻译包后，运行 `php artisan lang:update`。
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

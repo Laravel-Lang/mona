@@ -14,10 +14,18 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 ## 检查翻译状态 {#check-translation-status}
 
 ```bash
-php src/Toolkit/bin/toolkit status src/Library
+php src/Toolkit/bin/toolkit status src/Lang
 ```
 
 该命令在项目内写入 `locales/<locale>/_status.json`。报告会列出译文与源短语相同的条目，并按风格分组。命令会合并 `locales/_settings.json` 和 `locales/<locale>/_settings.json` 中的排除项，并删除空报告。要找出词典完全没有收录的短语，请将词典与翻译包的源文件对照。
+
+对于有意保留原文的短语，将其加入对应 `_settings.json` 文件的 `excludes`。
+
+```json
+{
+  "excludes": ["Laravel"]
+}
+```
 
 ## 管理语言区域目录 {#manage-locale-directories}
 
@@ -39,6 +47,8 @@ php src/Toolkit/bin/toolkit sync:package path/to/translation-pack
 - `sync:package` 读取一个翻译包的 `source/` 目录，清理其 `locales/` 目录中未使用的条目，并删除清理后变空的词典。
 
 这两个命令都保留仍在使用的短语的现有译文，以及 `_settings.json` 等以下划线开头的文件。要添加新短语的译文，请直接修改词典。
+
+省略参数时，`sync:library` 使用检出目录的 `src/`，`sync:package` 使用当前工作目录。两者都只处理以规范语言区域代码命名的目录。
 
 ## 迁移旧版词典 {#migrate-legacy-dictionaries}
 
@@ -68,3 +78,5 @@ php src/Toolkit/bin/toolkit download \
 - 所选的 PHP 文件和 JSON 文件按文件名复制到目标目录。PHP 文件按原始字节复制。同名 JSON 文件将合并，以导入的值为准。
 - 若未指定 `--only-copy`，Toolkit 会扫描使用字符串字面量作键的受支持的翻译调用。如果找到短语，会生成以目标目录的上一级目录命名的 JSON 源文件，例如上例中的 `framework.json`。
 - 命令需要 PHP ZIP 扩展。它会先暂存更改，再发布文件。如果发布失败，会尝试恢复此前的目标目录。
+
+`--url` 和 `--directory` 为必填选项。`--paths` 中指定的目录会递归扫描。仅查找翻译键时可省略 `--paths`。将找到的键加入翻译包前，请先检查。

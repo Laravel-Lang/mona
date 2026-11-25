@@ -14,10 +14,18 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 ## 翻訳状況を確認する {#check-translation-status}
 
 ```bash
-php src/Toolkit/bin/toolkit status src/Library
+php src/Toolkit/bin/toolkit status src/Lang
 ```
 
 このコマンドはプロジェクト内に `locales/<locale>/_status.json` を書き出します。保存された翻訳が原文と同じエントリをスタイル別に列挙します。`locales/_settings.json` と `locales/<locale>/_settings.json` の除外設定を組み合わせ、空のレポートは削除します。辞書にまったく含まれない文言を見つけるには、パックのソースファイルと比較してください。
+
+意図的に原文と同じ語句は、該当する `_settings.json` の `excludes` に追加します。
+
+```json
+{
+  "excludes": ["Laravel"]
+}
+```
 
 ## ロケールのディレクトリを管理する {#manage-locale-directories}
 
@@ -39,6 +47,8 @@ php src/Toolkit/bin/toolkit sync:package path/to/translation-pack
 - `sync:package` は 1 つのパックの `source/` ディレクトリを読み込み、`locales/` にある辞書の未使用エントリを削除します。削除後に空になった辞書も削除します。
 
 どちらも使用中の文言の既存翻訳を維持し、`_settings.json` のように名前がアンダースコアで始まるファイルを保持します。新しい文言の翻訳は辞書に直接追加してください。
+
+引数を省略すると、`sync:library` は作業コピーの `src/`、`sync:package` は現在の作業ディレクトリを使います。どちらも正規ロケールコードのディレクトリを処理します。
 
 ## 旧版の辞書を移行する {#migrate-legacy-dictionaries}
 
@@ -68,3 +78,5 @@ php src/Toolkit/bin/toolkit download \
 - 対象の PHP ファイルと JSON ファイルは、ファイル名を保って出力先にコピーされます。PHP ファイルはバイト列としてコピーされます。同名の JSON ファイルはマージされ、インポート元の値が優先されます。
 - `--only-copy` を指定しない場合、Toolkit はリテラルキーを持つ対応済み翻訳呼び出しを検索します。文言が見つかれば、例の `framework.json` のように、出力先の親ディレクトリにちなんだ名前の JSON ソースを生成します。
 - このコマンドには PHP の ZIP 拡張機能が必要です。公開前に変更を一時領域に準備し、公開が失敗した場合は出力先を以前の状態に戻そうとします。
+
+`--url` と `--directory` は必須です。`--paths` で指定したディレクトリは再帰的に走査します。翻訳キーの検出だけを行うには `--paths` を省略します。見つかったキーはパックに追加する前に確認してください。

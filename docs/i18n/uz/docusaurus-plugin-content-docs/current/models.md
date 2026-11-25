@@ -6,7 +6,7 @@ description: "Laravel-Lang Models bilan mahalliylashtirilgan Eloquent atributlar
 `laravel-lang/models` mavjud Eloquent modeliga tarjima qilinadigan atributlarni qo‘shadi. Har bir tarjima satrida lokal va shu lokalga tegishli atribut qiymatlari saqlanadi. Paket Common tarkibiga kiradi va PHP Intl’ni talab qiladi.
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## Modelga tarjimalar qo‘shish {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 Generator asosiy modelga `LaravelLang\Models\HasTranslations` treytini qo‘shadi hamda unga hamroh `ArticleTranslation` modeli, migratsiya va IDE yordamchi faylini yaratadi. Migratsiya maqolaga bog‘lovchi tashqi kalit, noyob `(item_id, locale)` juftligi va tarjima qiymatlari uchun null bo‘lishi mumkin bo‘lgan satr ustunlarini yaratadi. Bu qiymatlar asosiy jadvalda saqlanayotgan bo‘lsa, yangi model o‘qish metodlariga tayanishdan oldin ularni tarjima satrlariga ko‘chiring.
 
 Model `app/Models` dan tashqarida bo‘lsa, generatorni ishga tushirishdan oldin uning katalogini [`localization_models.directories`](./configure.md) sozlamasiga qo‘shing.
+
+Model va ustunlarni interaktiv tanlash uchun `php artisan make:model-translation` ni bajaring. Ro‘yxat bo‘sh bo‘lsa, generator `title` va `description` ni ishlatadi. Keyinroq maydon qo‘shish uchun yangi migratsiya yarating va maydonni tarjima modelining to‘ldiriladigan atributlari va o‘girish qoidalariga kiriting.
 
 ## Tarjima qilingan atributlarni yozish va o‘qish {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+Modellar `translations()` aloqasini oldindan yuklaydi. `orWhereTranslation()` va `orWhereTranslationLike()` muqobil shart qo‘shadi. `orderByTranslation()` bitta lokal bo‘yicha saralaydi, standart qiymat joriy lokal.
 
 ## O‘zgarishlarni kuzatish va IDE yordamchi fayllarini yangilash {#observe-changes-and-refresh-ide-helpers}
 

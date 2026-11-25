@@ -6,7 +6,7 @@ description: "Registriere lokalisierte URLs und ermittle die Laravel-Locale aus 
 `laravel-lang/routes` ermittelt die Locale beim Verarbeiten der Anfrage und erstellt URLs für lokalisierte Routengruppen. Das Paket ist in Common enthalten.
 
 ```bash
-composer require laravel-lang/routes
+composer require "laravel-lang/routes:20.*"
 ```
 
 Stelle sicher, dass die [in deinen URLs verwendeten Locales installiert sind](./translations.md). Parameternamen, Middleware und das Verhalten der Standard-Locale konfigurierst du in [`config/localization_routes.php`](./configure.md).
@@ -34,6 +34,8 @@ Mit der Standardkonfiguration registriert die Callback-Funktion beide URL-Muster
 
 Die Locale-Middleware verarbeitet und entfernt den Parameter `locale` vor dem Aufruf des Routen-Handlers. Bei einer Anfrage mit einer unbekannten oder nicht installierten URL-Locale leitet sie zur Route ohne Präfix um, sofern die Route einen Namen hat.
 
+Laravel führt den Callback der Gruppe zweimal aus. Hat die äußere Gruppe den URL-Präfix `admin` und den Namenspräfix `admin.`, heißt die lokalisierte Route `admin.localized.products.show`.
+
 ## Eine lokalisierte URL generieren {#generate-a-localized-url}
 
 ```php
@@ -49,6 +51,8 @@ $url = localizedRoute('products.show', [
 Der Helper verwendet den konfigurierten Locale-Parameternamen und bevorzugt die Route mit Präfix, falls sie existiert. Eine übergebene Locale-Zeichenkette wird an die URL-Generierung durchgereicht. Für eine URL mit Alias übergib den Alias oder ermittle ihn vorher mit [`Locales::toAlias()`](./locales.md). Ohne Locale-Argument verwendet der Helper `Locales::fallback()`. Um die aktuelle Locale zu verwenden, übergib `Locales::current()` ausdrücklich.
 
 `localization_routes.hide` lässt die Fallback-Locale in den vom Helper generierten URLs weg. `localization_routes.redirect` leitet Anfragen für die aktuelle Locale von der Gruppe mit Präfix auf die Route ohne Präfix um. Der Standardwert beider Einstellungen ist `false`.
+
+Übergib `Locale::French->value` für den kanonischen Code oder ein `LocaleData`-Objekt für dessen Alias. Prüfe die Auswahl eines Benutzers mit `Locales::isInstalled()`, bevor du die URL erzeugst.
 
 ## Eine Locale per Middleware bestimmen {#select-a-locale-with-middleware}
 
@@ -66,3 +70,5 @@ Du kannst jede Middleware direkt über ihre Klasse aus `LaravelLang\Routes\Middl
 Für die Gruppe mit Präfix gilt standardmäßig die Reihenfolge URL-Parameter, Cookie, Header, Session und Modell. Die Gruppe ohne Präfix verwendet dieselbe Reihenfolge ohne den URL-Schritt. Eine spätere gültige Quelle kann eine frühere überschreiben. Bei einem Wechsel der Locale aktualisiert die Middleware Laravel und speichert den kanonischen Code unter dem konfigurierten Session-Schlüssel. Verwende die Middleware-Gruppe `web`, wenn du Sessions und Cookies benötigst. Die Header-Middleware benötigt PHP Intl.
 
 Wenn die Middleware die Locale ändert, löst sie `LaravelLang\Routes\Events\LocaleHasBeenSetEvent` aus. Die Eigenschaft `locale` des Ereignisses ist ein Objekt vom Typ `LaravelLang\LocaleNames\LocaleData`. Verwende `$event->locale->code` für den kanonischen Code.
+
+Soll die URL maßgeblich sein, verwende in `localization_routes.middlewares.prefix` nur `LocalizationByParameterPrefixMiddlewareMiddleware::class`. Die Kette für Routen ohne Präfix kannst du separat konfigurieren.

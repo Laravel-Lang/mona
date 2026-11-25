@@ -41,16 +41,19 @@ if (Locales::isInstalled('fr')) {
 
 $canonicalCode = Locales::current(false);
 $displayCode = Locales::current();
-$choices = Locales::data()->installed();
 ```
 
 `set()` akzeptiert einen Code, einen Alias, einen Fall des Enums `Locale` oder ein Objekt vom Typ `LocaleData`. Ist die Locale installiert, setzt die Methode Laravels Locale auf den kanonischen Code. Verwende `isAvailable()`, um zu prüfen, ob ein Code unterstützt wird, und `isInstalled()`, wenn Dateien oder Schutz erforderlich sind. `isProtected()` ermittelt die aktuelle Locale und die Fallback-Locale.
 
 `current()` verwendet zunächst die aktuelle Laravel-Locale, sofern sie erkannt wird, und greift andernfalls auf `fallback()` zurück. `fallback()` löst die in Laravel konfigurierte Fallback-Locale auf und verwendet `en`, falls sie unbekannt ist. Beide Methoden akzeptieren `false` als Argument, um kanonische Codes zurückzugeben.
 
+Verwende `fromAlias()`, um einen Alias zum kanonischen Code aufzulösen, und `toAlias()`, um den Alias eines kanonischen Codes abzurufen. Nichtleere, unbekannte Zeichenketten bleiben bei diesen Umwandlungen erhalten. Verwende `isAvailable()`, um Eingaben zu validieren.
+
+## Locales zur Auswahl anzeigen {#display-locale-choices}
+
 `Locales::info('fr')` gibt ein Objekt vom Typ `LaravelLang\LocaleNames\LocaleData` mit den Eigenschaften `code`, `alias`, `native` und `localized` zurück. Die Anzeigesprache entspricht der aktuellen Locale der Anwendung. Lasse das Argument weg, um die aktuelle Locale abzufragen. Eine bekannte Locale lässt sich bereits vor der Installation abfragen. Ein unbekannter Code löst `LaravelLang\Exceptions\UnknownLocaleException` aus.
 
-Verwende `fromAlias()`, um einen Alias zum kanonischen Code aufzulösen, und `toAlias()`, um den Alias eines kanonischen Codes abzurufen. Nichtleere, unbekannte Zeichenketten bleiben bei diesen Umwandlungen erhalten. Verwende `isAvailable()`, um Eingaben zu validieren.
+Mit `Locales::data()->installed()` erhältst du die installierten Locales als `LocaleData`-Objekte. `data()` bietet außerdem `available()`, `uninstalled()` und `protects()` für weitere Collections sowie `current()` und `fallback()` für einzelne Objekte. Eine Sprachauswahl kann `alias` als Wert übermitteln und `native` als Bezeichnung anzeigen.
 
 ## Locale-, Länder- und Währungsnamen nachschlagen {#look-up-locale-country-and-currency-names}
 

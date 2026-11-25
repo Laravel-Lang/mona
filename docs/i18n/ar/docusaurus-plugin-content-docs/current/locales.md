@@ -41,16 +41,19 @@ if (Locales::isInstalled('fr')) {
 
 $canonicalCode = Locales::current(false);
 $displayCode = Locales::current();
-$choices = Locales::data()->installed();
 ```
 
 تقبل `set()` رمزًا أو اسمًا بديلًا أو حالة من التعداد `Locale` أو كائنًا من نوع `LocaleData`. وتضبط إعداد Laravel المحلي على الرمز المعتمد إذا كان الإعداد مثبّتًا. استخدم `isAvailable()` للتحقّق من دعم الرمز، و`isInstalled()` عندما تُشترط الملفات أو الحماية. تُحدّد `isProtected()` الإعدادين المحليين الحالي والاحتياطي.
 
 تستخدم `current()` إعداد Laravel المحلي الحالي إن كان معروفًا، ثم تلجأ إلى `fallback()`. تستخلص `fallback()` إعداد Laravel الاحتياطي المضبوط وتستخدم `en` افتراضيًا إذا كان مجهولًا. وتقبل كلتاهما الوسيطة `false` للحصول على الرموز المعتمدة.
 
+استخدم `fromAlias()` للحصول على الرمز المعتمد من الاسم البديل، و`toAlias()` للحصول على الاسم البديل من الرمز المعتمد. تُبقي هذه التحويلات السلاسل غير الفارغة وغير المعروفة كما هي. استخدم `isAvailable()` للتحقّق من المدخلات.
+
+## عرض خيارات الإعداد المحلي {#display-locale-choices}
+
 تُعيد `Locales::info('fr')` كائنًا من النوع `LaravelLang\LocaleNames\LocaleData` بخصائص `code` و`alias` و`native` و`localized`. ولغة العرض هي الإعداد المحلي الحالي للتطبيق. احذف الوسيطة للبحث عنه مباشرةً. يمكنك البحث عن إعداد معروف قبل تثبيته. يؤدي الرمز المجهول إلى الاستثناء `LaravelLang\Exceptions\UnknownLocaleException`.
 
-استخدم `fromAlias()` للحصول على الرمز المعتمد من الاسم البديل، و`toAlias()` للحصول على الاسم البديل من الرمز المعتمد. تُبقي هذه التحويلات السلاسل غير الفارغة وغير المعروفة كما هي. استخدم `isAvailable()` للتحقّق من المدخلات.
+استخدم `Locales::data()->installed()` للحصول على الإعدادات المحلية المثبّتة في صورة كائنات `LocaleData`. يوفّر `data()` أيضًا `available()` و`uninstalled()` و`protects()` للمجموعات الأخرى، و`current()` و`fallback()` لكائنات منفردة. يمكن لمحدّد اللغة إرسال `alias` وعرض الاسم `native`.
 
 ## البحث عن أسماء الإعدادات المحلية والبلدان والعملات {#look-up-locale-country-and-currency-names}
 

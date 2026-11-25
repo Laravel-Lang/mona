@@ -6,7 +6,7 @@ description: "خزّن سمات Eloquent المترجمة واقرأها واس�
 تضيف `laravel-lang/models` سمات مترجمة إلى نموذج Eloquent قائم. يخزّن كل صف ترجمة إعدادًا محليًا وقيم السمات لذلك الإعداد. تندرج الحزمة ضمن Common وتتطلب امتداد Intl في PHP.
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## إضافة الترجمات إلى نموذج {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 يضيف المولّد السمة `LaravelLang\Models\HasTranslations` إلى النموذج الأساسي، وينشئ النموذج المرافق `ArticleTranslation` وترحيلًا وملفًا مساعدًا لبيئة التطوير. ينشئ الترحيل مفتاحًا خارجيًا إلى المقالة وزوجًا فريدًا `(item_id, locale)` وأعمدة نصية تقبل `null` للقيم المترجمة. إذا كنت تخزّن هذه القيم في الجدول الأساسي بالفعل، فانقلها إلى صفوف الترجمة قبل الاعتماد على دوال القراءة في النموذج الجديد.
 
 إذا كان النموذج خارج `app/Models`، فأضف مجلده إلى [`localization_models.directories`](./configure.md) قبل تشغيل المولّد.
+
+شغّل `php artisan make:model-translation` لاختيار النموذج والأعمدة تفاعليًا. إذا تركت القائمة فارغة، يستخدم المولّد `title` و`description`. لإضافة حقل لاحقًا، أنشئ ترحيلًا جديدًا وأضف الحقل إلى السمات القابلة للتعبئة والتحويلات في نموذج الترجمة.
 
 ## كتابة السمات المترجمة وقراءتها {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+تحمّل النماذج علاقة `translations()` مسبقًا. تعمل دوال `orWhereTranslation()` و`orWhereTranslationLike()` بديلًا للشروط السابقة. يفرز `orderByTranslation()` حسب إعداد محلي واحد، ويستخدم الحالي عند إغفال الوسيطة.
 
 ## مراقبة التغييرات وتحديث الملفات المساعدة لبيئة التطوير {#observe-changes-and-refresh-ide-helpers}
 

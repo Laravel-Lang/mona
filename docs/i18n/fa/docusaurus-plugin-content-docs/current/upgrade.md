@@ -52,12 +52,15 @@ Laravel-Lang اکنون مقادیر ذخیره‌شده، از جمله مسی�
 
 نسخهٔ فعلی از Laravel 12 و 13 پشتیبانی می‌کند و به PHP `^8.3` نیاز دارد. در `composer.json` برنامه، قید نسخه را برای هر یک از بسته‌های زیر که در `require` یا `require-dev` است روی `^20.0` تنظیم کنید. اگر فقط `laravel-lang/common` را نصب کرده‌اید، همان یک وابستگی را تغییر دهید.
 
+پیش از نصب `20.x` یا ارتقا به آن، بررسی کنید که نسخهٔ بستهٔ Composer مورد نیازتان در Packagist موجود باشد. نسخهٔ Mona و بسته‌های Composer متناظر ممکن است در زمان‌های متفاوتی در دسترس قرار بگیرند.
+
 | کاربرد | بسته‌های Composer |
 | --- | --- |
 | مجموعهٔ بسته‌ها | `laravel-lang/common` |
 | بسته‌های ترجمه | `laravel-lang/lang`، `laravel-lang/starter-kits`، `laravel-lang/moonshine`، `laravel-lang/actions`، `laravel-lang/attributes`، `laravel-lang/http-statuses` |
-| انتشار و پیکربندی | `laravel-lang/publisher`، `laravel-lang/config`، `laravel-lang/json-fallback` |
+| انتشار و پیکربندی | `laravel-lang/publisher`، `laravel-lang/config`، `laravel-lang/json-fallback`, `laravel-lang/library` |
 | یکپارچه‌سازی با برنامه | `laravel-lang/locales`، `laravel-lang/locale-list`، `laravel-lang/routes`، `laravel-lang/models` |
+| ابزارهای مشترک | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | الگوی بسته | `laravel-lang/translations-template` |
 
 اگر نصب شما تنها از رویهٔ استاندارد ترجمه استفاده می‌کند، وابستگی‌ها را به‌روز و ترجمه‌ها را دوباره منتشر کنید.
@@ -276,7 +279,7 @@ importها و ثبت‌ها را در مسیرها، `bootstrap/app.php` و فه
 
 اگر میان‌افزار مدل را با guard ساخته بودید، آن را به‌عنوان پارامتر میان‌افزار Laravel بدهید، برای نمونه `LocalizationByModelMiddleware::class . ':admin'`. تعیین‌کنندهٔ کاربر در آن، یک مدل Eloquent می‌خواهد. در زیرکلاس‌های سفارشی میان‌افزار، `LaravelLang\Config\Services\RouteLangConfig` را تزریق کنید، نام منابع را از `$this->routeConfig->name` بخوانید و از `detect()` نوع `int|string|null` را برگردانید. ارجاع مستقیم به `LaravelLang\Routes\Services\Route` را با `LaravelLang\Routes\Services\RouteService` جایگزین کنید.
 
-هر منبع مورد استفادهٔ برنامه را آزمایش کنید. تشخیص از سرآیند اکنون از PHP Intl استفاده می‌کند و فیلد زبان استخراج‌شده از `Accept-Language` را برمی‌دارد. اگر به ترتیب ترجیح مرورگر یا انطباقِ ویژهٔ منطقه متکی بودید، آن انتخاب را در میان‌افزار سفارشی پیاده کنید. میان‌افزار بعدی می‌تواند منبع پیشین، از جمله زبان منطقه‌ای URL، را بازنویسی کند. اگر URL باید اولویت داشته باشد، ترتیب فهرست‌های تنظیم‌شده را تغییر دهید.
+هر منبع مورد استفادهٔ برنامه را آزمایش کنید. تشخیص از سرآیند با PHP Intl زبان‌های نصب‌شده را به ترتیب ترجیح `Accept-Language` بررسی می‌کند و ابتدا برچسب کامل و سپس زبان پایه را می‌آزماید. میان‌افزار بعدی می‌تواند انتخاب منبع پیشین را بازنویسی کند. برای اینکه URL در مسیرهای پیشونددار تعیین‌کننده باشد، فقط میان‌افزار انتخاب زبان از URL را در زنجیرهٔ آن مسیرها نگه دارید.
 
 تولید URL و درخواست‌ها را جداگانه آزمایش کنید. `localization_routes.hide` هنگام تولید URL، قطعهٔ زبان منطقه‌ای جایگزین را حذف می‌کند. `localization_routes.redirect` درخواست‌های پیشونددارِ زبان منطقه‌ای جاری را به مسیر بدون پیشوند می‌فرستد. مسیر نام‌دار و پیشونددار، زبان منطقه‌ای نامعتبر یا نصب‌نشده را هم به مسیر بدون پیشوند هدایت می‌کند.
 
@@ -308,7 +311,7 @@ $article->translation('de_CH');
 
 فراخوانی `translated()`، `whereTranslation()` و محدوده‌های مرتبط را از طریق سازندهٔ پرس‌وجوی Eloquent انجام دهید. برای رشتهٔ زبان منطقه‌ایِ محدوده، کد یا نام مستعار بدهید. برای `orderByTranslation()`، `'asc'`، `'desc'` یا `SortDirection` را به کار ببرید. هنگام پرس‌وجوی زبانی غیر از جاری یا جایگزین با `whereTranslation()` یا `whereTranslationLike()`، `localization_models.filter` را روی `false` بگذارید یا مستقیم از `translationsRaw()` پرس‌وجو کنید.
 
-مصرف‌کنندگان رویدادی را که `$event->locale->value` را می‌خوانند یا `$event->locale` را با عضوی از `enum` با نام `Locale` مقایسه می‌کنند به‌روز کنید. `TranslationHasBeenSetEvent` و `TranslationHasBeenForgetEvent` اکنون برای زبان منطقه‌ای صریح یک نام مستعار رشته‌ای دارند. در هر دو رویداد، اگر فراخواننده زبان منطقه‌ای را مشخص نکند، مقدار `null` است. پیش از استفاده از نام مستعار به‌عنوان کلید ذخیره‌شده، آن را با `Locales::fromAlias()` تبدیل کنید. رویداد تنظیم هنگام انتساب ویژگی و قبل از `save()` رخ می‌دهد. برای ارسال دستی هر یک از سه رویداد ترجمهٔ مدل از `event(new …)` استفاده کنید.
+مصرف‌کنندگان رویدادی را که `$event->locale->value` را می‌خوانند یا `$event->locale` را با عضوی از `enum` با نام `Locale` مقایسه می‌کنند به‌روز کنید. `TranslationHasBeenSetEvent` و `TranslationHasBeenForgetEvent` اکنون برای زبان منطقه‌ای صریح یک نام مستعار رشته‌ای دارند. اگر فراخواننده زبان منطقه‌ای را مشخص نکند، رویداد تنظیم `null` دارد. پیش از استفاده از نام مستعار به‌عنوان کلید ذخیره‌شده، آن را با `Locales::fromAlias()` تبدیل کنید. رویداد تنظیم هنگام انتساب ویژگی و قبل از `save()` رخ می‌دهد. برای ارسال دستی هر یک از سه رویداد ترجمهٔ مدل از `event(new …)` استفاده کنید.
 
 اگر فایل‌های کمکی تولیدشدهٔ IDE را نگه می‌دارید، پس از به‌روزرسانی importها و مسیرهای شناسایی مدل، `php artisan lang:models-helper` را اجرا کنید. [ترجمه‌های مدل](./models.md)
 

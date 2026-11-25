@@ -14,10 +14,18 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 ## Vérifier l’état des traductions {#check-translation-status}
 
 ```bash
-php src/Toolkit/bin/toolkit status src/Library
+php src/Toolkit/bin/toolkit status src/Lang
 ```
 
 La commande écrit `locales/<locale>/_status.json` dans le projet. Elle répertorie par style les entrées dont la traduction enregistrée correspond au texte source. Elle combine les exclusions de `locales/_settings.json` et de `locales/<locale>/_settings.json`, puis supprime les rapports vides. Pour repérer les expressions totalement absentes d’un dictionnaire, comparez-le avec les fichiers sources du pack.
+
+Ajoutez les expressions volontairement inchangées à `excludes` dans le fichier `_settings.json` concerné.
+
+```json
+{
+  "excludes": ["Laravel"]
+}
+```
 
 ## Gérer les répertoires de langues {#manage-locale-directories}
 
@@ -39,6 +47,8 @@ php src/Toolkit/bin/toolkit sync:package path/to/translation-pack
 - `sync:package` lit le répertoire `source/` d’un pack et supprime les entrées inutilisées de son répertoire `locales/`. Elle supprime les dictionnaires devenus vides.
 
 Les deux commandes gardent les traductions existantes des expressions encore utilisées ainsi que les fichiers dont le nom commence par un tiret bas, comme `_settings.json`. Ajoutez directement au dictionnaire les traductions des nouvelles expressions.
+
+Sans argument, `sync:library` utilise le répertoire `src/` du dépôt et `sync:package` le répertoire de travail courant. Les deux traitent les répertoires portant un code de langue canonique.
 
 ## Migrer les anciens dictionnaires {#migrate-legacy-dictionaries}
 
@@ -68,3 +78,5 @@ php src/Toolkit/bin/toolkit download \
 - Les fichiers PHP et JSON sélectionnés sont copiés dans la destination en conservant leur nom. Les fichiers PHP sont copiés à l’identique, octet par octet. Les fichiers JSON de même nom sont fusionnés, avec priorité aux valeurs entrantes.
 - Sans `--only-copy`, Toolkit recherche les appels de traduction pris en charge dont les clés sont littérales. S’il trouve des expressions, il écrit un fichier source JSON nommé d’après le répertoire parent de la destination, par exemple `framework.json`.
 - La commande nécessite l’extension PHP ZIP. Elle prépare les changements avant de les publier et tente de restaurer l’ancienne destination si la publication échoue.
+
+Les options `--url` et `--directory` sont requises. Les répertoires de `--paths` sont parcourus récursivement. Omettez `--paths` pour rechercher uniquement les clés de traduction. Vérifiez les clés avant de les ajouter au paquet.

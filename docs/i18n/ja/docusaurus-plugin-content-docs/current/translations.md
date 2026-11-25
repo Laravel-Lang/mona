@@ -5,6 +5,8 @@ description: Mona の Publisher を使い、アプリケーションと依存パ
 
 Publisher は公式翻訳パックに含まれています。Artisan コマンドは PHP および JSON の翻訳をアプリケーションの言語ディレクトリ（通常は `lang/`）に書き込みます。パッケージ固有のファイルは `lang/vendor/` 以下に書き込まれる場合もあります。
 
+Artisan コマンドはアプリケーションのルートで実行してください。翻訳ディレクトリは `lang_path()` で確認できます。
+
 ## ロケールを追加する {#add-locales}
 
 1 つ以上の[ロケールコード](./available-locales.md)をスペースで区切って指定します。入力には設定済みのエイリアスも使用でき、生成されるファイルには正規コードが使われます。
@@ -15,11 +17,15 @@ php artisan lang:add fr de_CH
 
 このコマンドはロケール用ディレクトリを作成し、アプリケーションの現在のロケールとフォールバックロケールを含む**インストール済みのすべてのロケール**を更新します。引数がなければ、対応するすべてのロケールをインストールするかどうかを確認します。自動化ではコードを明示してください。
 
+不明なロケールコードを渡すと、ディレクトリを作成する前にコマンドが失敗します。
+
 ## 翻訳を更新する {#update-translations}
 
 ```bash
 php artisan lang:update
 ```
+
+`lang:update` はインストール済みのすべてのロケールを更新します。ロケールコードを引数に取ることはできません。
 
 Publisher は、アプリケーションの現在のロケールとフォールバックロケール、言語ディレクトリ直下のファイルまたはディレクトリ、および `lang/vendor/<package>/` 以下の JSON ファイルからロケールを検出します。依存パッケージの PHP 翻訳ディレクトリがあるだけでは、インストール済みとは見なされません。そのロケールを `lang:add` に指定して、アプリケーションの言語ディレクトリを作成してください。
 
@@ -27,20 +33,30 @@ Publisher は、アプリケーションの現在のロケールとフォール�
 
 Composer の依存関係や[公開設定](./configure.md)を変更した後は、`lang:update` を実行して生成された差分を確認します。
 
+チェックアウト直後は、翻訳を公開する前に `composer install` を実行してください。生成したファイルをアプリケーションと一緒にデプロイするか、翻訳ディレクトリが書き込み可能な状態でデプロイ時に生成します。ファイルがない場合は、必要なロケールコードを指定して `php artisan lang:add fr de_CH --no-interaction` を実行します。既存のファイルは `php artisan lang:update --no-interaction` で更新します。
+
 ## ロケールを削除する {#remove-locales}
 
 ```bash
 php artisan lang:rm de_CH
 ```
 
+正規コードまたは設定済みのエイリアスを渡せます。
+
 このコマンドは言語ディレクトリのルートと直下の各 `lang/vendor/<package>/` ディレクトリから、正規コードに対応するディレクトリと JSON ファイルを削除します。そこに含まれる独自ファイルも削除されます。現在のロケールとフォールバックロケールは保護されます。引数を省略すると保護されていないロケールをすべて削除するかどうかを確認し、既定では削除しません。ロケールディレクトリがリンクの場合、コマンドはリンク自体を削除します。
 
 コマンドはロケールごとに `DONE`、`PROTECTED`、`INVALID`、`SKIP`、`FAILED` のいずれかを報告します。削除を試みた後もファイルやディレクトリが残っている場合は、そのパスを表示し、失敗を示す終了コードを返します。`PROTECTED`、`INVALID`、`SKIP` でも成功を示す終了コードが返るため、ロケールごとの結果を確認してください。
 
+## Artisan コマンドを確認する {#find-the-artisan-commands}
+
+`php artisan help lang:add` を実行してコマンドの登録を確認します。コマンドが表示されない場合は、`composer show laravel-lang/publisher` でパッケージのインストールを確認し、`php artisan package:discover` を実行します。Config と Publisher の自動検出を無効にしている場合は、`LaravelLang\Config\LangConfigServiceProvider::class` と `LaravelLang\Publisher\LangPublisherServiceProvider::class` を `bootstrap/providers.php` に登録します。
+
 ## JSON フォールバック {#json-fallback}
 
-JSON にキーが見つからない場合、`laravel-lang/json-fallback` は PHP の翻訳を探す前にフォールバックロケールの JSON を検索します。このパッケージは Common に含まれます。個別にインストールするには `composer require laravel-lang/json-fallback` を実行してください。
+JSON にキーが見つからない場合、`laravel-lang/json-fallback` は PHP の翻訳を探す前にフォールバックロケールの JSON を検索します。このパッケージは Common に含まれます。個別にインストールするには `composer require "laravel-lang/json-fallback:20.*"` を実行してください。
 
 `bootstrap/providers.php` のアプリケーションプロバイダーに `LaravelLang\JsonFallback\LangJsonFallbackServiceProvider::class` を追加します。`Illuminate\Translation\TranslationServiceProvider` を明示的に登録している場合は、そのエントリを Mona のプロバイダーに置き換えます。[Laravel のプロバイダー登録](https://laravel.com/docs/13.x/providers#registering-providers)
 
 現在のロケールがフランス語で、フォールバックが英語の場合、`lang/fr.json` にないキーの値を `lang/en.json` から取得できます。
+
+指定したロケールのみに検索を限定するには、`Illuminate\Support\Facades\Lang` ファサードで `Lang::get($key, fallback: false)` を呼び出します。

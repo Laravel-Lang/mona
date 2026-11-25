@@ -52,12 +52,15 @@ Laravel-Lang では、公開する言語ファイルのパスやモデルの翻�
 
 現行バージョンは Laravel 12 と 13 に対応し、PHP `^8.3` が必要です。アプリケーションの `composer.json` で、`require` または `require-dev` にある以下の各パッケージのバージョン制約を `^20.0` に設定します。`laravel-lang/common` だけをインストールしている場合は、その依存関係だけを変更してください。
 
+`20.x` をインストールまたはアップグレードする前に、必要な Composer パッケージのバージョンが Packagist にあることを確認してください。Mona のリリースと対応する Composer パッケージは公開時期が異なる場合があります。
+
 | 用途 | Composer パッケージ |
 | --- | --- |
 | バンドル | `laravel-lang/common` |
 | 翻訳パック | `laravel-lang/lang`、`laravel-lang/starter-kits`、`laravel-lang/moonshine`、`laravel-lang/actions`、`laravel-lang/attributes`、`laravel-lang/http-statuses` |
-| 公開と設定 | `laravel-lang/publisher`、`laravel-lang/config`、`laravel-lang/json-fallback` |
+| 公開と設定 | `laravel-lang/publisher`、`laravel-lang/config`、`laravel-lang/json-fallback`, `laravel-lang/library` |
 | アプリケーションとの連携 | `laravel-lang/locales`、`laravel-lang/locale-list`、`laravel-lang/routes`、`laravel-lang/models` |
+| 共通ユーティリティ | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | パックのテンプレート | `laravel-lang/translations-template` |
 
 標準の翻訳手順だけを使用している環境では、依存関係を更新し、翻訳を再公開します。
@@ -276,7 +279,7 @@ $url = localizedRoute('products.show', [
 
 モデルミドルウェアの生成時にガードを指定していた場合は、`LocalizationByModelMiddleware::class . ':admin'` のように Laravel のミドルウェア引数として渡します。ユーザーのリゾルバーには Eloquent モデルが必要です。独自のミドルウェアサブクラスでは `LaravelLang\Config\Services\RouteLangConfig` を注入し、`$this->routeConfig->name` から取得元の名前を読み取り、`detect()` から `int|string|null` を返します。`LaravelLang\Routes\Services\Route` への直接参照は `LaravelLang\Routes\Services\RouteService` に置き換えます。
 
-アプリケーションが使用する取得元をそれぞれテストします。ヘッダーの検出には PHP Intl を使用し、`Accept-Language` から解析した言語フィールドを取得します。以前にブラウザーの言語優先順位や地域までの一致を使用していた場合は、独自のミドルウェアで選択処理を実装してください。後続のミドルウェアは URL のロケールを含め、先に取得した値を上書きできます。URL を優先する場合は設定の順序を変更します。
+アプリケーションが使用する取得元をそれぞれテストします。ヘッダーの検出では PHP Intl を使い、`Accept-Language` の優先順位に従って、インストール済みのロケールを調べます。完全な言語タグを先に、基底言語をその後に確認します。後続のミドルウェアが先に選ばれたロケールを上書きすることがあります。プレフィックス付きルートで URL のロケールを優先するには、そのルートのチェーンに URL からロケールを取得するミドルウェアだけを残します。
 
 URL の生成とリクエスト処理は別々にテストしてください。`localization_routes.hide` は生成する URL からフォールバックロケールのセグメントを省略します。`localization_routes.redirect` は現在のロケールに対するプレフィックス付きリクエストをプレフィックスなしのルートへ転送します。名前付きのプレフィックス付きルートでロケールが無効または未インストールの場合も、プレフィックスなしのルートへ転送されます。
 
@@ -308,7 +311,7 @@ $article->translation('de_CH');
 
 `translated()`、`whereTranslation()`、関連スコープは Eloquent のクエリビルダーを通じて呼び出します。スコープのロケール文字列には正規コードまたはエイリアスを渡します。`orderByTranslation()` には `'asc'`、`'desc'`、`SortDirection` のいずれかを使います。`whereTranslation()` や `whereTranslationLike()` で現在またはフォールバック以外のロケールを検索するには、`localization_models.filter` を `false` にするか `translationsRaw()` を直接検索します。
 
-`$event->locale->value` を読み取る箇所や `$event->locale` を `Locale` の列挙型と比較するイベントの購読側コードを更新します。`TranslationHasBeenSetEvent` と `TranslationHasBeenForgetEvent` は、明示されたロケールに対してエイリアス文字列を保持します。呼び出し側がロケールを省略した場合、どちらのイベントも `null` を保持します。エイリアスを永続化するキーにする前に `Locales::fromAlias()` で変換してください。設定イベントは、`save()` より前の属性代入時に発生します。3 つのモデル翻訳イベントを手動で送信する場合は `event(new …)` を使います。
+`$event->locale->value` を読み取る箇所や `$event->locale` を `Locale` の列挙型と比較するイベントの購読側コードを更新します。`TranslationHasBeenSetEvent` と `TranslationHasBeenForgetEvent` は、明示されたロケールに対してエイリアス文字列を保持します。ロケールを省略すると、設定イベントのロケールは `null` になります。エイリアスを永続化するキーにする前に `Locales::fromAlias()` で変換してください。設定イベントは、`save()` より前の属性代入時に発生します。3 つのモデル翻訳イベントを手動で送信する場合は `event(new …)` を使います。
 
 生成された IDE ヘルパーを保持する場合は、インポートとモデルの検出パスを更新してから `php artisan lang:models-helper` を実行してください。[モデルの翻訳](./models.md)
 

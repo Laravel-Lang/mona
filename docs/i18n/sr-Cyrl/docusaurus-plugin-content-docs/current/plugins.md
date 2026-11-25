@@ -10,7 +10,7 @@ Publisher открива пакете превода инсталиране Comp
 Инсталирајте пакет у Laravel апликацију и ажурирајте локале које већ користите. На пример, пакет Actions додаје ознаке за дугмад и друге радње.
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ return [
 
 У апликацији `__('Enable audit trail')` чита JSON превод, а `__('audit.enable')` чита PHP превод. Преводи пакета имају предност над уносима за исти израз из заједничког Library-а. Ако ниједан речник не садржи израз, Publisher користи изворну вредност.
 
+Доделите пакету сопствено Composer име и замените `self.version` из шаблона ограничењем као што је `^20.0`. Користите канонске кодове локала за директоријуме речника. Стандардне преводе ставите у `default.json`, а стилске варијанте у датотеке попут `inline.json`.
+
 ### Условна примена превода {#apply-translations-conditionally}
 
 | Својство манифеста | Када се мапирање примењује |
@@ -91,3 +93,13 @@ return [
 | `vendor` и `project: true` | Composer назив коренског пројекта одговара вредности `vendor`. Publisher у овом режиму проверава назив. |
 
 Користите два уноса манифеста ако мапирање треба да важи и за инсталирану зависност и за коренски пројекат датог назива. Погледајте [водич за надоградњу](./upgrade.md) за конверзију старог сервисног провајдера и [подешавања](./configure.md) за правила изузимања и принудно подударање пакета.
+
+### Провера пакета у Laravel апликацији {#test-a-pack-in-a-laravel-application}
+
+Покрените команде из корена тестне апликације ако је пакет у суседном директоријуму. Проверите `lang/fr.json` и `lang/fr/audit.php`, поставите локал `fr` и тестирајте оба кључа. Након измене пакета покрените `php artisan lang:update`.
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

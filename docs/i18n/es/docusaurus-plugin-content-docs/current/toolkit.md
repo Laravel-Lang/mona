@@ -14,10 +14,18 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 ## Comprobar el estado de las traducciones {#check-translation-status}
 
 ```bash
-php src/Toolkit/bin/toolkit status src/Library
+php src/Toolkit/bin/toolkit status src/Lang
 ```
 
 El comando escribe `locales/<locale>/_status.json` dentro del proyecto. Enumera las entradas cuya traducción guardada coincide con la frase original y las agrupa por estilo. Combina las exclusiones de `locales/_settings.json` y `locales/<locale>/_settings.json` y elimina los informes vacíos. Para encontrar frases que falten por completo en un diccionario, compáralo con los archivos fuente del paquete.
+
+Añade las frases que dejas iguales intencionadamente a `excludes` en el archivo `_settings.json` correspondiente.
+
+```json
+{
+  "excludes": ["Laravel"]
+}
+```
 
 ## Gestionar directorios de configuración regional {#manage-locale-directories}
 
@@ -39,6 +47,8 @@ php src/Toolkit/bin/toolkit sync:package path/to/translation-pack
 - `sync:package` lee el directorio `source/` de un paquete y elimina las entradas sin usar de su directorio `locales/`. Elimina los diccionarios que queden vacíos.
 
 Ambos conservan las traducciones existentes de las frases activas y los archivos que empiezan por un guion bajo, como `_settings.json`. Agrega directamente al diccionario las traducciones de frases nuevas.
+
+Sin argumento, `sync:library` usa `src/` de la copia del repositorio y `sync:package` el directorio de trabajo actual. Ambos procesan directorios con códigos canónicos de configuración regional.
 
 ## Migrar diccionarios de versiones anteriores {#migrate-legacy-dictionaries}
 
@@ -68,3 +78,5 @@ php src/Toolkit/bin/toolkit download \
 - Los archivos PHP y JSON seleccionados se copian al destino por nombre de archivo. Los archivos PHP se copian byte a byte. Los archivos JSON con el mismo nombre se combinan y prevalecen los valores entrantes.
 - Sin `--only-copy`, Toolkit busca las llamadas de traducción compatibles con claves literales. Si encuentra frases, escribe un archivo fuente JSON con el nombre del directorio padre del destino, como `framework.json` en el ejemplo.
 - El comando requiere la extensión ZIP de PHP. Prepara los cambios antes de publicarlos e intenta restaurar el destino anterior si falla la publicación.
+
+`--url` y `--directory` son obligatorios. Los directorios de `--paths` se recorren de forma recursiva. Omite `--paths` para buscar solo claves de traducción. Revisa las claves antes de incorporarlas al paquete.

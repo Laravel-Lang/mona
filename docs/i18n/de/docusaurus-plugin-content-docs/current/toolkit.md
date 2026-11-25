@@ -14,10 +14,18 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 ## Übersetzungsstatus prüfen {#check-translation-status}
 
 ```bash
-php src/Toolkit/bin/toolkit status src/Library
+php src/Toolkit/bin/toolkit status src/Lang
 ```
 
 Der Befehl schreibt `locales/<locale>/_status.json` in das Projekt. Der Bericht führt nach Stil gruppiert die Einträge auf, deren gespeicherte Übersetzung dem Quelltext entspricht. Der Befehl fasst die Ausnahmen aus `locales/_settings.json` und `locales/<locale>/_settings.json` zusammen und löscht leere Berichte. Um Texte zu finden, die in einem Wörterbuch ganz fehlen, vergleiche es mit den Quelldateien des Pakets.
+
+Trage absichtlich unveränderte Ausdrücke unter `excludes` in der passenden `_settings.json` ein.
+
+```json
+{
+  "excludes": ["Laravel"]
+}
+```
 
 ## Locale-Verzeichnisse verwalten {#manage-locale-directories}
 
@@ -39,6 +47,8 @@ php src/Toolkit/bin/toolkit sync:package path/to/translation-pack
 - `sync:package` liest das Verzeichnis `source/` eines Pakets und entfernt ungenutzte Einträge in dessen Verzeichnis `locales/`. Wörterbücher, die dadurch leer werden, löscht der Befehl.
 
 Beide Befehle behalten bestehende Übersetzungen für aktive Texte und Dateien mit vorangestelltem Unterstrich wie `_settings.json` bei. Ergänze Übersetzungen für neue Texte direkt im Wörterbuch.
+
+Ohne Argument verwendet `sync:library` das Verzeichnis `src/` des Checkouts und `sync:package` das aktuelle Arbeitsverzeichnis. Beide Befehle verarbeiten Verzeichnisse mit kanonischem Locale-Code.
 
 ## Ältere Wörterbücher migrieren {#migrate-legacy-dictionaries}
 
@@ -68,3 +78,5 @@ php src/Toolkit/bin/toolkit download \
 - Ausgewählte PHP- und JSON-Dateien werden unter ihrem Dateinamen ins Ziel kopiert. PHP-Dateien werden bytegenau kopiert. JSON-Dateien mit demselben Namen werden zusammengeführt, wobei eingehende Werte Vorrang haben.
 - Ohne `--only-copy` sucht Toolkit nach unterstützten Übersetzungsaufrufen mit literalen Schlüsseln. Wenn es Texte findet, schreibt es eine JSON-Quelldatei. Ihr Name entspricht dem Namen des übergeordneten Zielverzeichnisses, etwa `framework.json` im Beispiel.
 - Der Befehl benötigt die PHP-Erweiterung ZIP. Er bereitet Änderungen vor der Veröffentlichung vor und versucht, das vorherige Ziel wiederherzustellen, falls die Veröffentlichung fehlschlägt.
+
+`--url` und `--directory` sind Pflicht. Die Verzeichnisse aus `--paths` werden rekursiv durchsucht. Lass `--paths` weg, um nur Übersetzungsschlüssel zu suchen. Prüfe die gefundenen Schlüssel, bevor du sie in ein Paket übernimmst.

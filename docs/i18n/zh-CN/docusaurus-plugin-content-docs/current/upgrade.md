@@ -52,12 +52,15 @@ Laravel-Lang 现在使用规范语言区域代码存储数据，包括已发布�
 
 当前版本支持 Laravel 12 和 13，需要 PHP `^8.3`。如果下面的包出现在应用 `composer.json` 的 `require` 或 `require-dev` 中，请将相应版本约束设为 `^20.0`。如果仅安装了 `laravel-lang/common`，只需修改这一项。
 
+安装 `20.x` 或升级至该版本前，请确认 Packagist 已提供所需的 Composer 软件包版本。Mona 发行版和对应的 Composer 软件包可能在不同时间发布。
+
 | 用途 | Composer 包 |
 | --- | --- |
 | 套装 | `laravel-lang/common` |
 | 翻译包 | `laravel-lang/lang`、`laravel-lang/starter-kits`、`laravel-lang/moonshine`、`laravel-lang/actions`、`laravel-lang/attributes`、`laravel-lang/http-statuses` |
-| 发布和配置 | `laravel-lang/publisher`、`laravel-lang/config`、`laravel-lang/json-fallback` |
+| 发布和配置 | `laravel-lang/publisher`、`laravel-lang/config`、`laravel-lang/json-fallback`, `laravel-lang/library` |
 | 应用集成 | `laravel-lang/locales`、`laravel-lang/locale-list`、`laravel-lang/routes`、`laravel-lang/models` |
+| 共享工具包 | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | 翻译包模板 | `laravel-lang/translations-template` |
 
 如果仅使用标准翻译流程，请更新依赖并重新发布译文。
@@ -276,7 +279,7 @@ $url = localizedRoute('products.show', [
 
 如果创建模型中间件时指定了身份验证守卫，请将其作为 Laravel 中间件参数传入，例如 `LocalizationByModelMiddleware::class . ':admin'`。其用户解析器期望收到 Eloquent 模型。对于自定义中间件子类，请注入 `LaravelLang\Config\Services\RouteLangConfig`，从 `$this->routeConfig->name` 读取来源名称，并从 `detect()` 返回 `int|string|null`。将对 `LaravelLang\Routes\Services\Route` 的直接引用替换为 `LaravelLang\Routes\Services\RouteService`。
 
-测试应用使用的每个来源。请求头检测现使用 PHP Intl，并选取从 `Accept-Language` 解析出的语言字段。如果依赖浏览器的优先级顺序或特定地区匹配，请在自定义中间件中实现选择逻辑。后运行的中间件可覆盖先前的来源，包括 URL 中的语言区域。若 URL 应优先，请调整配置中的中间件顺序。
+测试应用使用的每个来源。请求头检测借助 PHP Intl，按 `Accept-Language` 的偏好顺序检查已安装的语言区域，先尝试完整的语言标签，再尝试基础语言。后运行的中间件可覆盖先前选定的语言区域。要让 URL 决定带前缀路由的语言区域，请在这些路由的中间件链中仅保留从 URL 选择语言区域的中间件。
 
 请分别测试 URL 生成和请求处理。`localization_routes.hide` 在生成 URL 时省略回退语言区域的路径段。`localization_routes.redirect` 会将当前语言区域下带前缀的请求重定向到无前缀路由。带前缀且已命名的路由也会将无效或未安装的语言区域重定向到无前缀路由。
 
@@ -308,7 +311,7 @@ $article->translation('de_CH');
 
 通过 Eloquent 查询构建器调用 `translated()`、`whereTranslation()` 及相关作用域。向作用域传入代码或别名作为语言区域字符串。`orderByTranslation()` 使用 `'asc'`、`'desc'` 或 `SortDirection`。若通过 `whereTranslation()` 或 `whereTranslationLike()` 查询当前和回退语言区域之外的译文，请将 `localization_models.filter` 设为 `false`，或直接查询 `translationsRaw()`。
 
-更新调用 `$event->locale->value` 或将 `$event->locale` 与 `Locale` 枚举项比较的事件处理代码。现在，显式指定语言区域时，`TranslationHasBeenSetEvent` 和 `TranslationHasBeenForgetEvent` 中保存字符串别名。调用方省略语言区域时，两种事件都携带 `null`。将别名用作持久化键前，请用 `Locales::fromAlias()` 转换它。设置事件在属性赋值时触发，先于 `save()`。如需手动派发任意一种模型翻译事件，共三种，请使用 `event(new …)`。
+更新调用 `$event->locale->value` 或将 `$event->locale` 与 `Locale` 枚举项比较的事件处理代码。现在，显式指定语言区域时，`TranslationHasBeenSetEvent` 和 `TranslationHasBeenForgetEvent` 中保存字符串别名。省略语言区域时，设置事件的该属性为 `null`。将别名用作持久化键前，请用 `Locales::fromAlias()` 转换它。设置事件在属性赋值时触发，先于 `save()`。如需手动派发任意一种模型翻译事件，共三种，请使用 `event(new …)`。
 
 如果保留已生成的 IDE 辅助文件，请在更新导入及模型扫描路径后运行 `php artisan lang:models-helper`。[模型翻译](./models.md)
 

@@ -10,7 +10,7 @@ Publisher detecta los paquetes de traducción instalados con Composer. Cada paqu
 Instala el paquete en tu aplicación de Laravel y actualiza las configuraciones regionales que ya usas. Por ejemplo, el paquete Actions agrega etiquetas para botones y otras acciones.
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ Al publicar las traducciones al francés, ambas entradas buscan la frase en ingl
 
 En la aplicación, `__('Enable audit trail')` lee la traducción JSON y `__('audit.enable')` lee la traducción PHP. Las traducciones del paquete tienen prioridad sobre las entradas compartidas de Library para la misma frase. Si la frase no está en ninguno de los diccionarios, Publisher usa el valor original.
 
+Asigna al paquete su propio nombre de Composer y sustituye `self.version` en la plantilla por restricciones adecuadas, como `^20.0`. Usa códigos canónicos de configuración regional para los directorios de diccionarios. Guarda las traducciones estándar en `default.json` y las variantes en archivos como `inline.json`.
+
 ### Aplicar traducciones de forma condicional {#apply-translations-conditionally}
 
 | Propiedad del manifiesto | Cuándo se aplica una asignación |
@@ -91,3 +93,13 @@ En la aplicación, `__('Enable audit trail')` lee la traducción JSON y `__('aud
 | `vendor` y `project: true` | El nombre de Composer del proyecto raíz coincide con `vendor`. En este modo, Publisher comprueba el nombre. |
 
 Usa dos entradas de manifiesto si una asignación debe aplicarse tanto a una dependencia instalada como a un proyecto raíz con ese nombre. Consulta la [guía de actualización](./upgrade.md) para migrar un proveedor anterior y la [configuración](./configure.md) para las reglas de exclusión y coincidencia forzada de paquetes.
+
+### Probar un paquete en una aplicación Laravel {#test-a-pack-in-a-laravel-application}
+
+Ejecuta estos comandos desde la raíz de la aplicación de pruebas si el paquete está en un directorio hermano. Revisa `lang/fr.json` y `lang/fr/audit.php`, configura `fr` como idioma de la aplicación y prueba ambas claves. Después de editar el paquete, ejecuta `php artisan lang:update`.
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

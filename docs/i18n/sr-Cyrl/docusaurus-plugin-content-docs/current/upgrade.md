@@ -52,12 +52,15 @@ Laravel-Lang сада користи канонске кодове локала 
 
 Тренутна верзија подржава Laravel 12 и 13 и захтева PHP `^8.3`. У `composer.json` апликације подесите ограничење `^20.0` за сваки пакет испод који се појављује у `require` или `require-dev`. Ако сте инсталирали само `laravel-lang/common`, потребно је да промените само ту зависност.
 
+Пре инсталирања `20.x` или преласка на ту верзију проверите да ли је верзија Composer пакета доступна на Packagist-у. Издање Mona и одговарајући Composer пакети могу постати доступни у различито време.
+
 | Намена | Composer пакети |
 | --- | --- |
 | Збирни пакет | `laravel-lang/common` |
 | Пакети превода | `laravel-lang/lang`, `laravel-lang/starter-kits`, `laravel-lang/moonshine`, `laravel-lang/actions`, `laravel-lang/attributes`, `laravel-lang/http-statuses` |
-| Објављивање и подешавање | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback` |
+| Објављивање и подешавање | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback`, `laravel-lang/library` |
 | Интеграције апликације | `laravel-lang/locales`, `laravel-lang/locale-list`, `laravel-lang/routes`, `laravel-lang/models` |
+| Заједнички помоћни пакети | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | Шаблон пакета | `laravel-lang/translations-template` |
 
 За инсталацију која користи само стандардни поступак превођења ажурирајте зависности и поново објавите преводе.
@@ -276,7 +279,7 @@ $url = localizedRoute('products.show', [
 
 Ако сте мидлвер за модел конструисали са механизмом аутентификације, проследите га као параметар Laravel мидлвера, на пример `LocalizationByModelMiddleware::class . ':admin'`. Механизам за разрешавање корисника очекује Eloquent модел. У сопственим поткласама мидлвера убризгајте `LaravelLang\Config\Services\RouteLangConfig`, читајте називе извора из `$this->routeConfig->name` и из `detect()` вратите `int|string|null`. Упућивања на `LaravelLang\Routes\Services\Route` замените са `LaravelLang\Routes\Services\RouteService`.
 
-Тестирајте сваки извор који апликација користи. Откривање преко заглавља сада користи PHP Intl и узима поље језика издвојено из `Accept-Language`. Ако сте се ослањали на рангиране поставке прегледача или подударања по региону, спроведите избор у сопственом мидлверу. Каснија компонента може да замени ранији извор, укључујући локал из URL-а. Промените редослед подешених листа ако URL треба да има предност.
+Тестирајте сваки извор који апликација користи. Откривање преко заглавља користи PHP Intl и проверава инсталиране језике према редоследу из `Accept-Language`. Прво покушава да пронађе целу ознаку, па основни језик. Каснији мидлвер може да замени локал из ранијег извора. Да би URL одређивао локал за руте са префиксом, у њиховом ланцу оставите само мидлвер за избор локала из URL-а.
 
 Засебно тестирајте генерисање URL-а и захтеве. `localization_routes.hide` изоставља сегмент резервног локала при генерисању URL-а. `localization_routes.redirect` преусмерава захтеве са префиксом за текући локал на руту без префикса. Рута са називом и префиксом такође преусмерава неважећи или неинсталирани локал на руту без префикса.
 
@@ -308,7 +311,7 @@ $article->translation('de_CH');
 
 Позовите `translated()`, `whereTranslation()` и сродне опсеге преко Eloquent градитеља упита. Проследите код или алијас као текстуални локал опсега. За `orderByTranslation()` користите `'asc'`, `'desc'` или `SortDirection`. Када преко `whereTranslation()` или `whereTranslationLike()` претражујете локал који није текући или резервни, подесите `localization_models.filter` на `false` или непосредно извршите упит преко `translationsRaw()`.
 
-Ажурирајте потрошаче догађаја који позивају `$event->locale->value` или пореде `$event->locale` са енумом `Locale`. `TranslationHasBeenSetEvent` и `TranslationHasBeenForgetEvent` сада носе текстуални алијас за изричито наведен локал. Оба догађаја носе `null` када позивач изостави локал. Претворите алијас помоћу `Locales::fromAlias()` пре него што га употребите као трајно сачуван кључ. Догађај постављања покреће се при додели атрибута, пре `save()`. За ручно слање било ког од три догађаја превода модела користите `event(new …)`.
+Ажурирајте потрошаче догађаја који позивају `$event->locale->value` или пореде `$event->locale` са енумом `Locale`. `TranslationHasBeenSetEvent` и `TranslationHasBeenForgetEvent` сада носе текстуални алијас за изричито наведен локал. Догађај постављања садржи `null` када позивалац изостави локал. Претворите алијас помоћу `Locales::fromAlias()` пре него што га употребите као трајно сачуван кључ. Догађај постављања покреће се при додели атрибута, пре `save()`. За ручно слање било ког од три догађаја превода модела користите `event(new …)`.
 
 Ако задржавате генерисане IDE помоћне датотеке, покрените `php artisan lang:models-helper` после ажурирања увоза и путања за откривање модела. [Преводи модела](./models.md)
 

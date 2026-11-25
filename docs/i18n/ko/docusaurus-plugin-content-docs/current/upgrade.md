@@ -52,12 +52,15 @@ Mona에서는 모든 패키지에 동일한 버전 번호를 붙여 함께 릴�
 
 현재 버전은 Laravel 12와 13을 지원하며 PHP `^8.3`이 필요합니다. 애플리케이션의 `composer.json`에서 아래 패키지 중 `require` 또는 `require-dev`에 있는 항목의 버전 제약을 `^20.0`으로 설정하세요. `laravel-lang/common`만 설치했다면 이 항목만 바꾸면 됩니다.
 
+`20.x`로 설치하거나 업그레이드하기 전에 필요한 Composer 패키지 버전이 Packagist에 등록되었는지 확인하세요. Mona 릴리스와 그에 해당하는 Composer 패키지가 공개되는 시점은 다를 수 있습니다.
+
 | 용도 | Composer 패키지 |
 | --- | --- |
 | 번들 | `laravel-lang/common` |
 | 번역 팩 | `laravel-lang/lang`, `laravel-lang/starter-kits`, `laravel-lang/moonshine`, `laravel-lang/actions`, `laravel-lang/attributes`, `laravel-lang/http-statuses` |
-| 게시 및 설정 | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback` |
+| 게시 및 설정 | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback`, `laravel-lang/library` |
 | 애플리케이션 통합 | `laravel-lang/locales`, `laravel-lang/locale-list`, `laravel-lang/routes`, `laravel-lang/models` |
+| 공용 유틸리티 | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | 팩 템플릿 | `laravel-lang/translations-template` |
 
 표준 번역 절차만 사용한다면 의존성을 업데이트한 뒤 번역을 다시 게시하세요.
@@ -276,7 +279,7 @@ $url = localizedRoute('products.show', [
 
 모델 미들웨어를 가드와 함께 생성했다면 `LocalizationByModelMiddleware::class . ':admin'`처럼 Laravel 미들웨어 매개변수로 전달하세요. 이 미들웨어의 사용자 리졸버에는 Eloquent 모델이 필요합니다. 사용자 지정 미들웨어 하위 클래스에서는 `LaravelLang\Config\Services\RouteLangConfig`를 주입하고 `$this->routeConfig->name`에서 소스 이름을 읽으며, `detect()`에서 `int|string|null`을 반환하세요. `LaravelLang\Routes\Services\Route`에 대한 직접 참조를 `LaravelLang\Routes\Services\RouteService`로 교체합니다.
 
-애플리케이션이 사용하는 각 소스를 테스트하세요. 헤더 감지는 이제 PHP Intl을 사용하고 `Accept-Language`에서 파싱한 언어 필드를 가져옵니다. 브라우저의 언어 우선순위나 지역별 일치에 의존했다면 사용자 지정 미들웨어에 선택 로직을 구현하세요. 뒤에 실행되는 미들웨어는 URL에서 감지한 로캘을 포함해 앞 소스의 값을 덮어쓸 수 있습니다. URL이 우선해야 한다면 설정 목록의 순서를 바꾸세요.
+애플리케이션이 사용하는 각 소스를 테스트하세요. 헤더 감지는 PHP Intl을 사용해 `Accept-Language`의 선호 순서대로 설치된 로캘을 확인합니다. 전체 언어 태그를 먼저 시도한 후 기본 언어를 확인합니다. 뒤에 실행되는 미들웨어는 앞서 선택된 로캘을 덮어쓸 수 있습니다. 접두사가 붙은 라우트에서 URL의 로캘을 우선하려면 해당 체인에 URL에서 로캘을 가져오는 미들웨어만 남겨 두세요.
 
 URL 생성과 요청 처리를 별도로 테스트하세요. `localization_routes.hide`는 URL 생성 시 대체 로캘 세그먼트를 숨깁니다. `localization_routes.redirect`는 현재 로캘에 대한 접두사 있는 요청을 접두사 없는 라우트로 리디렉션합니다. 이름과 접두사가 있는 라우트는 로캘이 유효하지 않거나 설치되지 않았을 때도 접두사 없는 라우트로 리디렉션합니다.
 
@@ -308,7 +311,7 @@ $article->translation('de_CH');
 
 `translated()`, `whereTranslation()` 및 관련 스코프는 Eloquent 쿼리 빌더에서 호출합니다. 스코프의 로캘 문자열로 코드나 별칭을 전달하세요. `orderByTranslation()`에는 `'asc'`, `'desc'` 또는 `SortDirection`을 사용합니다. `whereTranslation()`이나 `whereTranslationLike()`로 현재 및 대체 로캘 이외의 로캘을 조회하려면 `localization_models.filter`를 `false`로 설정하거나 `translationsRaw()`를 직접 조회하세요.
 
-`$event->locale->value`를 호출하거나 `$event->locale`을 `Locale` 열거형과 비교하는 이벤트 소비 코드를 업데이트하세요. `TranslationHasBeenSetEvent`, `TranslationHasBeenForgetEvent`는 이제 명시한 로캘의 문자열 별칭을 갖습니다. 호출부에서 로캘을 생략하면 두 이벤트 모두 `null`을 갖습니다. 저장 키로 쓰기 전에 `Locales::fromAlias()`로 별칭을 변환하세요. 값 설정 이벤트는 `save()` 전, 속성에 값을 할당할 때 발생합니다. 모델 번역 이벤트 세 가지를 수동으로 디스패치하려면 `event(new …)`를 사용하세요.
+`$event->locale->value`를 호출하거나 `$event->locale`을 `Locale` 열거형과 비교하는 이벤트 소비 코드를 업데이트하세요. `TranslationHasBeenSetEvent`, `TranslationHasBeenForgetEvent`는 이제 명시한 로캘의 문자열 별칭을 갖습니다. 호출부에서 로캘을 생략하면 값 설정 이벤트는 `null`을 갖습니다. 저장 키로 쓰기 전에 `Locales::fromAlias()`로 별칭을 변환하세요. 값 설정 이벤트는 `save()` 전, 속성에 값을 할당할 때 발생합니다. 모델 번역 이벤트 세 가지를 수동으로 디스패치하려면 `event(new …)`를 사용하세요.
 
 생성된 IDE 헬퍼를 유지한다면 가져오기와 모델 검색 경로를 업데이트한 뒤 `php artisan lang:models-helper`를 실행하세요. [모델 번역](./models.md)
 

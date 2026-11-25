@@ -19,7 +19,9 @@ php artisan vendor:publish --tag=localization_main
 | `localization_models.php` | [Суфікс мадэлі перакладаў, фільтраванне і шляхі генератара](./models.md) |
 | `localization_map.php` | Метаданыя лакаляў: пісьмо, рэгіён і кірунак тэксту |
 
-Пасля змены канфігурацыі ачысціце яе кэш. Выканайце `php artisan lang:update`, каб нанова згенераваць пераклады, на якія ўплываюць налады публікацыі.
+Laravel замяняе налады верхняга ўзроўню значэннямі з праграмы. Пры рэдагаванні масіву `locales` у `localization_punctuation.php` захавайце тыя стандартныя перавызначэнні лакаляў, якія яшчэ патрэбныя.
+
+Пасля змены налад ачысціце наяўны кэш канфігурацыі камандай `php artisan config:clear`. Выканайце `php artisan lang:update`, каб нанова згенераваць пераклады, на якія ўплываюць налады публікацыі.
 
 ## Стылі перакладу {#translation-styles}
 
@@ -47,6 +49,8 @@ php artisan vendor:publish --tag=localization_main
 
 Artisan можа прымаць `de-CH`, а Laravel і апублікаваныя файлы выкарыстоўваюць `de_CH`. Для `APP_LOCALE` і `APP_FALLBACK_LOCALE` задавайце кананічныя коды. Прыклады пераўтварэння і пошуку ёсць у раздзеле [Лакалі і назвы](./locales.md).
 
+Рэгістр у аліясах мае значэнне. Для кожнай лакалі выкарыстоўвайце асобны аліяс, які адрозніваецца ад кананічных кодаў іншых лакаляў.
+
 ## Выключэнне файлаў і прымусовае ўключэнне інтэграцый {#skip-files-and-force-integrations}
 
 - `localization_main.skip` параўноўвае шаблоны `*` з поўнымі шляхамі з раздзяляльнікамі `/` без уліку рэгістра. Так можна выключыць зыходныя файлы, слоўнікі і мэтавыя файлы публікацыі. Напрыклад, `['*/lang/fr/validation.php']` не дае Publisher запісаць гэты файл у прыкладанні, якое выкарыстоўвае `lang/`.
@@ -57,3 +61,16 @@ Artisan можа прымаць `de-CH`, а Laravel і апублікаваны�
 ## Разумная пунктуацыя {#smart-punctuation}
 
 Задайце `LOCALIZATION_PUNCTUATION_ENABLED=true`, каб уключыць друкарскія двукоссі, працяжнікі і шматкроп’і ў апублікаваных перакладах. Рэдагуйце `localization_punctuation.common` для агульных правілаў і `localization_punctuation.locales` для выключэнняў паводле кананічных кодаў лакаляў. Правілы будуць прыменены да радкоў пры наступным запісе Publisher.
+
+## Метаданыя лакалі {#locale-metadata}
+
+`localization_map.locales` супастаўляе кананічныя коды з пісьмовасцю (`type`), рэгіянальнай лакаллю (`regional`) і неабавязковым кірункам пісьма (`direction`). Калі кірунак не зададзены, выкарыстоўвайце `Direction::LeftToRight`.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

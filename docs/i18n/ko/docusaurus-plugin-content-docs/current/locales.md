@@ -41,16 +41,19 @@ if (Locales::isInstalled('fr')) {
 
 $canonicalCode = Locales::current(false);
 $displayCode = Locales::current();
-$choices = Locales::data()->installed();
 ```
 
 `set()`은 코드, 별칭, `Locale` 열거형 케이스 또는 `LocaleData` 객체를 받습니다. 해당 로캘이 설치되어 있다면 Laravel 로캘을 표준 코드로 변경합니다. 코드가 지원되는지는 `isAvailable()`로, 파일이나 보호 여부가 필요한 경우에는 `isInstalled()`로 확인하세요. `isProtected()`는 현재 및 대체 로캘을 식별합니다.
 
 `current()`는 Laravel의 현재 로캘이 인식되면 그 값을 쓰고, 그렇지 않으면 `fallback()`을 사용합니다. `fallback()`은 Laravel에 설정된 대체 로캘을 해석하고, 알 수 없는 값이면 `en`을 사용합니다. 두 메서드 모두 표준 코드가 필요할 때는 `false`를 인수로 받습니다.
 
+`fromAlias()`는 별칭을 표준 코드로 변환하고 `toAlias()`는 표준 코드의 별칭을 가져옵니다. 두 변환 모두 인식되지 않는 비어 있지 않은 문자열을 그대로 반환합니다. 입력을 검증하려면 `isAvailable()`을 사용하세요.
+
+## 로캘 선택 항목 표시하기 {#display-locale-choices}
+
 `Locales::info('fr')`는 `code`, `alias`, `native`, `localized` 속성이 있는 `LaravelLang\LocaleNames\LocaleData` 객체를 반환합니다. 표시 언어는 애플리케이션의 현재 로캘입니다. 현재 로캘을 조회하려면 인수를 생략하세요. 알려진 로캘은 설치 전에도 조회할 수 있습니다. 알 수 없는 코드는 `LaravelLang\Exceptions\UnknownLocaleException`을 발생시킵니다.
 
-`fromAlias()`는 별칭을 표준 코드로 변환하고 `toAlias()`는 표준 코드의 별칭을 가져옵니다. 두 변환 모두 인식되지 않는 비어 있지 않은 문자열을 그대로 반환합니다. 입력을 검증하려면 `isAvailable()`을 사용하세요.
+`Locales::data()->installed()`로 설치된 로캘을 `LocaleData` 객체로 가져오세요. `data()`는 다른 컬렉션을 반환하는 `available()`, `uninstalled()`, `protects()`와 개별 객체를 반환하는 `current()`, `fallback()`도 제공합니다. 언어 선택기에서 `alias`를 전송 값으로, `native`를 표시할 이름으로 사용할 수 있습니다.
 
 ## 로캘, 국가 및 통화 이름 조회하기 {#look-up-locale-country-and-currency-names}
 

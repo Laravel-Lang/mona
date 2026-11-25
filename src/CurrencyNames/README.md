@@ -12,7 +12,7 @@
 
 ## Documentation
 
-See the [documentation](https://laravel-lang.com/start) for detailed information.
+[Look up translated currency names.](https://laravel-lang.com/locales#look-up-locale-country-and-currency-names)
 
 ## Contributing
 

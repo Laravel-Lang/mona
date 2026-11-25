@@ -12,7 +12,7 @@
 
 ## Documentation
 
-See the [documentation](https://laravel-lang.com/start) for detailed information.
+[Set up the monorepo to work on the shared file and Composer helpers.](https://laravel-lang.com/contributing#develop-packages)
 
 ## Contributing
 

@@ -19,7 +19,9 @@ php artisan vendor:publish --tag=localization_main
 | `localization_models.php` | [翻訳モデルの接尾辞、フィルタリング、生成先のパス](./models.md) |
 | `localization_map.php` | 文字体系、地域、書字方向などのロケールのメタデータ |
 
-設定を変更した後は、設定キャッシュをクリアしてください。公開設定の影響を受ける翻訳を再生成するには `php artisan lang:update` を実行します。
+Laravel は最上位の各設定項目をアプリケーションの値で置き換えます。`localization_punctuation.php` の `locales` 配列を編集するときは、引き続き使う既定のロケール別設定を残してください。
+
+設定変更後、既存の設定キャッシュがあれば `php artisan config:clear` でクリアします。公開設定の影響を受ける翻訳は `php artisan lang:update` で再生成します。
 
 ## 翻訳スタイル {#translation-styles}
 
@@ -47,6 +49,8 @@ php artisan vendor:publish --tag=localization_main
 
 Artisan は `de-CH` を受け付けますが、Laravel と公開されるファイルでは `de_CH` を使用します。`APP_LOCALE` と `APP_FALLBACK_LOCALE` には正規コードを設定してください。変換や検索の例は[ロケールと名称](./locales.md)を参照してください。
 
+エイリアスは大文字と小文字を区別します。ロケールごとに、他のロケールの正規コードと重複しない一意のエイリアスを使ってください。
+
 ## ファイルの除外と連携の強制 {#skip-files-and-force-integrations}
 
 - `localization_main.skip` は、大文字と小文字を区別しない `*` パターンで、区切りに `/` を使用したフルパスに照合します。ソースファイル、辞書、出力先を除外できます。たとえば、`['*/lang/fr/validation.php']` を指定すると、`lang/` を使うアプリケーションで Publisher がその出力先に書き込まなくなります。
@@ -57,3 +61,16 @@ Artisan は `de-CH` を受け付けますが、Laravel と公開されるファ�
 ## スマート句読法 {#smart-punctuation}
 
 `LOCALIZATION_PUNCTUATION_ENABLED=true` を設定すると、公開される翻訳で組版用の引用符、ダッシュ、省略記号を使用できます。共通ルールは `localization_punctuation.common` で編集し、ロケールごとの上書きは正規コードをキーとして `localization_punctuation.locales` に設定します。Publisher が次に翻訳を書き込むときに、これらのルールが適用されます。
+
+## ロケールのメタデータ {#locale-metadata}
+
+`localization_map.locales` は正規コードを、文字体系（`type`）、地域付きロケール（`regional`）、任意の書字方向（`direction`）に対応付けます。書字方向が設定されていない場合は `Direction::LeftToRight` を使います。
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

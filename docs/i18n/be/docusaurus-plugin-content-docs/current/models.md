@@ -6,7 +6,7 @@ description: "Захоўвайце, чытайце і шукайце лакал�
 `laravel-lang/models` дадае перакладзеныя атрыбуты да наяўнай мадэлі Eloquent. Кожны радок перакладу змяшчае лакаль і значэнні атрыбутаў для яе. Пакет уваходзіць у Common і патрабуе PHP Intl.
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## Даданне перакладаў да мадэлі {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 Генератар дадае трэйт `LaravelLang\Models\HasTranslations` да базавай мадэлі і стварае спадарожную мадэль `ArticleTranslation`, міграцыю і дапаможны файл для IDE. Міграцыя стварае знешні ключ да артыкула, унікальную пару `(item_id, locale)` і радковыя слупкі для перакладзеных значэнняў з падтрымкай null. Калі гэтыя значэнні ўжо захоўваюцца ў базавай табліцы, перанясіце іх у радкі перакладу, перш чым выкарыстоўваць аксэсары новай мадэлі.
 
 Калі мадэль знаходзіцца па-за `app/Models`, дадайце яе каталог у [`localization_models.directories`](./configure.md) перад запускам генератара.
+
+Запусціце `php artisan make:model-translation`, каб інтэрактыўна выбраць мадэль і слупкі. Калі спіс пусты, генератар выкарыстоўвае `title` і `description`. Каб пазней дадаць поле, стварыце міграцыю і дапоўніце запаўняльныя палі і пераўтварэнні мадэлі перакладу.
 
 ## Запіс і чытанне перакладзеных атрыбутаў {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+Мадэлі загадзя загружаюць сувязь `translations()`. `orWhereTranslation()` і `orWhereTranslationLike()` дадаюць альтэрнатыўную ўмову. `orderByTranslation()` сартуе паводле адной лакалі, паводле змоўчання бягучай.
 
 ## Назіранне за зменамі і абнаўленне дапаможных файлаў IDE {#observe-changes-and-refresh-ide-helpers}
 

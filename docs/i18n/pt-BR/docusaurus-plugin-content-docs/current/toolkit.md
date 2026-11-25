@@ -14,10 +14,18 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 ## Verificar o status das traduções {#check-translation-status}
 
 ```bash
-php src/Toolkit/bin/toolkit status src/Library
+php src/Toolkit/bin/toolkit status src/Lang
 ```
 
 O comando grava `locales/<locale>/_status.json` no projeto. Ele lista entradas cuja tradução salva corresponde à frase de origem e as agrupa por estilo. Combina as exclusões de `locales/_settings.json` e `locales/<locale>/_settings.json` e exclui relatórios vazios. Para encontrar frases inteiramente ausentes de um dicionário, compare-o com os arquivos de origem do pacote.
+
+Adicione as expressões mantidas iguais de propósito a `excludes` no arquivo `_settings.json` correspondente.
+
+```json
+{
+  "excludes": ["Laravel"]
+}
+```
 
 ## Gerenciar diretórios de localidades {#manage-locale-directories}
 
@@ -39,6 +47,8 @@ php src/Toolkit/bin/toolkit sync:package path/to/translation-pack
 - `sync:package` lê o diretório `source/` de um pacote e remove as entradas não utilizadas de seu diretório `locales/`. Ele exclui os dicionários que ficarem vazios depois da remoção.
 
 Os dois comandos mantêm as traduções existentes para frases ativas e preservam arquivos iniciados por sublinhado, como `_settings.json`. Adicione traduções de frases novas diretamente ao dicionário.
+
+Sem argumento, `sync:library` usa o diretório `src/` da cópia do repositório e `sync:package` usa o diretório de trabalho atual. Ambos processam diretórios com códigos canônicos de localidade.
 
 ## Migrar dicionários legados {#migrate-legacy-dictionaries}
 
@@ -68,3 +78,5 @@ php src/Toolkit/bin/toolkit download \
 - Os arquivos PHP e JSON selecionados são copiados com o nome do arquivo para o destino. Arquivos PHP são copiados byte a byte. Arquivos JSON com o mesmo nome são mesclados, com prioridade para os valores recebidos.
 - Sem `--only-copy`, o Toolkit procura chamadas de tradução compatíveis com chaves literais. Se encontrar frases, grava uma fonte JSON com o nome do diretório pai do destino, como `framework.json` no exemplo.
 - O comando exige a extensão ZIP do PHP. Ele prepara as alterações antes da publicação e tenta restaurar o destino anterior se a publicação falhar.
+
+`--url` e `--directory` são obrigatórios. Os diretórios de `--paths` são percorridos recursivamente. Omita `--paths` para buscar apenas chaves de tradução. Revise as chaves encontradas antes de adicioná-las ao pacote.

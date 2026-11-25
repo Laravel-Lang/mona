@@ -10,7 +10,7 @@ Publisher بسته‌های ترجمهٔ نصب‌شده با Composer را شن
 بسته را در برنامهٔ Laravel نصب و زبان‌های منطقه‌ای درحال‌استفاده را به‌روز کنید. برای نمونه، بستهٔ Actions برچسب دکمه‌ها و سایر عملیات را اضافه می‌کند.
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ return [
 
 در برنامه، `__('Enable audit trail')` ترجمهٔ JSON و `__('audit.enable')` ترجمهٔ PHP را می‌خواند. برای عبارت یکسان، ترجمهٔ بسته بر مدخل Library مشترک اولویت دارد. اگر هیچ واژه‌نامه‌ای آن عبارت را نداشته باشد، Publisher از مقدار منبع استفاده می‌کند.
 
+برای بسته نام Composer مستقلی انتخاب کنید و `self.version` را در الگو با محدودیت نسخه‌ای مانند `^20.0` جایگزین کنید. برای نام پوشه‌های واژه‌نامه از کدهای معیار زبان استفاده کنید. ترجمه‌های معمول را در `default.json` و گونه‌های سبکی را در فایل‌هایی مانند `inline.json` بگذارید.
+
 ### اعمال مشروط ترجمه‌ها {#apply-translations-conditionally}
 
 | ویژگی مانیفست | شرط اعمال نگاشت |
@@ -91,3 +93,13 @@ return [
 | `vendor` و `project: true` | نام Composer پروژهٔ ریشه با `vendor` منطبق است. Publisher در این حالت نام را بررسی می‌کند. |
 
 اگر نگاشت باید هم برای وابستگی نصب‌شده و هم برای پروژهٔ ریشه با همان نام اعمال شود، از دو مدخل مانیفست استفاده کنید. برای تبدیل ارائه‌دهندهٔ قدیمی به [راهنمای ارتقا](./upgrade.md) و برای قواعد استثنا و تطبیق اجباری بسته‌ها به [پیکربندی](./configure.md) مراجعه کنید.
+
+### آزمایش بسته در یک برنامهٔ Laravel {#test-a-pack-in-a-laravel-application}
+
+اگر پوشهٔ بسته کنار برنامهٔ آزمایشی است، دستورها را از ریشهٔ برنامه اجرا کنید. `lang/fr.json` و `lang/fr/audit.php` را بررسی کنید، زبان برنامه را روی `fr` بگذارید و هر دو کلید را آزمایش کنید. پس از ویرایش بسته، `php artisan lang:update` را اجرا کنید.
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

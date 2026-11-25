@@ -19,7 +19,9 @@ The `localization` tag publishes all five files. Each filename without `.php` is
 | `localization_models.php` | [Translation model suffix, filtering, and generator paths](./models.md) |
 | `localization_map.php` | Locale metadata such as script, region, and direction |
 
-After changing configuration, clear the config cache. Run `php artisan lang:update` to regenerate translations affected by publication settings.
+Laravel replaces each published top-level setting with the application value. For example, when editing the `locales` array in `localization_punctuation.php`, keep any default locale overrides you still want to use.
+
+After changing configuration, clear an existing Laravel config cache with `php artisan config:clear`. Run `php artisan lang:update` to regenerate translations affected by publication settings.
 
 ## Translation styles
 
@@ -45,7 +47,7 @@ Set `localization_main.aliases` as a map from canonical codes to aliases. For ex
 ],
 ```
 
-Artisan can accept `de-CH`, while Laravel and published files use `de_CH`. Set `APP_LOCALE` and `APP_FALLBACK_LOCALE` to canonical codes. See [Locales and names](./locales.md) for conversion and lookup examples.
+Artisan can accept `de-CH`, while Laravel and published files use `de_CH`. Alias matching is case-sensitive. Give each locale a distinct alias that is different from any other canonical code. Set `APP_LOCALE` and `APP_FALLBACK_LOCALE` to canonical codes. See [Locales and names](./locales.md) for conversion and lookup examples.
 
 ## Skip files and force integrations
 
@@ -56,4 +58,17 @@ Artisan can accept `de-CH`, while Laravel and published files use `de_CH`. Set `
 
 ## Smart punctuation
 
-Set `LOCALIZATION_PUNCTUATION_ENABLED=true` to enable typographic quotes, dashes, and ellipses in published translations. Edit `localization_punctuation.common` for general rules and `localization_punctuation.locales` for overrides keyed by canonical locale code. Published strings take on these rules the next time the Publisher writes them.
+Set `LOCALIZATION_PUNCTUATION_ENABLED=true` to enable typographic quotes, dashes, and ellipses in published translations. The setting defaults to disabled. Edit `localization_punctuation.common` for general quote settings and `localization_punctuation.locales` for overrides keyed by canonical locale code. Published strings take on these rules the next time the Publisher writes them.
+
+## Locale metadata
+
+`localization_map.locales` maps canonical locale codes to script (`type`), regional locale (`regional`), and an optional writing direction (`direction`). Use `Direction::LeftToRight` when no direction is configured.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

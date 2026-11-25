@@ -41,16 +41,19 @@ if (Locales::isInstalled('fr')) {
 
 $canonicalCode = Locales::current(false);
 $displayCode = Locales::current();
-$choices = Locales::data()->installed();
 ```
 
 `set()` kod, muqobil nom, `Locale` enum varianti yoki `LocaleData` obyektini qabul qiladi. Lokal o‘rnatilgan bo‘lsa, metod Laravel lokalini kanonik kodga yangilaydi. Kod qo‘llab-quvvatlanishini tekshirish uchun `isAvailable()` dan, fayllar yoki himoya talab qilinsa `isInstalled()` dan foydalaning. `isProtected()` joriy va zaxira lokallarni aniqlaydi.
 
 `current()` Laravel joriy lokalini tanisa, undan, aks holda `fallback()` dan foydalanadi. `fallback()` Laravel’da sozlangan zaxira lokalni aniqlaydi va u noma’lum bo‘lsa, `en` ni qaytaradi. Har ikki metod kanonik kodlar uchun bir xil `false` argumentini qabul qiladi.
 
+Muqobil nomni kanonik kodga o‘girish uchun `fromAlias()` dan, kanonik kodga mos muqobil nomni olish uchun `toAlias()` dan foydalaning. Bu o‘girishlar tanilmagan bo‘sh bo‘lmagan satrlarni o‘zgartirmaydi. Kirishni tekshirishda `isAvailable()` dan foydalaning.
+
+## Lokal tanlovlarini ko‘rsatish {#display-locale-choices}
+
 `Locales::info('fr')` `code`, `alias`, `native` va `localized` xususiyatlariga ega `LaravelLang\LocaleNames\LocaleData` obyektini qaytaradi. Ko‘rsatish tili ilovaning joriy lokalidir. Joriy lokalni olish uchun argument bermang. Ma’lum lokal o‘rnatilmasidan oldin ham uni izlash mumkin. Noma’lum kod `LaravelLang\Exceptions\UnknownLocaleException` istisnosini chiqaradi.
 
-Muqobil nomni kanonik kodga o‘girish uchun `fromAlias()` dan, kanonik kodga mos muqobil nomni olish uchun `toAlias()` dan foydalaning. Bu o‘girishlar tanilmagan bo‘sh bo‘lmagan satrlarni o‘zgartirmaydi. Kirishni tekshirishda `isAvailable()` dan foydalaning.
+O‘rnatilgan lokallarni `LocaleData` obyektlari sifatida olish uchun `Locales::data()->installed()` dan foydalaning. `data()` boshqa kolleksiyalar uchun `available()`, `uninstalled()` va `protects()`, alohida obyektlar uchun `current()` va `fallback()` metodlarini taqdim etadi. Til tanlagich `alias` qiymatini yuborib, `native` nomini ko‘rsatishi mumkin.
 
 ## Lokal, mamlakat va valyuta nomlarini izlash {#look-up-locale-country-and-currency-names}
 

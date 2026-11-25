@@ -54,12 +54,15 @@ Laravel-Lang теперь использует канонические коды
 
 Текущая версия поддерживает Laravel 12 и 13 и требует PHP `^8.3`. В `composer.json` приложения задайте ограничение `^20.0` для каждого пакета из таблицы, присутствующего в `require` или `require-dev`. Если установлен только `laravel-lang/common`, достаточно обновить его.
 
+Перед установкой `20.x` или обновлением проверьте, что нужная версия пакета Composer доступна на Packagist. Релиз Mona и соответствующие пакеты Composer могут появиться в разное время.
+
 | Назначение | Пакеты Composer |
 | --- | --- |
 | Комплект | `laravel-lang/common` |
 | Пакеты переводов | `laravel-lang/lang`, `laravel-lang/starter-kits`, `laravel-lang/moonshine`, `laravel-lang/actions`, `laravel-lang/attributes`, `laravel-lang/http-statuses` |
-| Публикация и конфигурация | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback` |
+| Публикация и конфигурация | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback`, `laravel-lang/library` |
 | Интеграции приложения | `laravel-lang/locales`, `laravel-lang/locale-list`, `laravel-lang/routes`, `laravel-lang/models` |
+| Общие утилиты | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | Шаблон пакета | `laravel-lang/translations-template` |
 
 Если вы используете только стандартный процесс работы с переводами, обновите зависимости и повторно опубликуйте переводы.
@@ -278,7 +281,7 @@ $url = localizedRoute('products.show', [
 
 Если при создании мидлварей для модели вы указывали guard, передайте его как параметр мидлвари Laravel, например `LocalizationByModelMiddleware::class . ':admin'`. Функция поиска пользователя ожидает модель Eloquent. В собственных дочерних классах внедряйте `LaravelLang\Config\Services\RouteLangConfig`, читайте имена источников из `$this->routeConfig->name` и возвращайте из `detect()` значение типа `int|string|null`. Замените прямые ссылки на `LaravelLang\Routes\Services\Route` ссылками на `LaravelLang\Routes\Services\RouteService`.
 
-Проверьте каждый используемый приложением источник локали. Определение языка по заголовку теперь использует PHP Intl и извлекает язык из `Accept-Language`. Если вы полагались на порядок предпочтений браузера или соответствия по регионам, реализуйте выбор в собственной мидлвари. Последующие мидлвари могут переопределить предыдущий выбор, включая локаль URL. Измените порядок в настройках, если URL должен иметь приоритет.
+Проверьте каждый используемый приложением источник локали. Мидлварь заголовка использует PHP Intl, чтобы проверить установленные языки в порядке предпочтений из `Accept-Language`. Она проверяет полный языковой тег, затем базовый язык. Последующая мидлварь может переопределить ранее выбранную локаль. Чтобы локаль из URL определяла язык маршрутов с префиксом, оставьте в их цепочке только мидлварь выбора локали из URL.
 
 Проверьте генерацию URL и обработку запросов отдельно. `localization_routes.hide` скрывает сегмент резервной локали при генерации URL. `localization_routes.redirect` перенаправляет запросы с префиксом текущей локали на маршрут без префикса. Именованный маршрут с префиксом также перенаправляет запрос с недопустимой или неустановленной локалью на маршрут без префикса.
 
@@ -310,7 +313,7 @@ $article->translation('de_CH');
 
 Вызывайте `translated()`, `whereTranslation()` и связанные области запросов через построитель запросов Eloquent. В качестве строки локали передавайте код или алиас. Для `orderByTranslation()` используйте `'asc'`, `'desc'` или `SortDirection`. Если `whereTranslation()` или `whereTranslationLike()` должны искать по локали, отличной от текущей и резервной, задайте `localization_models.filter` равным `false` или запрашивайте `translationsRaw()` напрямую.
 
-Обновите слушателей, которые читают `$event->locale->value` или сравнивают `$event->locale` с элементом enum `Locale`. `TranslationHasBeenSetEvent` и `TranslationHasBeenForgetEvent` теперь содержат строковый алиас явно переданной локали. Если локаль опущена, оба события содержат `null`. Преобразуйте алиас через `Locales::fromAlias()` перед сохранением в качестве ключа. Событие установки срабатывает при присвоении атрибута, до `save()`. Для ручной отправки любого из трёх событий перевода используйте `event(new …)`.
+Обновите слушателей, которые читают `$event->locale->value` или сравнивают `$event->locale` с элементом enum `Locale`. `TranslationHasBeenSetEvent` и `TranslationHasBeenForgetEvent` теперь содержат строковый алиас явно переданной локали. Если локаль опущена, событие установки содержит `null`. Преобразуйте алиас через `Locales::fromAlias()` перед сохранением в качестве ключа. Событие установки срабатывает при присвоении атрибута, до `save()`. Для ручной отправки любого из трёх событий перевода используйте `event(new …)`.
 
 Если вы храните сгенерированные файлы для IDE, выполните `php artisan lang:models-helper` после замены импортов и путей поиска моделей. [Переводы моделей](./models.md)
 

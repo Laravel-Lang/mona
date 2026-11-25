@@ -6,7 +6,7 @@ description: Armazene, leia e consulte atributos localizados do Eloquent com o L
 `laravel-lang/models` adiciona atributos traduzidos a um modelo Eloquent existente. Cada linha de tradução armazena uma localidade e seus valores de atributos. O pacote está incluído no Common e requer a extensão Intl do PHP.
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## Adicionar traduções a um modelo {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 O gerador adiciona a trait `LaravelLang\Models\HasTranslations` ao modelo base e cria o modelo de tradução correspondente `ArticleTranslation`, uma migração e um auxiliar para a IDE. A migração cria uma chave estrangeira para o artigo, um par `(item_id, locale)` único e colunas de texto que aceitam `null` para os valores traduzidos. Se você já armazena esses valores na tabela base, migre-os para as linhas de tradução antes de depender dos métodos de acesso do novo modelo.
 
 Se o modelo estiver fora de `app/Models`, adicione seu diretório a [`localization_models.directories`](./configure.md) antes de executar o gerador.
+
+Execute `php artisan make:model-translation` para escolher o modelo e as colunas de forma interativa. Se a lista ficar vazia, serão usadas `title` e `description`. Para adicionar um campo depois, crie uma migração e inclua o campo nos atributos preenchíveis e nos casts do modelo de tradução.
 
 ## Gravar e ler atributos traduzidos {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+Os modelos carregam a relação `translations()` antecipadamente. `orWhereTranslation()` e `orWhereTranslationLike()` acrescentam condições alternativas. `orderByTranslation()` ordena por uma única localidade, a atual por padrão.
 
 ## Observar mudanças e atualizar auxiliares para IDE {#observe-changes-and-refresh-ide-helpers}
 

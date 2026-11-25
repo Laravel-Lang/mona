@@ -41,16 +41,19 @@ if (Locales::isInstalled('fr')) {
 
 $canonicalCode = Locales::current(false);
 $displayCode = Locales::current();
-$choices = Locales::data()->installed();
 ```
 
 `set()` aceita um código, alias, caso do enum `Locale` ou objeto `LocaleData`. Ele atualiza a localidade do Laravel para o código canônico quando ela está instalada. Use `isAvailable()` para verificar o suporte ao código e `isInstalled()` quando forem necessários arquivos ou proteção. `isProtected()` identifica as localidades atual e de fallback.
 
 `current()` usa a localidade atual do Laravel se ela for reconhecida e recorre a `fallback()` caso contrário. `fallback()` resolve o fallback configurado no Laravel e usa `en` quando ele é desconhecido. Os dois métodos aceitam o mesmo argumento `false` para retornar códigos canônicos.
 
+Use `fromAlias()` para resolver um alias para um código canônico e `toAlias()` para obter o alias de um código canônico. Essas conversões preservam strings não vazias e não reconhecidas. Use `isAvailable()` ao validar entradas.
+
+## Exibir opções de localidades {#display-locale-choices}
+
 `Locales::info('fr')` retorna um objeto `LaravelLang\LocaleNames\LocaleData` com as propriedades `code`, `alias`, `native` e `localized`. O idioma de exibição é o da localidade atual da aplicação. Omita o argumento para consultar a localidade atual. Uma localidade conhecida pode ser consultada antes da instalação. Um código desconhecido lança `LaravelLang\Exceptions\UnknownLocaleException`.
 
-Use `fromAlias()` para resolver um alias para um código canônico e `toAlias()` para obter o alias de um código canônico. Essas conversões preservam strings não vazias e não reconhecidas. Use `isAvailable()` ao validar entradas.
+Use `Locales::data()->installed()` para obter as localidades instaladas como objetos `LocaleData`. `data()` também fornece `available()`, `uninstalled()` e `protects()` para outras coleções, além de `current()` e `fallback()` para objetos individuais. Um seletor de idioma pode enviar `alias` como valor e exibir o nome `native` como rótulo.
 
 ## Consultar nomes de localidades, países e moedas {#look-up-locale-country-and-currency-names}
 

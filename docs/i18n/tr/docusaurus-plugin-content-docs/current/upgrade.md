@@ -54,12 +54,15 @@ Laravel-Lang artık yayımlanan dil dosyalarının yolları ve model çeviri sat
 
 Mevcut sürüm Laravel 12 ve 13’ü destekler ve PHP `^8.3` gerektirir. Uygulamanızın `composer.json` dosyasında, aşağıdaki paketlerden `require` veya `require-dev` altında yer alanların her biri için sürüm kısıtını `^20.0` olarak belirleyin. Yalnızca `laravel-lang/common` kurduysanız sadece onun kısıtını değiştirmeniz gerekir.
 
+`20.x` sürümünü kurmadan veya bu sürüme yükseltmeden önce gereken Composer paketi sürümünün Packagist’te bulunduğunu doğrulayın. Mona sürümü ve karşılık gelen Composer paketleri farklı zamanlarda yayımlanabilir.
+
 | Kullanım | Composer paketleri |
 | --- | --- |
 | Paket grubu | `laravel-lang/common` |
 | Çeviri paketleri | `laravel-lang/lang`, `laravel-lang/starter-kits`, `laravel-lang/moonshine`, `laravel-lang/actions`, `laravel-lang/attributes`, `laravel-lang/http-statuses` |
-| Yayım ve yapılandırma | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback` |
+| Yayım ve yapılandırma | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback`, `laravel-lang/library` |
 | Uygulama entegrasyonları | `laravel-lang/locales`, `laravel-lang/locale-list`, `laravel-lang/routes`, `laravel-lang/models` |
+| Ortak yardımcı paketler | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | Paket şablonu | `laravel-lang/translations-template` |
 
 Kurulumda yalnızca standart çeviri iş akışını kullanıyorsanız bağımlılıkları güncelleyin ve çevirilerinizi yeniden yayımlayın.
@@ -278,7 +281,7 @@ Rotalarınız, `bootstrap/app.php` ve özel ara katman listelerinizdeki içe akt
 
 Model ara katmanını bir guard ile oluşturduysanız guard’ı Laravel ara katman parametresi olarak verin. Örneğin `LocalizationByModelMiddleware::class . ':admin'` kullanın. Kullanıcı çözümleyicisi bir Eloquent modeli bekler. Özel ara katman alt sınıflarında `LaravelLang\Config\Services\RouteLangConfig` enjekte edin, kaynak adlarını `$this->routeConfig->name` üzerinden okuyun ve `detect()` metodundan `int|string|null` döndürün. Doğrudan `LaravelLang\Routes\Services\Route` başvurularını `LaravelLang\Routes\Services\RouteService` ile değiştirin.
 
-Uygulamanızın kullandığı her kaynağı test edin. Başlıktan algılama artık PHP Intl kullanır ve `Accept-Language` başlığından ayrıştırılan dil alanını alır. Sıralanmış tarayıcı tercihlerine veya bölgeye özel eşleşmelere dayanıyorsanız bu seçimi özel bir ara katmanda uygulayın. Sırada daha sonra gelen ara katman, URL’deki yerel ayar da dahil olmak üzere önceki kaynağın seçimini geçersiz kılabilir. Önceliği URL’nin alması gerekiyorsa yapılandırılmış listelerin sırasını değiştirin.
+Uygulamanızın kullandığı her kaynağı test edin. Başlıktan algılama, PHP Intl ile kurulu dilleri `Accept-Language` tercih sırasına göre denetler. Önce tam dil etiketini, ardından temel dili dener. Daha sonra çalışan bir ara katman, önceki kaynağın seçtiği yerel ayarı geçersiz kılabilir. Ön ekli rotalarda URL’nin belirleyici olması için bu rotaların zincirinde yalnızca URL’den yerel ayarı seçen ara katmanı bırakın.
 
 URL oluşturmayı ve istekleri ayrı ayrı test edin. `localization_routes.hide`, URL oluşturulurken yedek yerel ayar bölümünü çıkarır. `localization_routes.redirect`, geçerli yerel ayara yapılan önekli istekleri öneksiz rotaya yönlendirir. Adlandırılmış önekli rota, geçersiz veya kurulu olmayan bir yerel ayarı da öneksiz rotaya yönlendirir.
 
@@ -310,7 +313,7 @@ $article->translation('de_CH');
 
 `translated()`, `whereTranslation()` ve ilgili kapsamları Eloquent sorgu oluşturucu üzerinden çağırın. Kapsamın yerel ayar metni olarak kodu veya takma adı verin. `orderByTranslation()` için `'asc'`, `'desc'` veya `SortDirection` kullanın. `whereTranslation()` veya `whereTranslationLike()` ile geçerli ya da yedek yerel ayar dışında bir ayarı sorgularken `localization_models.filter` ayarını `false` yapın veya doğrudan `translationsRaw()` ilişkisini sorgulayın.
 
-`$event->locale->value` okuyan veya `$event->locale` ile `Locale` enum’unu karşılaştıran olay tüketicilerini güncelleyin. `TranslationHasBeenSetEvent` ve `TranslationHasBeenForgetEvent` artık yerel ayar açıkça verildiğinde metin türünde bir takma ad taşır. Çağıran kod yerel ayarı atlarsa her iki olay da `null` taşır. Bir takma adı kalıcı anahtar olarak kullanmadan önce `Locales::fromAlias()` ile dönüştürün. Değer atama olayı `save()` çağrısından önce, özniteliğe değer atanırken tetiklenir. Üç model çevirisi olayından herhangi birini elle göndermek için `event(new …)` kullanın.
+`$event->locale->value` okuyan veya `$event->locale` ile `Locale` enum’unu karşılaştıran olay tüketicilerini güncelleyin. `TranslationHasBeenSetEvent` ve `TranslationHasBeenForgetEvent` artık yerel ayar açıkça verildiğinde metin türünde bir takma ad taşır. Çağıran kod yerel ayarı atlarsa değer atama olayı `null` taşır. Bir takma adı kalıcı anahtar olarak kullanmadan önce `Locales::fromAlias()` ile dönüştürün. Değer atama olayı `save()` çağrısından önce, özniteliğe değer atanırken tetiklenir. Üç model çevirisi olayından herhangi birini elle göndermek için `event(new …)` kullanın.
 
 Oluşturulan IDE yardımcı dosyalarını saklıyorsanız içe aktarımları ve model keşif yollarını güncelledikten sonra `php artisan lang:models-helper` çalıştırın. [Model çevirileri](./models.md)
 

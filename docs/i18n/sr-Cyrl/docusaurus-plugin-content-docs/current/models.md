@@ -6,7 +6,7 @@ description: Чувајте, читајте и претражујте локал
 `laravel-lang/models` додаје преведене атрибуте постојећем Eloquent моделу. Сваки ред превода чува локал и вредности атрибута за тај локал. Пакет је укључен у Common и захтева PHP Intl.
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## Додавање превода моделу {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 Генератор додаје особину `LaravelLang\Models\HasTranslations` основном моделу и прави пратећи модел `ArticleTranslation`, миграцију и IDE помоћну датотеку. Миграција прави страни кључ ка чланку, јединствени пар `(item_id, locale)` и колоне за преведене ниске које могу имати вредност `null`. Ако ове вредности већ чувате у основној табели, пренесите их у редове превода пре него што почнете да користите приступне методе новог модела.
 
 Ако модел није у `app/Models`, додајте његов директоријум у [`localization_models.directories`](./configure.md) пре покретања генератора.
+
+Покрените `php artisan make:model-translation` да бисте интерактивно изабрали модел и колоне. Ако оставите празан списак, генератор користи `title` и `description`. Да бисте касније додали поље, направите миграцију и додајте поље у попуњиве атрибуте и конверзије модела превода.
 
 ## Упис и читање преведених атрибута {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+Модели унапред учитавају релацију `translations()`. `orWhereTranslation()` и `orWhereTranslationLike()` додају алтернативан услов. `orderByTranslation()` сортира према једном локалу, подразумевано текућем.
 
 ## Праћење измена и освежавање IDE помоћних датотека {#observe-changes-and-refresh-ide-helpers}
 

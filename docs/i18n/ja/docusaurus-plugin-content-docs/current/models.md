@@ -6,7 +6,7 @@ description: Laravel-Lang Models を使って翻訳された Eloquent 属性を�
 `laravel-lang/models` は既存の Eloquent モデルに翻訳可能な属性を追加します。各翻訳行にはロケールとそのロケールの属性値を格納します。このパッケージは Common に含まれ、PHP の Intl 拡張機能が必要です。
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## モデルに翻訳を追加する {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 ジェネレーターは基本モデルに `LaravelLang\Models\HasTranslations` トレイトを追加し、対応する `ArticleTranslation` モデル、マイグレーション、IDE ヘルパーを作成します。マイグレーションは記事への外部キー、一意な `(item_id, locale)` の組、および翻訳値を格納する null を許容する文字列カラムを作成します。値をすでに基本テーブルに格納している場合、新しいモデルのアクセサーを使う前に翻訳行へ移行してください。
 
 モデルが `app/Models` の外にある場合は、ジェネレーターを実行する前にモデルのディレクトリを [`localization_models.directories`](./configure.md) に追加します。
+
+`php artisan make:model-translation` を実行すると、モデルとカラムを対話的に選べます。カラムを省略すると `title` と `description` が使われます。後でフィールドを追加するには、マイグレーションを作成し、翻訳モデルの一括代入可能な属性とキャストに追加します。
 
 ## 翻訳済み属性を書き込み、読み取る {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+モデルは `translations()` リレーションを事前読み込みします。`orWhereTranslation()` と `orWhereTranslationLike()` は代替条件を追加します。`orderByTranslation()` は 1 つのロケールで並べ替えます。省略時は現在のロケールを使います。
 
 ## 変更を監視して IDE ヘルパーを更新する {#observe-changes-and-refresh-ide-helpers}
 

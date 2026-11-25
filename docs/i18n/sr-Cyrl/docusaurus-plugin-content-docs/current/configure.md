@@ -19,7 +19,9 @@ php artisan vendor:publish --tag=localization_main
 | `localization_models.php` | [Суфикс модела превода, филтрирање и путање генератора](./models.md) |
 | `localization_map.php` | Метаподаци локала, попут писма, региона и смера писања |
 
-После измене подешавања обришите кеш конфигурације. Покрените `php artisan lang:update` да поново генеришете преводе на које утичу подешавања објављивања.
+Laravel замењује свако подешавање највишег нивоа вредношћу из апликације. Када мењате низ `locales` у `localization_punctuation.php`, задржите подразумевана подешавања за локале која још желите да користите.
+
+После измене подешавања обришите постојећи кеш конфигурације командом `php artisan config:clear`. Покрените `php artisan lang:update` да поново генеришете преводе на које утичу подешавања објављивања.
 
 ## Стилови превода {#translation-styles}
 
@@ -47,6 +49,8 @@ php artisan vendor:publish --tag=localization_main
 
 Artisan може да прихвати `de-CH`, док Laravel и објављене датотеке користе `de_CH`. За `APP_LOCALE` и `APP_FALLBACK_LOCALE` наведите канонске кодове. Примере претварања и претраге потражите у [Локалима и називима](./locales.md).
 
+При поређењу алијаса разликују се мала и велика слова. За сваки локал изаберите јединствен алијас који се разликује од канонских кодова других локала.
+
 ## Изузимање датотека и принудно укључивање интеграција {#skip-files-and-force-integrations}
 
 - `localization_main.skip` упоређује обрасце са `*` са пуним путањама чији је раздвајач `/`, без разликовања великих и малих слова. Тако можете изузети изворне датотеке, речнике и одредишта објављивања. На пример, `['*/lang/fr/validation.php']` спречава Publisher да упише ту датотеку у апликацији која користи `lang/`.
@@ -57,3 +61,16 @@ Artisan може да прихвати `de-CH`, док Laravel и објавље
 ## Паметна интерпункција {#smart-punctuation}
 
 Подесите `LOCALIZATION_PUNCTUATION_ENABLED=true` да укључите типографске наводнике, црте и тротачку у објављеним преводима. Уредите `localization_punctuation.common` за општа правила и `localization_punctuation.locales` за посебна правила по канонском коду локала. Правила се примењују када Publisher следећи пут упише преводе.
+
+## Метаподаци локала {#locale-metadata}
+
+`localization_map.locales` повезује канонске кодове са писмом (`type`), регионалним локалом (`regional`) и опционим смером писања (`direction`). Користите `Direction::LeftToRight` ако смер није подешен.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

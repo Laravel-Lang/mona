@@ -19,7 +19,9 @@ php artisan vendor:publish --tag=localization_main
 | `localization_models.php` | [Çeviri modeli son eki, filtreleme ve oluşturma yolları](./models.md) |
 | `localization_map.php` | Yazı sistemi, bölge ve yazı yönü gibi yerel ayar meta verileri |
 
-Yapılandırmayı değiştirdikten sonra yapılandırma önbelleğini temizleyin. Yayım ayarlarından etkilenen çevirileri yeniden oluşturmak için `php artisan lang:update` çalıştırın.
+Laravel, üst düzey her ayarı uygulamada belirtilen değerle değiştirir. `localization_punctuation.php` dosyasında `locales` dizisini düzenlerken kullanmaya devam edeceğiniz varsayılan yerel ayar istisnalarını koruyun.
+
+Yapılandırmayı değiştirdikten sonra varsa önbelleği `php artisan config:clear` ile temizleyin. Yayım ayarlarından etkilenen çevirileri yeniden oluşturmak için `php artisan lang:update` çalıştırın.
 
 ## Çeviri stilleri {#translation-styles}
 
@@ -47,6 +49,8 @@ Varsayılan ayar `['default', 'inline']` değeridir. `inline` stili, “Bu alan 
 
 Artisan `de-CH` kodunu kabul edebilir, ancak Laravel ve yayımlanan dosyalar `de_CH` kodunu kullanır. `APP_LOCALE` ve `APP_FALLBACK_LOCALE` için standart kodları kullanın. Dönüştürme ve arama örnekleri için [Yerel ayarlar ve adlar](./locales.md) sayfasına bakın.
 
+Takma adların eşleştirilmesinde büyük ve küçük harfler ayırt edilir. Her yerel ayar için başka bir yerel ayarın standart koduyla çakışmayan, benzersiz bir takma ad kullanın.
+
 ## Dosyaları atlama ve entegrasyonları zorlama {#skip-files-and-force-integrations}
 
 - `localization_main.skip`, büyük/küçük harfe duyarsız `*` desenlerini `/` ayraçlı tam yollarla eşleştirir. Kaynak dosyaları, sözlükleri ve yayım hedeflerini hariç tutabilir. Örneğin `['*/lang/fr/validation.php']`, Publisher’ın `lang/` kullanan bir uygulamada o dosyaya yazmasını engeller.
@@ -57,3 +61,16 @@ Artisan `de-CH` kodunu kabul edebilir, ancak Laravel ve yayımlanan dosyalar `de
 ## Akıllı noktalama {#smart-punctuation}
 
 Yayımlanan çevirilerde tipografik tırnak işaretlerini, tireleri ve üç noktaları etkinleştirmek için `LOCALIZATION_PUNCTUATION_ENABLED=true` ayarını kullanın. Genel kurallar için `localization_punctuation.common`, standart yerel ayar koduna göre özel kurallar için `localization_punctuation.locales` ayarını düzenleyin. Yeni kurallar, Publisher metinleri bir sonraki kez yazdığında uygulanır.
+
+## Yerel ayar üst verileri {#locale-metadata}
+
+`localization_map.locales` standart kodları yazı sistemi (`type`), bölgesel yerel ayar (`regional`) ve isteğe bağlı yazım yönüyle (`direction`) eşler. Yön ayarlanmadıysa `Direction::LeftToRight` kullanın.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

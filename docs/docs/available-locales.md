@@ -104,8 +104,8 @@ Find the list in code with [`Locale::values()`](./locales.md#find-supported-and-
 | Sanskrit | `sa` |
 | Sardinian | `sc` |
 | Scottish Gaelic | `gd` |
-| Serbian | `sr_Cyrl` |
-| Serbian | `sr_Latn` |
+| Serbian (Cyrillic) | `sr_Cyrl` |
+| Serbian (Latin) | `sr_Latn` |
 | Serbian (Montenegro) | `sr_Latn_ME` |
 | Shona | `sn` |
 | Sindhi | `sd` |
@@ -130,8 +130,8 @@ Find the list in code with [`Locale::values()`](./locales.md#find-supported-and-
 | Uyghur | `ug` |
 | Ukrainian | `uk` |
 | Urdu | `ur` |
-| Uzbek | `uz_Cyrl` |
-| Uzbek | `uz_Latn` |
+| Uzbek (Cyrillic) | `uz_Cyrl` |
+| Uzbek (Latin) | `uz_Latn` |
 | Vietnamese | `vi` |
 | Welsh | `cy` |
 | Xhosa | `xh` |

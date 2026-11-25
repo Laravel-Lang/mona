@@ -10,7 +10,7 @@ Publisher는 Composer로 설치된 번역 팩을 찾습니다. 팩은 `laravel_l
 Laravel 애플리케이션에 팩을 설치하고 현재 사용하는 로캘을 업데이트하세요. 예를 들어 Actions 팩은 버튼과 기타 작업의 레이블을 추가합니다.
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ return [
 
 애플리케이션에서 `__('Enable audit trail')`은 JSON 번역을, `__('audit.enable')`은 PHP 번역을 읽습니다. 동일한 문구에 대해서는 팩의 번역이 공용 Library 항목보다 우선합니다. 두 사전에 모두 문구가 없으면 Publisher는 원본 값을 사용합니다.
 
+팩의 고유한 Composer 이름을 지정하고 템플릿의 `self.version`을 `^20.0`과 같은 버전 제약으로 바꾸세요. 사전 디렉터리에는 표준 로캘 코드를 사용하세요. 기본 번역은 `default.json`에, 스타일 변형은 `inline.json` 같은 파일에 넣으세요.
+
 ### 조건부로 번역 적용하기 {#apply-translations-conditionally}
 
 | 매니페스트 속성 | 매핑이 적용되는 조건 |
@@ -91,3 +93,13 @@ return [
 | `vendor` 및 `project: true` | 루트 프로젝트의 Composer 이름이 `vendor`와 일치합니다. 이 모드에서 Publisher는 프로젝트 이름을 확인합니다. |
 
 매핑을 설치된 의존성과 이름이 같은 루트 프로젝트에 모두 적용하려면 매니페스트 항목을 두 개 만드세요. 이전 프로바이더를 변환하려면 [업그레이드 가이드](./upgrade.md), 제외 규칙과 강제 패키지 매칭은 [설정](./configure.md)을 참조하세요.
+
+### Laravel 애플리케이션에서 팩 테스트하기 {#test-a-pack-in-a-laravel-application}
+
+팩이 테스트 앱과 같은 상위 디렉터리에 있을 때 앱 루트에서 다음 명령을 실행하세요. `lang/fr.json`과 `lang/fr/audit.php`를 확인하고 앱의 로캘을 `fr`로 설정해 두 키를 테스트하세요. 팩을 수정한 뒤 `php artisan lang:update`를 실행하세요.
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

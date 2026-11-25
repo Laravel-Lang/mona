@@ -10,7 +10,7 @@ Publisher は Composer でインストールされた翻訳パックを検出し
 Laravel アプリケーションにパックをインストールし、すでに使用しているロケールを更新します。たとえば Actions パックはボタンなどの操作ラベルを追加します。
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ return [
 
 アプリケーションでは `__('Enable audit trail')` が JSON 翻訳を、`__('audit.enable')` が PHP 翻訳を読み取ります。同じ文言については、パックの翻訳が共有の Library の翻訳に優先します。どちらの辞書にも文言がなければ、Publisher は原文を使用します。
 
+パック固有の Composer 名を付け、テンプレートの `self.version` を `^20.0` など対象リリースの制約に置き換えます。辞書ディレクトリには正規ロケールコードを使います。標準の翻訳は `default.json` に、スタイル別の翻訳は `inline.json` などに置きます。
+
 ### 条件付きで翻訳を適用する {#apply-translations-conditionally}
 
 | マニフェストのプロパティ | マッピングの適用条件 |
@@ -91,3 +93,13 @@ return [
 | `vendor` と `project: true` | ルートプロジェクトの Composer 名が `vendor` と一致します。このモードで Publisher は名前を照合します。 |
 
 インストール済みの依存パッケージと、その名前のルートプロジェクトの両方にマッピングを適用するには、マニフェストにエントリを 2 つ記述します。旧プロバイダーの移行は[アップグレードガイド](./upgrade.md)、除外ルールとパッケージの強制照合は[設定](./configure.md)を参照してください。
+
+### Laravel アプリケーションでパックをテストする {#test-a-pack-in-a-laravel-application}
+
+パックが隣のディレクトリにある状態で、テスト用アプリケーションのルートから実行します。`lang/fr.json` と `lang/fr/audit.php` を確認し、アプリケーションのロケールを `fr` に設定して両方のキーをテストします。パックの変更後は `php artisan lang:update` を実行します。
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

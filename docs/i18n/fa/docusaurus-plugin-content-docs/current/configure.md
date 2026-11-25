@@ -19,7 +19,9 @@ php artisan vendor:publish --tag=localization_main
 | `localization_models.php` | [پسوند مدل ترجمه، فیلترها و مسیرهای تولید فایل](./models.md) |
 | `localization_map.php` | فرادادهٔ زبان منطقه‌ای، مانند خط، منطقه و جهت نوشتار |
 
-پس از تغییر پیکربندی، حافظهٔ نهان آن را پاک کنید. با اجرای `php artisan lang:update` ترجمه‌های متأثر از تنظیمات انتشار را دوباره تولید کنید.
+Laravel هر تنظیم سطح بالا را با مقدار برنامه جایگزین می‌کند. هنگام ویرایش آرایهٔ `locales` در `localization_punctuation.php`، پیش‌فرض‌های زبان‌های منطقه‌ای را که هنوز نیاز دارید نگه دارید.
+
+پس از تغییر پیکربندی، اگر حافظهٔ نهانی وجود دارد، آن را با `php artisan config:clear` پاک کنید. `php artisan lang:update` را اجرا کنید تا ترجمه‌های متأثر از تنظیمات انتشار دوباره تولید شوند.
 
 ## سبک‌های ترجمه {#translation-styles}
 
@@ -47,6 +49,8 @@ php artisan vendor:publish --tag=localization_main
 
 Artisan می‌تواند `de-CH` را بپذیرد، اما Laravel و فایل‌های منتشرشده از `de_CH` استفاده می‌کنند. `APP_LOCALE` و `APP_FALLBACK_LOCALE` را روی کدهای استاندارد بگذارید. برای نمونه‌های تبدیل و جست‌وجو به [زبان‌های منطقه‌ای و نام‌ها](./locales.md) مراجعه کنید.
 
+تطبیق نام مستعار به بزرگی و کوچکی حروف حساس است. برای هر زبان منطقه‌ای نام مستعار یکتایی انتخاب کنید که با کد استاندارد دیگر زبان‌ها یکسان نباشد.
+
 ## مستثنا کردن فایل‌ها و الزام استفاده از یکپارچه‌سازی‌ها {#skip-files-and-force-integrations}
 
 - `localization_main.skip` الگوهای `*` را بدون حساسیت به بزرگی و کوچکی حروف با مسیرهای کامل دارای جداکنندهٔ `/` تطبیق می‌دهد. می‌توان فایل‌های منبع، واژه‌نامه‌ها و مقصدهای انتشار را مستثنا کرد. برای نمونه، `['*/lang/fr/validation.php']` مانع نوشتن آن مقصد توسط Publisher در برنامه‌ای می‌شود که از `lang/` استفاده می‌کند.
@@ -57,3 +61,16 @@ Artisan می‌تواند `de-CH` را بپذیرد، اما Laravel و فایل
 ## نشانه‌گذاری هوشمند {#smart-punctuation}
 
 با تنظیم `LOCALIZATION_PUNCTUATION_ENABLED=true`، گیومه‌ها، خط تیره‌ها و سه‌نقطه‌های مناسب حروف‌چینی را در ترجمه‌های منتشرشده فعال کنید. برای قواعد عمومی `localization_punctuation.common` و برای قواعد جایگزین هر زبان منطقه‌ای `localization_punctuation.locales` را با کلید کد استاندارد ویرایش کنید. این قواعد در نوبت بعدی نوشتن رشته‌ها توسط Publisher اعمال می‌شوند.
+
+## فرادادهٔ زبان منطقه‌ای {#locale-metadata}
+
+`localization_map.locales` کدهای استاندارد را به خط (`type`)، زبان منطقه‌ای (`regional`) و جهت نوشتار اختیاری (`direction`) نگاشت می‌کند. اگر جهتی تعیین نشده است، از `Direction::LeftToRight` استفاده کنید.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

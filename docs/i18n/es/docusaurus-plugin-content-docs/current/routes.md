@@ -6,7 +6,7 @@ description: Registra URL localizadas y selecciona la configuración regional de
 `laravel-lang/routes` selecciona la configuración regional al recibir una solicitud y genera URL para grupos de rutas localizadas. El paquete se incluye en Common.
 
 ```bash
-composer require laravel-lang/routes
+composer require "laravel-lang/routes:20.*"
 ```
 
 Asegúrate de que estén [instaladas las configuraciones regionales que usas en las URL](./translations.md). Configura los nombres de parámetros, el middleware y el comportamiento de la configuración regional predeterminada en [`config/localization_routes.php`](./configure.md).
@@ -34,6 +34,8 @@ Con la configuración predeterminada, la función de retorno registra los dos pa
 
 El middleware de configuración regional consume el parámetro `locale` antes de invocar el controlador de la ruta. Si la ruta tiene nombre, una solicitud con una configuración regional desconocida o sin instalar en la URL redirige a la ruta sin prefijo.
 
+Laravel ejecuta dos veces la función del grupo. Si el grupo exterior tiene el prefijo de URL `admin` y el de nombre `admin.`, la ruta localizada se llama `admin.localized.products.show`.
+
 ## Generar una URL localizada {#generate-a-localized-url}
 
 ```php
@@ -49,6 +51,8 @@ $url = localizedRoute('products.show', [
 La función auxiliar usa el nombre de parámetro de configuración regional configurado y da preferencia a la ruta con prefijo si existe. Pasa a la generación de URL la cadena de configuración regional que se le proporciona. Para generar la URL con un alias, pasa ese alias u obtenlo antes con [`Locales::toAlias()`](./locales.md). Si omites la configuración regional, la función usa `Locales::fallback()`. Para usar la actual, pasa `Locales::current()` explícitamente.
 
 `localization_routes.hide` omite la configuración regional de reserva de las URL que genera la función. `localization_routes.redirect` redirige las solicitudes de la configuración regional actual del grupo con prefijo a la ruta sin prefijo. El valor predeterminado de ambas opciones es `false`.
+
+Pasa `Locale::French->value` para usar el código canónico o un objeto `LocaleData` para usar su alias. Valida la selección del usuario con `Locales::isInstalled()` antes de generar la URL.
 
 ## Seleccionar una configuración regional con middleware {#select-a-locale-with-middleware}
 
@@ -66,3 +70,5 @@ Cada middleware se puede aplicar directamente mediante su clase de `LaravelLang\
 El orden predeterminado para el grupo con prefijo es parámetro de URL, cookie, encabezado, sesión y modelo. El grupo sin prefijo usa el mismo orden sin el paso de la URL. Una fuente válida posterior puede reemplazar una anterior. Un cambio de configuración regional actualiza Laravel y guarda el código canónico en la clave de sesión configurada. Usa el grupo de middleware `web` si necesitas sesiones y cookies. El middleware de encabezado requiere PHP Intl.
 
 Cuando el middleware cambia la configuración regional, emite `LaravelLang\Routes\Events\LocaleHasBeenSetEvent`. Su propiedad `locale` es un objeto `LaravelLang\LocaleNames\LocaleData`. Usa `$event->locale->code` para obtener el código canónico.
+
+Para que prevalezca la URL, conserva solo `LocalizationByParameterPrefixMiddlewareMiddleware::class` en `localization_routes.middlewares.prefix`. Configura por separado la cadena sin prefijo.

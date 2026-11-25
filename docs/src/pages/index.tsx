@@ -53,9 +53,6 @@ export default function Home() {
                                     <Translate id="home.legacy">Legacy documentation</Translate>
                                 </Link>
                             </div>
-                            <CodeBlock className={styles.installCommand} language="bash">
-                                {"composer require laravel-lang/common\nphp artisan lang:update"}
-                            </CodeBlock>
                         </div>
                         <div className={styles.codePreview}>
                             <CodeBlock language="bash" title={translate({id: "home.example.install", message: "Add locales"})}>

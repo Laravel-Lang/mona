@@ -3,7 +3,7 @@ title: Translation Toolkit
 description: Maintain, migrate, and import translation sources and dictionaries from a Mona checkout.
 ---
 
-Toolkit is the command-line tool for maintaining translation packs. Run it from a Mona checkout after installing the root Composer dependencies. For publishing translations in a Laravel application, use the [Artisan commands](./translations.md).
+Toolkit is the command-line tool for maintaining translation packs. Run it from a Mona checkout after installing the root Composer dependencies. See the [contributor setup](./contributing.md) for checkout requirements. For publishing translations in a Laravel application, use the [Artisan commands](./translations.md).
 
 ```bash
 composer install
@@ -11,13 +11,23 @@ php src/Toolkit/bin/toolkit list
 php src/Toolkit/bin/toolkit migrate-locales --help
 ```
 
+Pass paths relative to the directory where you run the command, or use absolute paths. Run `php src/Toolkit/bin/toolkit <command> --help` to see the arguments and options for any command.
+
 ## Check translation status
 
 ```bash
-php src/Toolkit/bin/toolkit status src/Library
+php src/Toolkit/bin/toolkit status src/Lang
 ```
 
 The command writes `locales/<locale>/_status.json` within the project. It lists entries whose saved translation matches the source phrase and groups them by style. It combines exclusions from `locales/_settings.json` and `locales/<locale>/_settings.json` and deletes empty reports. To find phrases entirely absent from a dictionary, compare it with the pack's source files.
+
+To exclude a phrase whose translation is intentionally identical to the source, add it to `excludes` in the appropriate `_settings.json`.
+
+```json
+{
+  "excludes": ["Laravel"]
+}
+```
 
 ## Manage locale directories
 
@@ -35,10 +45,10 @@ php src/Toolkit/bin/toolkit sync:library src
 php src/Toolkit/bin/toolkit sync:package path/to/translation-pack
 ```
 
-- `sync:library` collects source phrases from packages with a `laravel_lang.json` manifest under `src/` and rewrites dictionaries in `src/Library/locales/`.
-- `sync:package` reads one pack's `source/` directory and prunes unused entries in its `locales/` directory. It deletes dictionaries left empty by pruning.
+- `sync:library` collects source phrases from packages with a `laravel_lang.json` manifest directly under `src/` and rewrites dictionaries in `src/Library/locales/`. It defaults to the checkout's `src/` directory when you omit the argument.
+- `sync:package` reads one pack's `source/` directory and prunes unused entries in its `locales/` directory. It deletes dictionaries left empty by pruning. It defaults to the current working directory when you omit the argument.
 
-Both keep existing translations for active phrases and preserve underscore-prefixed files such as `_settings.json`. Add translations for new phrases directly to the dictionary.
+Both process directories with a canonical locale code, keep existing translations for active phrases, and preserve underscore-prefixed files such as `_settings.json`. Add translations for new phrases directly to the dictionary.
 
 ## Migrate legacy dictionaries
 
@@ -64,7 +74,7 @@ php src/Toolkit/bin/toolkit download \
   --only-copy
 ```
 
-- `--directory` sets the final destination. `--paths` can be repeated for directories relative to the archive root.
-- Selected PHP and JSON files are copied by filename into the destination. PHP files are copied as bytes. JSON files with the same name are merged, with incoming values taking precedence.
-- Without `--only-copy`, Toolkit scans for supported translation calls with literal keys. If it finds phrases, it writes a JSON source named for the destination's parent directory, such as `framework.json` in the example.
+- `--url` and `--directory` are required. The URL must serve a ZIP archive over HTTP or HTTPS. `--paths` can be repeated for directories relative to the repository root inside the archive.
+- Selected directories are scanned recursively. PHP and JSON files are copied by filename into the destination. A PHP file with the same filename is replaced. JSON files with the same name are merged, with incoming values taking precedence.
+- Without `--only-copy`, Toolkit scans the repository for literal keys in supported translation calls such as `__()` and `Lang::get()`. If it finds phrases, it writes a JSON source named for the destination's parent directory, such as `framework.json` in the example. Omit `--paths` to run discovery alone. Review the resulting keys before adding them to a pack.
 - The command requires PHP's ZIP extension. It stages changes before publishing and attempts to restore the previous destination if publication fails.

@@ -19,7 +19,9 @@ php artisan vendor:publish --tag=localization_main
 | `localization_models.php` | [Суфікс моделі перекладу, фільтрування та шляхи генератора](./models.md) |
 | `localization_map.php` | Метадані локалей, як-от писемність, регіон і напрямок письма |
 
-Після зміни налаштувань очистьте кеш конфігурації. Виконайте `php artisan lang:update`, щоб згенерувати заново переклади, на які впливають параметри публікування.
+Laravel замінює кожен параметр верхнього рівня значенням із конфігурації застосунку. Якщо редагуєте масив `locales` у `localization_punctuation.php`, збережіть ті стандартні правила для локалей, які ще потрібні.
+
+Після зміни налаштувань очистьте наявний кеш конфігурації командою `php artisan config:clear`. Щоб згенерувати заново переклади, на які впливають параметри публікування, виконайте `php artisan lang:update`.
 
 ## Стилі перекладу {#translation-styles}
 
@@ -47,6 +49,8 @@ php artisan vendor:publish --tag=localization_main
 
 Artisan приймає `de-CH`, а Laravel та опубліковані файли використовують `de_CH`. Використовуйте канонічні коди в `APP_LOCALE` і `APP_FALLBACK_LOCALE`. Приклади перетворення та пошуку наведено на сторінці [Локалі й назви](./locales.md).
 
+Під час зіставлення аліасів враховується регістр. Для кожної локалі вибирайте унікальний аліас, який відрізняється від канонічних кодів інших локалей.
+
 ## Виключення файлів і примусове підключення інтеграцій {#skip-files-and-force-integrations}
 
 - `localization_main.skip` зіставляє шаблони `*` з повними шляхами, що мають роздільники `/`, без урахування регістру. Він дає змогу виключити вихідні файли, словники та цільові файли публікування. Наприклад, `['*/lang/fr/validation.php']` забороняє Publisher записувати цей файл у застосунку, що використовує `lang/`.
@@ -57,3 +61,16 @@ Artisan приймає `de-CH`, а Laravel та опубліковані фай�
 ## Автоматична типографіка {#smart-punctuation}
 
 Установіть `LOCALIZATION_PUNCTUATION_ENABLED=true`, щоб використовувати типографські лапки, тире та три крапки в опублікованих перекладах. Змінюйте загальні правила в `localization_punctuation.common`, а винятки для окремих локалей — у `localization_punctuation.locales`, використовуючи канонічні коди як ключі. Ці правила застосуються до опублікованих рядків під час наступного запису через Publisher.
+
+## Метадані локалей {#locale-metadata}
+
+`localization_map.locales` зіставляє канонічні коди з системою письма (`type`), регіональною локаллю (`regional`) і необов’язковим напрямком письма (`direction`). Якщо напрямок не задано, використовуйте `Direction::LeftToRight`.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

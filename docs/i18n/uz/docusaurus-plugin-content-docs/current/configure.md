@@ -19,7 +19,9 @@ php artisan vendor:publish --tag=localization_main
 | `localization_models.php` | [Tarjima modeli suffiksi, filtrlash va generator yo‘llari](./models.md) |
 | `localization_map.php` | Yozuv, hudud va yozuv yo‘nalishi kabi lokal metama’lumotlari |
 
-Sozlamalarni o‘zgartirgach, sozlamalar keshini tozalang. Nashr sozlamalari ta’sir qilgan tarjimalarni qayta yaratish uchun `php artisan lang:update` buyrug‘ini bajaring.
+Laravel har bir yuqori darajadagi sozlamani ilovadagi qiymat bilan almashtiradi. `localization_punctuation.php` faylidagi `locales` massivini tahrirlaganda, hali kerak bo‘lgan lokallarning standart qoidalarini saqlang.
+
+Sozlamalarni o‘zgartirgach, mavjud keshni `php artisan config:clear` bilan tozalang. Nashr sozlamalari ta’sir qilgan tarjimalarni qayta yaratish uchun `php artisan lang:update` buyrug‘ini bajaring.
 
 ## Tarjima uslublari {#translation-styles}
 
@@ -47,6 +49,8 @@ Standart sozlama `['default', 'inline']`. `inline` uslubi «Bu maydon qabul qili
 
 Artisan `de-CH` ni qabul qilishi mumkin, Laravel va nashr qilingan fayllar esa `de_CH` dan foydalanadi. `APP_LOCALE` va `APP_FALLBACK_LOCALE` uchun kanonik kodlarni belgilang. O‘girish va qidirish misollari uchun [Lokallar va nomlar](./locales.md) bo‘limiga qarang.
 
+Muqobil nomlarni solishtirishda katta va kichik harflar farqlanadi. Har bir lokal uchun boshqa lokallarning kanonik kodlariga teng bo‘lmagan noyob muqobil nom tanlang.
+
 ## Fayllarni chiqarib tashlash va integratsiyalarni majburan qo‘llash {#skip-files-and-force-integrations}
 
 - `localization_main.skip` harf registriga bog‘liq bo‘lmagan `*` andozalarini ajratkich sifatida `/` ishlatilgan to‘liq yo‘llar bilan solishtiradi. U manba fayllari, lug‘atlar va nashr manzillarini chiqarib tashlashi mumkin. Masalan, `['*/lang/fr/validation.php']` Publisher’ning `lang/` dan foydalanuvchi ilovada ushbu faylga yozishini oldini oladi.
@@ -57,3 +61,16 @@ Artisan `de-CH` ni qabul qilishi mumkin, Laravel va nashr qilingan fayllar esa `
 ## Aqlli punktuatsiya {#smart-punctuation}
 
 Nashr qilingan tarjimalarda tipografik qo‘shtirnoq, tire va ko‘p nuqtalarni yoqish uchun `LOCALIZATION_PUNCTUATION_ENABLED=true` ni belgilang. Umumiy qoidalar uchun `localization_punctuation.common` ni, ularni kanonik lokal kodi bo‘yicha almashtiradigan qoidalar uchun `localization_punctuation.locales` ni tahrirlang. Nashr qilingan satrlarga qoidalar Publisher ularni keyingi safar yozganda tatbiq etiladi.
+
+## Lokal metama’lumotlari {#locale-metadata}
+
+`localization_map.locales` kanonik kodlarni yozuv tizimi (`type`), hududiy lokal (`regional`) va ixtiyoriy yozuv yo‘nalishi (`direction`) bilan bog‘laydi. Yo‘nalish belgilanmagan bo‘lsa, `Direction::LeftToRight` dan foydalaning.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

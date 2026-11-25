@@ -104,8 +104,8 @@ Ro‘yxatni kodda [`Locale::values()`](./locales.md#find-supported-and-installed
 | sanskrit | `sa` |
 | sardin | `sc` |
 | shotland-gel | `gd` |
-| serbcha | `sr_Cyrl` |
-| serbcha | `sr_Latn` |
+| serbcha (kirill yozuvi) | `sr_Cyrl` |
+| serbcha (lotin yozuvi) | `sr_Latn` |
 | serbcha (Chernogoriya) | `sr_Latn_ME` |
 | shona | `sn` |
 | sindhi | `sd` |
@@ -130,8 +130,8 @@ Ro‘yxatni kodda [`Locale::values()`](./locales.md#find-supported-and-installed
 | uyg‘ur | `ug` |
 | ukrain | `uk` |
 | urdu | `ur` |
-| o‘zbekcha | `uz_Cyrl` |
-| o‘zbekcha | `uz_Latn` |
+| o‘zbekcha (kirill yozuvi) | `uz_Cyrl` |
+| o‘zbekcha (lotin yozuvi) | `uz_Latn` |
 | vyetnam | `vi` |
 | valliy | `cy` |
 | kxosa | `xh` |

@@ -6,7 +6,7 @@ description: با Laravel-Lang Models ویژگی‌های بومی‌شدهٔ El
 `laravel-lang/models` ویژگی‌های ترجمه‌شده را به مدل موجود Eloquent اضافه می‌کند. هر ردیف ترجمه، یک زبان منطقه‌ای و مقدار ویژگی‌ها برای آن زبان را ذخیره می‌کند. این بسته در Common گنجانده شده و به افزونهٔ Intl در PHP نیاز دارد.
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## افزودن ترجمه به مدل {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 مولد، تریت `LaravelLang\Models\HasTranslations` را به مدل پایه اضافه می‌کند و مدل همراه `ArticleTranslation`، یک مهاجرت و فایل کمکی IDE می‌سازد. مهاجرت، یک کلید خارجی به مقاله، یک زوج یکتای `(item_id, locale)` و ستون‌های رشته‌ای تهی‌پذیر برای مقادیر ترجمه‌شده می‌سازد. اگر این مقادیر هم‌اکنون در جدول پایه‌اند، پیش از استفاده از خواننده‌های مدل جدید آن‌ها را به ردیف‌های ترجمه منتقل کنید.
 
 اگر مدل خارج از `app/Models` قرار دارد، پوشهٔ آن را پیش از اجرای مولد به [`localization_models.directories`](./configure.md) اضافه کنید.
+
+برای انتخاب تعاملی مدل و ستون‌ها `php artisan make:model-translation` را اجرا کنید. اگر فهرست را خالی بگذارید، `title` و `description` به کار می‌روند. برای افزودن فیلد در آینده، یک مهاجرت جدید بسازید و فیلد را به ویژگی‌های قابل مقداردهی و تبدیل‌های مدل ترجمه اضافه کنید.
 
 ## نوشتن و خواندن ویژگی‌های ترجمه‌شده {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+مدل‌ها رابطهٔ `translations()` را پیشاپیش بارگیری می‌کنند. `orWhereTranslation()` و `orWhereTranslationLike()` شرط جایگزین اضافه می‌کنند. `orderByTranslation()` بر اساس یک زبان منطقه‌ای مرتب می‌کند و پیش‌فرض آن زبان جاری است.
 
 ## مشاهدهٔ تغییرات و به‌روزرسانی فایل‌های کمکی IDE {#observe-changes-and-refresh-ide-helpers}
 

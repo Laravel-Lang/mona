@@ -10,7 +10,7 @@ O Publisher descobre pacotes de tradução instalados pelo Composer. Um pacote f
 Instale o pacote na aplicação Laravel e atualize as localidades que já usa. Por exemplo, o pacote Actions adiciona rótulos para botões e outras ações.
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ Ao publicar para o francês, ambos procuram a frase em inglês em `locales/fr/de
 
 Na aplicação, `__('Enable audit trail')` lê a tradução JSON e `__('audit.enable')` lê a tradução PHP. As traduções do pacote têm prioridade sobre as entradas da Library compartilhada para a mesma frase. Se nenhum dicionário contiver a frase, o Publisher usa o valor de origem.
 
+Dê um nome próprio de Composer ao pacote e substitua `self.version` no modelo por uma restrição como `^20.0`. Use códigos canônicos de localidade nos diretórios dos dicionários. Guarde as traduções padrão em `default.json` e as variantes em arquivos como `inline.json`.
+
 ### Aplicar traduções condicionalmente {#apply-translations-conditionally}
 
 | Propriedade do manifesto | Quando o mapeamento se aplica |
@@ -91,3 +93,13 @@ Na aplicação, `__('Enable audit trail')` lê a tradução JSON e `__('audit.en
 | `vendor` e `project: true` | O nome do projeto raiz no Composer corresponde a `vendor`. Nesse modo, o Publisher verifica o nome. |
 
 Use duas entradas no manifesto se um mapeamento precisar se aplicar a uma dependência instalada e a um projeto raiz com esse nome. Consulte o [guia de atualização](./upgrade.md) para converter um provedor legado e a [configuração](./configure.md) para regras de exclusão e inclusão forçada de pacotes.
+
+### Testar um pacote em uma aplicação Laravel {#test-a-pack-in-a-laravel-application}
+
+Execute os comandos na raiz da aplicação de teste se o pacote estiver em um diretório irmão. Confira `lang/fr.json` e `lang/fr/audit.php`, defina `fr` como a localidade da aplicação e teste as duas chaves. Depois de mudar o pacote, execute `php artisan lang:update`.
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

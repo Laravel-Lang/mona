@@ -6,7 +6,7 @@ description: 使用 Laravel-Lang Models 存储、读取和查询 Eloquent 的本
 `laravel-lang/models` 可为现有 Eloquent 模型添加可翻译属性。每条翻译记录保存一个语言区域及该语言区域的属性值。Common 已包含此包，使用时需要 PHP Intl 扩展。
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## 为模型添加翻译 {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 生成器会为基础模型添加 `LaravelLang\Models\HasTranslations` trait，并创建配套的 `ArticleTranslation` 模型、数据库迁移和 IDE 辅助文件。迁移将创建关联文章的外键、唯一的 `(item_id, locale)` 组合和可为空的字符串列，用于保存译文。如果这些值已经存于主表，请先迁移到翻译表，再使用新模型的访问器。
 
 如果模型不在 `app/Models` 下，请先将其目录添加到 [`localization_models.directories`](./configure.md)，再运行生成器。
+
+运行 `php artisan make:model-translation` 可交互选择模型和列。留空时，生成器使用 `title` 和 `description`。之后要新增字段，请创建迁移，并将字段加入翻译模型的可批量赋值属性与类型转换。
 
 ## 写入和读取已翻译的属性 {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+模型会预加载 `translations()` 关系。`orWhereTranslation()` 和 `orWhereTranslationLike()` 可添加备选条件。`orderByTranslation()` 按单个语言区域排序，默认为当前语言区域。
 
 ## 监听更改和更新 IDE 辅助文件 {#observe-changes-and-refresh-ide-helpers}
 

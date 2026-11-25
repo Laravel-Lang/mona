@@ -10,7 +10,7 @@ Publisher Composer orqali o‘rnatilgan tarjima paketlarini aniqlaydi. Paket `la
 Paketni Laravel ilovangizga o‘rnating va foydalanayotgan lokallarni yangilang. Masalan, Actions paketi tugmalar va boshqa amallar uchun yozuvlarni qo‘shadi.
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ Fransuzcha tarjimalar nashr qilinganda ikkala manba ham paketingizdagi `locales/
 
 Ilovada `__('Enable audit trail')` JSON tarjimasini, `__('audit.enable')` esa PHP tarjimasini o‘qiydi. Bir xil ibora uchun paket tarjimasi umumiy Library yozuvidan ustun turadi. Ibora ikkala lug‘atda ham bo‘lmasa, Publisher manba qiymatidan foydalanadi.
 
+Paketga alohida Composer nomi bering va shablondagi `self.version` talablarini `^20.0` kabi versiya cheklovi bilan almashtiring. Lug‘at kataloglari uchun kanonik lokal kodlaridan foydalaning. Odatdagi tarjimalarni `default.json`, uslub variantlarini esa `inline.json` kabi fayllarda saqlang.
+
 ### Tarjimalarni shartga qarab qo‘llash {#apply-translations-conditionally}
 
 | Manifest xususiyati | Moslik qachon qo‘llanadi |
@@ -91,3 +93,13 @@ Ilovada `__('Enable audit trail')` JSON tarjimasini, `__('audit.enable')` esa PH
 | `vendor` va `project: true` | Ildiz loyihaning Composer nomi `vendor` ga mos. Bu rejimda Publisher nomni tekshiradi. |
 
 Moslik ham o‘rnatilgan bog‘liqlikka, ham shu nomdagi ildiz loyihaga qo‘llanishi kerak bo‘lsa, manifestda ikkita yozuvdan foydalaning. Eski provayderni o‘zgartirish uchun [yangilash qo‘llanmasiga](./upgrade.md), istisno qoidalari va paket mosligini majburlash uchun [sozlamalarga](./configure.md) qarang.
+
+### Paketni Laravel ilovasida sinash {#test-a-pack-in-a-laravel-application}
+
+Paket qo‘shni katalogda bo‘lsa, buyruqlarni sinov ilovasi tubida bajaring. `lang/fr.json` va `lang/fr/audit.php` ni tekshiring, ilova lokalini `fr` ga o‘rnating va ikki kalitni sinang. Paketni o‘zgartirgandan so‘ng `php artisan lang:update` ni bajaring.
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

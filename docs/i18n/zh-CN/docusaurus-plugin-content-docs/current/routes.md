@@ -6,7 +6,7 @@ description: 注册本地化 URL，并根据请求选择 Laravel 的语言区域
 `laravel-lang/routes` 在处理请求时选择语言区域，并为本地化路由组生成 URL。Common 已包含此包。
 
 ```bash
-composer require laravel-lang/routes
+composer require "laravel-lang/routes:20.*"
 ```
 
 确认 [URL 中使用的语言区域已安装](./translations.md)。在 [`config/localization_routes.php`](./configure.md) 中配置参数名、中间件和默认语言区域的行为。
@@ -34,6 +34,8 @@ Route::localizedGroup(function (): void {
 
 语言区域中间件会在调用路由处理程序前取走 `locale` 参数。如果 URL 指向未知或未安装的语言区域，并且路由有名称，则请求会重定向到无前缀的路由。
 
+Laravel 会执行两次路由组的回调。如果外层组的 URL 前缀是 `admin`，名称前缀是 `admin.`，本地化路由的名称就是 `admin.localized.products.show`。
+
 ## 生成本地化 URL {#generate-a-localized-url}
 
 ```php
@@ -49,6 +51,8 @@ $url = localizedRoute('products.show', [
 辅助函数使用已配置的语言区域参数名。如果有带前缀的路由，会优先使用它。传入的语言区域字符串会原样交给 URL 生成器。要使用别名生成 URL，请传入别名，或先用 [`Locales::toAlias()`](./locales.md) 解析。省略语言区域时，辅助函数使用 `Locales::fallback()`。要使用当前语言区域，请显式传入 `Locales::current()`。
 
 `localization_routes.hide` 会在辅助函数生成的 URL 中省略回退语言区域。`localization_routes.redirect` 会将当前语言区域的请求从带前缀的路由组重定向到无前缀的路由。两项设置默认都是 `false`。
+
+要使用规范代码，请传入 `Locale::French->value`。要使用别名，请传入 `LocaleData` 对象。生成 URL 前，请用 `Locales::isInstalled()` 验证用户选择的语言区域。
 
 ## 使用中间件选择语言区域 {#select-a-locale-with-middleware}
 
@@ -66,3 +70,5 @@ $url = localizedRoute('products.show', [
 对于带前缀的路由组，默认顺序为 URL 参数、Cookie、请求头、会话，最后是模型。无前缀的路由组顺序相同，但跳过 URL 步骤。后续的有效来源可覆盖前面取得的值。更改语言区域会更新 Laravel，并将规范代码保存在配置的会话键中。如需使用会话和 Cookie，请使用 `web` 中间件组。请求头中间件需要 PHP Intl 扩展。
 
 中间件更改语言区域时会派发 `LaravelLang\Routes\Events\LocaleHasBeenSetEvent`。其 `locale` 属性是 `LaravelLang\LocaleNames\LocaleData` 对象。通过 `$event->locale->code` 读取规范代码。
+
+要让 URL 决定语言区域，请在 `localization_routes.middlewares.prefix` 中仅保留 `LocalizationByParameterPrefixMiddlewareMiddleware::class`。单独配置无前缀路由的中间件链。

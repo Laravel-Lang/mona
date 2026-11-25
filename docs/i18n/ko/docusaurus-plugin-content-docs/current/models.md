@@ -6,7 +6,7 @@ description: Laravel-Lang Models로 현지화된 Eloquent 속성을 저장하고
 `laravel-lang/models`는 기존 Eloquent 모델에 번역 가능한 속성을 추가합니다. 각 번역 행은 로캘과 해당 로캘의 속성값을 저장합니다. 이 패키지는 Common에 포함되며 PHP Intl이 필요합니다.
 
 ```bash
-composer require laravel-lang/models
+composer require "laravel-lang/models:20.*"
 ```
 
 ## 모델에 번역 추가하기 {#add-translations-to-a-model}
@@ -21,6 +21,8 @@ php artisan migrate
 생성기는 기본 모델에 `LaravelLang\Models\HasTranslations` 트레이트를 추가하고, 대응하는 `ArticleTranslation` 모델, 마이그레이션, IDE 헬퍼를 생성합니다. 마이그레이션은 게시글을 참조하는 외래 키, 고유한 `(item_id, locale)` 쌍, 번역값을 담는 널 허용 문자열 열을 만듭니다. 이미 기본 테이블에 이 값을 저장했다면 새 모델의 접근자를 사용하기 전에 값을 번역 행으로 마이그레이션하세요.
 
 모델이 `app/Models` 밖에 있다면 생성기를 실행하기 전에 그 디렉터리를 [`localization_models.directories`](./configure.md)에 추가합니다.
+
+`php artisan make:model-translation`을 실행해 모델과 열을 대화형으로 지정하세요. 열 목록을 비우면 `title`과 `description`을 사용합니다. 나중에 필드를 추가하려면 마이그레이션을 만들고 번역 모델의 할당 가능 속성과 캐스트에 필드를 추가하세요.
 
 ## 번역된 속성 쓰기 및 읽기 {#write-and-read-translated-attributes}
 
@@ -64,6 +66,8 @@ $articles = Article::query()
     ->orderByTranslation('title', 'asc', 'fr')
     ->get();
 ```
+
+모델은 `translations()` 관계를 미리 로드합니다. `orWhereTranslation()`과 `orWhereTranslationLike()`는 대체 조건을 추가합니다. `orderByTranslation()`은 하나의 로캘을 기준으로 정렬하며 기본값은 현재 로캘입니다.
 
 ## 변경 감지 및 IDE 헬퍼 갱신하기 {#observe-changes-and-refresh-ide-helpers}
 

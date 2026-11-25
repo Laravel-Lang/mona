@@ -19,7 +19,9 @@ php artisan vendor:publish --tag=localization_main
 | `localization_models.php` | [번역 모델 접미사, 필터링 및 생성기 경로](./models.md) |
 | `localization_map.php` | 문자 체계, 지역, 텍스트 방향 등의 로캘 메타데이터 |
 
-설정을 바꾼 뒤에는 설정 캐시를 지우세요. 게시 설정의 영향을 받는 번역은 `php artisan lang:update`를 실행해 다시 생성합니다.
+Laravel은 최상위 설정마다 애플리케이션에 지정된 값으로 바꿉니다. `localization_punctuation.php`의 `locales` 배열을 수정할 때는 계속 사용할 로캘별 기본값을 남겨 두세요.
+
+설정을 변경한 뒤 기존 설정 캐시가 있으면 `php artisan config:clear`로 비우세요. 게시 설정에 영향을 받는 번역은 `php artisan lang:update`를 실행해 다시 생성하세요.
 
 ## 번역 스타일 {#translation-styles}
 
@@ -47,6 +49,8 @@ php artisan vendor:publish --tag=localization_main
 
 Artisan은 `de-CH`를 받아들일 수 있지만 Laravel과 게시된 파일은 `de_CH`를 사용합니다. `APP_LOCALE`과 `APP_FALLBACK_LOCALE`에는 표준 코드를 설정하세요. 변환과 조회 예시는 [로캘과 이름](./locales.md)을 참조하세요.
 
+별칭은 대소문자를 구분합니다. 로캘마다 고유한 별칭을 지정하고 다른 로캘의 표준 코드와 중복되지 않게 하세요.
+
 ## 파일 제외 및 통합 강제 적용 {#skip-files-and-force-integrations}
 
 - `localization_main.skip`은 `/`를 구분자로 사용하는 전체 경로를 대소문자 구분 없이 `*` 패턴과 비교합니다. 소스 파일, 사전, 게시 대상을 제외할 수 있습니다. 예를 들어 `['*/lang/fr/validation.php']`는 `lang/`을 사용하는 애플리케이션에서 Publisher가 그 대상에 쓰지 않게 합니다.
@@ -57,3 +61,16 @@ Artisan은 `de-CH`를 받아들일 수 있지만 Laravel과 게시된 파일은 
 ## 스마트 문장 부호 {#smart-punctuation}
 
 게시된 번역에서 조판용 따옴표, 대시, 줄임표를 사용하려면 `LOCALIZATION_PUNCTUATION_ENABLED=true`를 설정합니다. 일반 규칙은 `localization_punctuation.common`에서, 표준 로캘 코드별 재정의는 `localization_punctuation.locales`에서 수정하세요. Publisher가 다음에 문자열을 게시할 때 이 규칙이 적용됩니다.
+
+## 로캘 메타데이터 {#locale-metadata}
+
+`localization_map.locales`는 표준 코드를 문자 체계(`type`), 지역 로캘(`regional`), 선택 사항인 쓰기 방향(`direction`)과 연결합니다. 방향이 설정되어 있지 않으면 `Direction::LeftToRight`를 사용하세요.
+
+```php
+use LaravelLang\LocaleList\Direction;
+
+$metadata = config('localization_map.locales.ar', []);
+$script = $metadata['type'];         // 'Arab'
+$regional = $metadata['regional'];  // 'ar_AE'
+$dir = ($metadata['direction'] ?? Direction::LeftToRight)->value; // 'rtl'
+```

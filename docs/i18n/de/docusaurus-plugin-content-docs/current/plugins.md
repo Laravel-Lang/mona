@@ -10,7 +10,7 @@ Der Publisher erkennt mit Composer installierte Übersetzungspakete. Ein Paket s
 Installiere das Paket in deiner Laravel-Anwendung und aktualisiere die bereits verwendeten Locales. Das Paket Actions ergänzt zum Beispiel Beschriftungen für Schaltflächen und andere Aktionen.
 
 ```bash
-composer require laravel-lang/actions
+composer require "laravel-lang/actions:20.*"
 php artisan lang:update
 ```
 
@@ -81,6 +81,8 @@ Bei der Veröffentlichung für Französisch schlagen beide Einträge den englisc
 
 In der Anwendung liest `__('Enable audit trail')` die JSON-Übersetzung und `__('audit.enable')` die PHP-Übersetzung. Die Paketübersetzungen haben für denselben Text Vorrang vor den Einträgen der gemeinsamen Library. Fehlt der Text in beiden Wörterbüchern, verwendet der Publisher den Quellwert.
 
+Gib dem Paket einen eigenen Composer-Namen und ersetze `self.version` aus der Vorlage durch eine passende Versionsvorgabe wie `^20.0`. Verwende kanonische Locale-Codes als Verzeichnisnamen für Wörterbücher. Lege Standardübersetzungen in `default.json` und Stilvarianten in Dateien wie `inline.json` ab.
+
 ### Übersetzungen abhängig von Bedingungen anwenden {#apply-translations-conditionally}
 
 | Manifesteigenschaft | Wann die Zuordnung gilt |
@@ -91,3 +93,13 @@ In der Anwendung liest `__('Enable audit trail')` die JSON-Übersetzung und `__(
 | `vendor` und `project: true` | Der Composer-Name des Hauptprojekts entspricht `vendor`. In diesem Modus prüft der Publisher den Namen. |
 
 Lege zwei Manifesteinträge an, wenn eine Zuordnung sowohl bei einer installierten Abhängigkeit als auch bei einem gleichnamigen Hauptprojekt gelten soll. Der [Upgrade-Leitfaden](./upgrade.md) beschreibt den Umstieg von einem älteren Provider. Unter [Konfiguration](./configure.md) findest du Regeln zum Ausschließen und Erzwingen von Paketzuordnungen.
+
+### Ein Paket in einer Laravel-Anwendung testen {#test-a-pack-in-a-laravel-application}
+
+Führe die Befehle im Wurzelverzeichnis der Testanwendung aus, wenn das Paket in einem Nachbarverzeichnis liegt. Prüfe `lang/fr.json` und `lang/fr/audit.php`, setze `fr` als Anwendungs-Locale und teste beide Übersetzungsschlüssel. Führe nach Paketänderungen `php artisan lang:update` aus.
+
+```bash
+composer config repositories.audit-translations path ../audit-translations
+composer require "acme/audit-translations:*@dev"
+php artisan lang:add fr
+```

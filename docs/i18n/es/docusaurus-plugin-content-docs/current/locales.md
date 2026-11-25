@@ -41,16 +41,19 @@ if (Locales::isInstalled('fr')) {
 
 $canonicalCode = Locales::current(false);
 $displayCode = Locales::current();
-$choices = Locales::data()->installed();
 ```
 
 `set()` acepta un código, un alias, un caso de la enumeración `Locale` o un objeto `LocaleData`. Si la configuración regional está instalada, establece su código canónico como la configuración regional de Laravel. Usa `isAvailable()` para comprobar si el código es compatible e `isInstalled()` cuando necesites comprobar los archivos o la protección. `isProtected()` identifica las configuraciones regionales actual y de reserva.
 
 `current()` usa la configuración regional actual de Laravel si la reconoce y llama a `fallback()` en caso contrario. `fallback()` resuelve la configuración regional de reserva de Laravel y devuelve `en` si no la reconoce. Ambos métodos aceptan `false` como argumento para obtener códigos canónicos.
 
+Usa `fromAlias()` para convertir un alias en un código canónico y `toAlias()` para obtener el alias de un código canónico. Estas conversiones conservan las cadenas no vacías que no reconocen. Usa `isAvailable()` al validar los datos de entrada.
+
+## Mostrar opciones de configuración regional {#display-locale-choices}
+
 `Locales::info('fr')` devuelve un objeto `LaravelLang\LocaleNames\LocaleData` con las propiedades `code`, `alias`, `native` y `localized`. El idioma de presentación es el de la configuración regional actual de la aplicación. Omite el argumento para consultar la configuración regional actual. Se puede consultar una configuración regional conocida antes de instalarla. Un código desconocido provoca `LaravelLang\Exceptions\UnknownLocaleException`.
 
-Usa `fromAlias()` para convertir un alias en un código canónico y `toAlias()` para obtener el alias de un código canónico. Estas conversiones conservan las cadenas no vacías que no reconocen. Usa `isAvailable()` al validar los datos de entrada.
+Usa `Locales::data()->installed()` para obtener las configuraciones regionales instaladas como objetos `LocaleData`. `data()` ofrece también `available()`, `uninstalled()` y `protects()` para otras colecciones, y `current()` y `fallback()` para objetos individuales. Un selector de idioma puede enviar `alias` como valor y mostrar el nombre `native` como etiqueta.
 
 ## Consultar nombres de configuraciones regionales, países y monedas {#look-up-locale-country-and-currency-names}
 

@@ -41,16 +41,19 @@ if (Locales::isInstalled('fr')) {
 
 $canonicalCode = Locales::current(false);
 $displayCode = Locales::current();
-$choices = Locales::data()->installed();
 ```
 
 `set()` 接受代码、别名、`Locale` 枚举项或 `LocaleData` 对象。若该语言区域已安装，它会将 Laravel 的语言区域设置为相应的规范代码。用 `isAvailable()` 检查代码是否受支持，用 `isInstalled()` 检查是否已有翻译文件或受到保护。`isProtected()` 用于确认是否属于当前或回退语言区域。
 
 `current()` 优先使用 Laravel 当前的语言区域，无法识别时使用 `fallback()`。`fallback()` 解析 Laravel 配置的回退语言区域，无法识别时返回 `en`。这两个方法都可传入 `false` 获取规范代码。
 
+用 `fromAlias()` 将别名解析为规范代码，用 `toAlias()` 查询规范代码对应的别名。转换时，无法识别的非空字符串会原样返回。验证输入时请使用 `isAvailable()`。
+
+## 显示语言区域选项 {#display-locale-choices}
+
 `Locales::info('fr')` 返回 `LaravelLang\LocaleNames\LocaleData` 对象，包含 `code`、`alias`、`native` 和 `localized` 属性。显示语言是应用当前的语言区域。不传参数则查询当前语言区域。已知的语言区域在安装前也可查询。未知代码会引发 `LaravelLang\Exceptions\UnknownLocaleException`。
 
-用 `fromAlias()` 将别名解析为规范代码，用 `toAlias()` 查询规范代码对应的别名。转换时，无法识别的非空字符串会原样返回。验证输入时请使用 `isAvailable()`。
+使用 `Locales::data()->installed()` 可将已安装的语言区域作为 `LocaleData` 对象获取。`data()` 还提供 `available()`、`uninstalled()` 和 `protects()` 来获取其他集合，以及 `current()` 和 `fallback()` 来获取单个对象。语言选择器可以将 `alias` 用作提交值，将 `native` 名称用作显示标签。
 
 ## 查找语言区域、国家或地区以及货币名称 {#look-up-locale-country-and-currency-names}
 

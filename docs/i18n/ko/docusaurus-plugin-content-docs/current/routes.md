@@ -6,7 +6,7 @@ description: 현지화된 URL을 등록하고 요청에서 Laravel 로캘을 선
 `laravel-lang/routes`는 요청을 처리할 때 로캘을 선택하고 현지화 라우트 그룹의 URL을 생성합니다. 이 패키지는 Common에 포함됩니다.
 
 ```bash
-composer require laravel-lang/routes
+composer require "laravel-lang/routes:20.*"
 ```
 
 [URL에 사용하는 로캘이 설치되어 있는지 확인하세요](./translations.md). 매개변수 이름, 미들웨어, 기본 로캘 동작은 [`config/localization_routes.php`](./configure.md)에서 설정합니다.
@@ -34,6 +34,8 @@ Route::localizedGroup(function (): void {
 
 로캘 미들웨어는 라우트 핸들러를 호출하기 전에 `locale` 매개변수를 처리하고 제거합니다. 이름이 있는 라우트에서 URL의 로캘이 알 수 없거나 설치되지 않았다면 접두사 없는 라우트로 리디렉션합니다.
 
+Laravel은 그룹 콜백을 두 번 실행합니다. 바깥 그룹의 URL 접두사가 `admin`이고 이름 접두사가 `admin.`이면 로캘이 붙은 라우트 이름은 `admin.localized.products.show`가 됩니다.
+
 ## 현지화 URL 생성하기 {#generate-a-localized-url}
 
 ```php
@@ -49,6 +51,8 @@ $url = localizedRoute('products.show', [
 헬퍼는 설정된 로캘 매개변수 이름을 사용하고, 접두사가 있는 라우트가 있으면 이를 우선합니다. 입력한 로캘 문자열은 그대로 URL 생성에 전달합니다. 별칭이 있는 URL을 만들려면 그 별칭을 전달하거나 먼저 [`Locales::toAlias()`](./locales.md)로 구하세요. 로캘을 생략하면 `Locales::fallback()`을 사용합니다. 현재 로캘을 사용하려면 `Locales::current()`를 명시적으로 전달하세요.
 
 `localization_routes.hide`는 헬퍼가 생성하는 URL에서 대체 로캘을 생략합니다. `localization_routes.redirect`는 현재 로캘에 대한 요청을 접두사가 있는 그룹에서 접두사가 없는 라우트로 리디렉션합니다. 두 설정의 기본값은 `false`입니다.
+
+표준 코드를 사용하려면 `Locale::French->value`를, 별칭을 사용하려면 `LocaleData` 객체를 전달하세요. URL을 만들기 전에 `Locales::isInstalled()`로 사용자가 선택한 로캘을 확인하세요.
 
 ## 미들웨어로 로캘 선택하기 {#select-a-locale-with-middleware}
 
@@ -66,3 +70,5 @@ $url = localizedRoute('products.show', [
 접두사가 있는 그룹의 기본 순서는 URL 매개변수, 쿠키, 헤더, 세션, 모델입니다. 접두사가 없는 그룹은 여기서 URL 단계만 제외합니다. 뒤에 있는 유효한 소스가 앞 소스의 결과를 덮어쓸 수 있습니다. 로캘이 바뀌면 Laravel의 로캘을 업데이트하고 설정된 세션 키에 표준 코드를 저장합니다. 세션과 쿠키가 필요하면 `web` 미들웨어 그룹을 사용하세요. 헤더 미들웨어는 PHP Intl이 필요합니다.
 
 미들웨어가 로캘을 변경하면 `LaravelLang\Routes\Events\LocaleHasBeenSetEvent`를 디스패치합니다. 이벤트의 `locale` 속성은 `LaravelLang\LocaleNames\LocaleData` 객체입니다. 표준 코드는 `$event->locale->code`로 가져옵니다.
+
+URL의 로캘을 우선하려면 `localization_routes.middlewares.prefix`에 `LocalizationByParameterPrefixMiddlewareMiddleware::class`만 남겨 두세요. 접두사 없는 라우트 체인은 별도로 설정하세요.

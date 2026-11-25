@@ -41,16 +41,19 @@ if (Locales::isInstalled('fr')) {
 
 $canonicalCode = Locales::current(false);
 $displayCode = Locales::current();
-$choices = Locales::data()->installed();
 ```
 
 `set()` accepts a code, alias, `Locale` enum case, or `LocaleData` object. It updates Laravel's locale to the canonical code when the locale is installed. Use `isAvailable()` for supported-code checks and `isInstalled()` when files or protection are required. `isProtected()` identifies the current and fallback locales.
 
 `current()` uses Laravel's current locale if recognized, then `fallback()`. `fallback()` resolves Laravel's configured fallback and defaults to `en` if it is unknown. Both methods accept the same `false` argument for canonical codes.
 
+Use `fromAlias()` to resolve an alias to a canonical code and `toAlias()` to get the alias for a canonical code. These conversions preserve unrecognized nonempty strings. Use `isAvailable()` when validating input.
+
+## Display locale choices
+
 `Locales::info('fr')` returns a `LaravelLang\LocaleNames\LocaleData` object with `code`, `alias`, `native`, and `localized` properties. The display language is the current application locale. Omit the argument for the current locale. A known locale can be looked up before it is installed. An unknown code raises `LaravelLang\Exceptions\UnknownLocaleException`.
 
-Use `fromAlias()` to resolve an alias to a canonical code and `toAlias()` to get the alias for a canonical code. These conversions preserve unrecognized nonempty strings. Use `isAvailable()` when validating input.
+Use `Locales::data()->installed()` to get the installed locales as `LocaleData` objects. `data()` also provides `available()`, `uninstalled()`, and `protects()` for other collections, plus `current()` and `fallback()` for individual objects. A language selector can use the `alias` as the submitted value and the `native` name as the label.
 
 ## Look up locale, country, and currency names
 

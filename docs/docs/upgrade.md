@@ -52,24 +52,25 @@ Laravel-Lang now uses canonical locale codes for values it stores, including pub
 
 ## Updating dependencies
 
-The current version supports Laravel 12 and 13 and requires PHP `^8.3`. In your application's `composer.json`, set the constraint to `^20.0` for each package below that appears in `require` or `require-dev`. If you installed only `laravel-lang/common`, it is the only requirement you need to change.
+Mona 20.x supports Laravel 12 and 13 and requires PHP `^8.3`. Check that the stable 20.x versions you need have been published before upgrading. A Mona release and its Composer package releases can become available at different times. [Release notes](./release-notes.md)
+
+In your application's `composer.json`, set the constraint to `^20.0` for each package below that appears in `require` or `require-dev`. If you installed only `laravel-lang/common`, it is the only requirement you need to change.
 
 | Use | Composer packages |
 | --- | --- |
 | Bundle | `laravel-lang/common` |
 | Translation packs | `laravel-lang/lang`, `laravel-lang/starter-kits`, `laravel-lang/moonshine`, `laravel-lang/actions`, `laravel-lang/attributes`, `laravel-lang/http-statuses` |
-| Publishing and configuration | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback` |
+| Publishing and configuration | `laravel-lang/publisher`, `laravel-lang/config`, `laravel-lang/json-fallback`, `laravel-lang/library` |
 | Application integrations | `laravel-lang/locales`, `laravel-lang/locale-list`, `laravel-lang/routes`, `laravel-lang/models` |
+| Shared utilities | `laravel-lang/exceptions`, `laravel-lang/filesystem` |
 | Pack template | `laravel-lang/translations-template` |
 
-For an installation that only uses the standard translation workflow, apply the dependency update and republish your translations.
+For an installation that only uses the standard translation workflow, apply the dependency update and republish your translations. If you registered providers, published custom settings, use aliases or third-party translation packs, or call package APIs in your application, read the sections below that apply to you before running these commands.
 
 ```bash
 composer update
 php artisan lang:update
 ```
-
-If you registered providers, published custom settings, use aliases or third-party translation packs, or call package APIs in your application, follow the sections below that apply to you before republishing.
 
 ## Replace renamed or obsolete dependencies {#replace-renamed-or-retired-dependencies}
 
@@ -278,7 +279,7 @@ Replace imports and registrations in your routes, `bootstrap/app.php`, and custo
 
 If you constructed model middleware with a guard, pass it as a Laravel middleware parameter, for example `LocalizationByModelMiddleware::class . ':admin'`. Its user resolver expects an Eloquent model. In custom middleware subclasses, inject `LaravelLang\Config\Services\RouteLangConfig`, read source names from `$this->routeConfig->name`, and return `int|string|null` from `detect()`. Replace direct references to `LaravelLang\Routes\Services\Route` with `LaravelLang\Routes\Services\RouteService`.
 
-Test each source your application uses. Header detection now uses PHP Intl and takes the language field parsed from `Accept-Language`. If you relied on ranked browser preferences or region-specific matches, implement that selection in custom middleware. A later middleware can override an earlier source, including the locale from the URL. Reorder your configured lists if the URL should take precedence.
+Test each source your application uses. Header detection uses PHP Intl to check installed languages in `Accept-Language` preference order, trying the full tag before its base language. A later middleware can override an earlier source, including the locale from the URL. To make the URL authoritative for prefixed routes, configure the prefixed chain to use only the URL locale middleware. [Middleware configuration](./routes.md#select-a-locale-with-middleware)
 
 Test URL generation and requests separately. `localization_routes.hide` suppresses the fallback locale segment when generating a URL. `localization_routes.redirect` redirects prefixed requests for the current locale to the unprefixed route. A named, prefixed route also redirects an invalid or uninstalled locale to the unprefixed route.
 
@@ -310,7 +311,7 @@ With a `de_CH` → `de-CH` alias and Swiss German installed, both calls address 
 
 Call `translated()`, `whereTranslation()`, and related scopes through the Eloquent query builder. Pass a code or alias as the scope's locale string. For `orderByTranslation()`, use `'asc'`, `'desc'`, or `SortDirection`. When querying a locale other than current or fallback via `whereTranslation()` or `whereTranslationLike()`, set `localization_models.filter` to `false` or query `translationsRaw()` directly.
 
-Update event consumers that call `$event->locale->value` or compare `$event->locale` to a `Locale` enum. `TranslationHasBeenSetEvent` and `TranslationHasBeenForgetEvent` now carry a string alias for an explicit locale. Both events carry `null` when the caller omits the locale. Convert an alias with `Locales::fromAlias()` before using it as a persisted key. The set event runs when the attribute is assigned, before `save()`. For manual dispatch of any of the three model translation events, use `event(new …)`.
+Update event consumers that call `$event->locale->value` or compare `$event->locale` to a `Locale` enum. `TranslationHasBeenSetEvent` and `TranslationHasBeenForgetEvent` now carry a string alias for an explicit locale. The set event carries `null` when the caller omits the locale and runs when the attribute is assigned, before `save()`. Convert an alias with `Locales::fromAlias()` before using it as a persisted key. For manual dispatch of any of the three model translation events, use `event(new …)`.
 
 If you keep generated IDE helpers, run `php artisan lang:models-helper` after updating the imports and model discovery paths. [Model translations](./models.md)
 
