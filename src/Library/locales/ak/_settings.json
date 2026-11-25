@@ -1,0 +1,7 @@
+{
+    "excludes": [
+        "CSV (.csv)",
+        "Excel (.xlsx)",
+        "India"
+    ]
+}

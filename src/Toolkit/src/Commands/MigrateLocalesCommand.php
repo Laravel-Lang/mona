@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function array_replace;
+use function array_values;
 use function json_encode;
 use function ksort;
 use function rtrim;
@@ -67,17 +68,20 @@ final class MigrateLocalesCommand
     {
         foreach (Locale::values() as $locale) {
             $sourcePath = $source . '/' . $locale . '/_excludes.json';
+            $targetPath = $target . '/' . $locale . '/_settings.json';
 
-            $data = $this->filesystem->read($sourcePath);
+            $sourceData = $this->filesystem->read($sourcePath);
+            $targetData = $this->filesystem->read($targetPath)['excludes'] ?? [];
 
-            ksort($data);
-
-            if (! $data) {
+            if (! $sourceData) {
                 continue;
             }
 
-            $this->filesystem->store($target . '/' . $locale . '/_settings.json', $this->encode(['excludes' => $data]));
+            $data = array_values(array_merge($targetData, $sourceData));
 
+            ksort($data);
+
+            $this->filesystem->store($targetPath, $this->encode(['excludes' => $data]));
             $this->filesystem->ensureDelete($sourcePath);
         }
     }

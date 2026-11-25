@@ -1,0 +1,9 @@
+{
+    "excludes": [
+        "CSV (.csv)",
+        "Excel (.xlsx)",
+        "ID",
+        "Log Viewer",
+        "Nova"
+    ]
+}
