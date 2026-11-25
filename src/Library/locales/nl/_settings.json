@@ -1,11 +1,5 @@
 {
     "excludes": [
-        "concept",
-        "filter",
-        "login",
-        "portfolio",
-        "slug",
-        "status",
-        "type"
+        "Conflict"
     ]
 }

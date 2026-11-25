@@ -1,8 +1,5 @@
 {
     "excludes": [
-        "filter",
-        "status",
-        "student",
-        "type"
+        "OK"
     ]
 }
