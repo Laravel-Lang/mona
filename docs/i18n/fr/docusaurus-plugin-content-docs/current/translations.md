@@ -31,6 +31,8 @@ Le Publisher détecte les langues à partir de la langue active et de la langue 
 
 Les packs de traduction déclarent les paquets pris en charge, leurs versions et les fichiers de destination dans les [manifestes des plugins](./plugins.md). Le Publisher combine les dictionnaires partagés avec ceux des paquets, puis fusionne les traductions dans chaque fichier de destination. Il conserve les clés sans correspondance et remplace les clés correspondantes, y compris les clés numériques. Si une expression est absente des dictionnaires, le Publisher écrit le texte source. Conservez vos traductions personnalisées dans des fichiers distincts ou [excluez](./configure.md#skip-files-and-force-integrations) les fichiers générés que vous gérez vous-même.
 
+Dans les fichiers de traduction PHP générés, le Publisher écrit explicitement chaque clé sous forme de chaîne de caractères, y compris les clés numériques comme `'404'`. Chaque élément d’un tableau PHP imbriqué non vide occupe sa propre ligne. À tous les niveaux, les dictionnaires de traduction JSON sont écrits sous forme d’objets dont les clés sont des chaînes de caractères, même lorsque les clés numériques se suivent.
+
 Dans les fichiers `validation.php` de l’application, Publisher place les clés de premier niveau `custom` et `attributes` à la fin, dans cet ordre, si elles sont présentes. Les autres clés de premier niveau sont triées par ordre alphabétique.
 
 Exécutez `lang:update` après avoir modifié les dépendances Composer ou les [paramètres de publication](./configure.md). Examinez les différences générées.
