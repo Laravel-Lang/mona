@@ -204,7 +204,7 @@
         - [x] Locale Names
         - [x] Toolkit
 - [x] Реализовать экспорт пакетов из Mona в отдельные репозитории.
-- [ ] Настроить GitHub App для экспорта и проверить первую публикацию в `20.x`.
+- [x] Настроить GitHub App для экспорта и проверить первую публикацию в `20.x`.
 - [x] Перевести Mona в публичную область видимости.
 - [ ] Включить "Require actions to be pinned to a full-length commit SHA" в настройках
   (https://github.com/organizations/Laravel-Lang/settings/actions)
