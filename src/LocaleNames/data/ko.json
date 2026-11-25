@@ -1,136 +1,518 @@
 {
-    "af": { "code": "ZAR", "numeric": 710, "native": "Suid-Afrikaanse rand", "localized": "남아프리카 랜드" },
-    "ak": { "code": "GHS", "numeric": 936, "native": "Ghana Sidi", "localized": "가나 세디" },
-    "am": { "code": "ETB", "numeric": 230, "native": "የኢትዮጵያ ብር", "localized": "에티오피아 비르" },
-    "ar": { "code": "EGP", "numeric": 818, "native": "جنيه مصري", "localized": "이집트 파운드" },
-    "as": { "code": "INR", "numeric": 356, "native": "ভাৰতীয় ৰুপী", "localized": "인도 루피" },
-    "az": { "code": "AZN", "numeric": 944, "native": "Azərbaycan Manatı", "localized": "아제르바이잔 마나트" },
-    "be": { "code": "BYN", "numeric": 840, "native": "беларускі рубель", "localized": "벨라루스 루블" },
-    "bg": { "code": "BGN", "numeric": 975, "native": "Български лев", "localized": "불가리아 레프" },
-    "bho": { "code": "INR", "numeric": 356, "native": "INR", "localized": "인도 루피" },
-    "bm": { "code": "XOF", "numeric": 952, "native": "sefa Fraŋ (BCEAO)", "localized": "서아프리카 CFA 프랑" },
-    "bn": { "code": "BDT", "numeric": 50, "native": "বাংলাদেশী টাকা", "localized": "방글라데시 타카" },
-    "bs": {
-        "code": "BAM",
-        "numeric": 977,
-        "native": "Bosanskohercegovačka konvertibilna marka",
-        "localized": "보스니아-헤르체고비나 태환 마르크"
+    "af": {
+        "native": "Afrikaans",
+        "localized": "아프리칸스어"
     },
-    "ca": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "유로" },
-    "ceb": { "code": "PHP", "numeric": 608, "native": "Philippine Peso", "localized": "필리핀 페소" },
-    "ckb": { "code": "IQD", "numeric": 368, "native": "IQD", "localized": "이라크 디나르" },
-    "cs": { "code": "CZK", "numeric": 203, "native": "česká koruna", "localized": "체코 코루나" },
-    "cy": { "code": "GBP", "numeric": 826, "native": "Punt Prydain", "localized": "영국 파운드" },
-    "da": { "code": "DKK", "numeric": 208, "native": "dansk krone", "localized": "덴마크 크로네" },
-    "de": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "유로" },
-    "de_AT": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "유로" },
-    "de_CH": { "code": "CHF", "numeric": 756, "native": "Schweizer Franken", "localized": "스위스 프랑" },
-    "doi": { "code": "INR", "numeric": 356, "native": "भारती रपेऽ", "localized": "인도 루피" },
-    "ee": { "code": "GHS", "numeric": 936, "native": "ghana siɖi", "localized": "가나 세디" },
-    "el": { "code": "EUR", "numeric": 978, "native": "Ευρώ", "localized": "유로" },
-    "en": { "code": "USD", "numeric": 840, "native": "US Dollar", "localized": "미국 달러" },
-    "en_CA": { "code": "CAD", "numeric": 124, "native": "Canadian Dollar", "localized": "캐나다 달러" },
-    "eo": { "code": "USD", "numeric": 840, "native": "", "localized": "" },
-    "es": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "유로" },
-    "et": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "유로" },
-    "eu": { "code": "EUR", "numeric": 978, "native": "euroa", "localized": "유로" },
-    "fa": { "code": "IRR", "numeric": 364, "native": "ریال ایران", "localized": "이란 리얄" },
-    "fi": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "유로" },
-    "fil": { "code": "PHP", "numeric": 608, "native": "Piso ng Pilipinas", "localized": "필리핀 페소" },
-    "fr": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "유로" },
-    "fy": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "유로" },
-    "ga": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "유로" },
-    "gd": { "code": "GBP", "numeric": 826, "native": "Punnd Sasannach", "localized": "영국 파운드" },
-    "gl": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "유로" },
-    "gu": { "code": "INR", "numeric": 356, "native": "ભારતીય રૂપિયા", "localized": "인도 루피" },
-    "ha": { "code": "NGN", "numeric": 566, "native": "Nairar Najeriya", "localized": "나이지리아 나이라" },
-    "haw": { "code": "USD", "numeric": 840, "native": "USD", "localized": "미국 달러" },
-    "he": { "code": "ILS", "numeric": 376, "native": "שקל חדש", "localized": "이스라엘 신권 세켈" },
-    "hi": { "code": "INR", "numeric": 356, "native": "भारतीय रुपया", "localized": "인도 루피" },
-    "hr": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "유로" },
-    "ht": { "code": "HTG", "numeric": 332, "native": "gourde haïtienne", "localized": "아이티 구르드" },
-    "hu": { "code": "HUF", "numeric": 348, "native": "magyar forint", "localized": "헝가리 포린트" },
-    "hy": { "code": "AMD", "numeric": 51, "native": "հայկական դրամ", "localized": "아르메니아 드람" },
-    "id": { "code": "IDR", "numeric": 360, "native": "Rupiah Indonesia", "localized": "인도네시아 루피아" },
-    "ig": { "code": "NGN", "numeric": 566, "native": "Naịra", "localized": "나이지리아 나이라" },
-    "is": { "code": "ISK", "numeric": 352, "native": "íslensk króna", "localized": "아이슬란드 크로나" },
-    "it": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "유로" },
-    "ja": { "code": "JPY", "numeric": 392, "native": "日本円", "localized": "일본 엔화" },
-    "ka": { "code": "GEL", "numeric": 981, "native": "ქართული ლარი", "localized": "조지아 라리" },
-    "kk": { "code": "KZT", "numeric": 398, "native": "Қазақстан теңгесі", "localized": "카자흐스탄 텡게" },
-    "km": { "code": "KHR", "numeric": 116, "native": "រៀល​កម្ពុជា", "localized": "캄보디아 리엘" },
-    "kn": { "code": "INR", "numeric": 356, "native": "ಭಾರತೀಯ ರೂಪಾಯಿ", "localized": "인도 루피" },
-    "ko": { "code": "KRW", "numeric": 410, "native": "대한민국 원", "localized": "대한민국 원" },
-    "ku": { "code": "TRY", "numeric": 949, "native": "TRY", "localized": "터키 리라" },
-    "ky": { "code": "KGS", "numeric": 417, "native": "Кыргызстан сому", "localized": "키르기스스탄 솜" },
-    "lb": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "유로" },
-    "lg": { "code": "UGX", "numeric": 800, "native": "Silingi eya Yuganda", "localized": "우간다 실링" },
-    "ln": { "code": "CDF", "numeric": 976, "native": "Falánga ya Kongó", "localized": "콩고 프랑" },
-    "lo": { "code": "LAK", "numeric": 418, "native": "ລາວ ກີບ", "localized": "라오스 키프" },
-    "lt": { "code": "EUR", "numeric": 978, "native": "Euras", "localized": "유로" },
-    "lv": { "code": "EUR", "numeric": 978, "native": "eiro", "localized": "유로" },
-    "mai": { "code": "INR", "numeric": 356, "native": "भारतीय रुपया", "localized": "인도 루피" },
-    "mg": { "code": "MGA", "numeric": 969, "native": "Ariary", "localized": "마다가스카르 아리아리" },
-    "mi": { "code": "NZD", "numeric": 554, "native": "Tāra o Aotearoa", "localized": "뉴질랜드 달러" },
-    "mk": { "code": "MKD", "numeric": 807, "native": "Македонски денар", "localized": "마케도니아 디나르" },
-    "ml": { "code": "INR", "numeric": 356, "native": "ഇന്ത്യൻ രൂപ", "localized": "인도 루피" },
-    "mn": { "code": "MNT", "numeric": 496, "native": "Монгол төгрөг", "localized": "몽골 투그릭" },
-    "mni_Mtei": { "code": "INR", "numeric": 356, "native": "Indian Rupee", "localized": "인도 루피" },
-    "mr": { "code": "INR", "numeric": 356, "native": "भारतीय रुपया", "localized": "인도 루피" },
-    "ms": { "code": "MYR", "numeric": 458, "native": "Ringgit Malaysia", "localized": "말레이시아 링깃" },
-    "mt": { "code": "EUR", "numeric": 978, "native": "ewro", "localized": "유로" },
-    "my": { "code": "MMK", "numeric": 104, "native": "မြန်မာ ကျပ်", "localized": "미얀마 키얏" },
-    "nb": { "code": "NOK", "numeric": 578, "native": "norske kroner", "localized": "노르웨이 크로네" },
-    "ne": { "code": "NPR", "numeric": 524, "native": "नेपाली रूपैयाँ", "localized": "네팔 루피" },
-    "nl": { "code": "EUR", "numeric": 978, "native": "Euro", "localized": "유로" },
-    "nn": { "code": "NOK", "numeric": 578, "native": "norske kroner", "localized": "노르웨이 크로네" },
-    "oc": { "code": "EUR", "numeric": 978, "native": "EUR", "localized": "유로" },
-    "om": { "code": "ETB", "numeric": 230, "native": "Itoophiyaa Birrii", "localized": "에티오피아 비르" },
-    "or": { "code": "INR", "numeric": 356, "native": "ଭାରତୀୟ ଟଙ୍କା", "localized": "인도 루피" },
-    "pa": { "code": "INR", "numeric": 356, "native": "ਭਾਰਤੀ ਰੁਪਇਆ", "localized": "인도 루피" },
-    "pl": { "code": "PLN", "numeric": 985, "native": "złoty polski", "localized": "폴란드 즈워티" },
-    "ps": { "code": "AFN", "numeric": 971, "native": "افغانۍ", "localized": "아프가니스탄 아프가니" },
-    "pt": { "code": "BRL", "numeric": 986, "native": "Real brasileiro", "localized": "브라질 레알" },
-    "pt_BR": { "code": "BRL", "numeric": 986, "native": "Real brasileiro", "localized": "브라질 레알" },
-    "qu": { "code": "PEN", "numeric": 604, "native": "Sol Peruano", "localized": "페루 솔" },
-    "ro": { "code": "RON", "numeric": 946, "native": "leu românesc", "localized": "루마니아 레우" },
-    "ru": { "code": "RUB", "numeric": 643, "native": "российский рубль", "localized": "러시아 루블" },
-    "rw": { "code": "RWF", "numeric": 646, "native": "RWF", "localized": "르완다 프랑" },
-    "sa": { "code": "INR", "numeric": 356, "native": "भारतीय रूप्यकम्", "localized": "인도 루피" },
-    "sc": { "code": "EUR", "numeric": 978, "native": "èuro", "localized": "유로" },
-    "sd": { "code": "PKR", "numeric": 586, "native": "پاڪستاني رپي", "localized": "파키스탄 루피" },
-    "si": { "code": "LKR", "numeric": 144, "native": "ශ්‍රී ලංකා රුපියල", "localized": "스리랑카 루피" },
-    "sk": { "code": "EUR", "numeric": 978, "native": "euro", "localized": "유로" },
-    "sl": { "code": "EUR", "numeric": 978, "native": "evro", "localized": "유로" },
-    "sn": { "code": "USD", "numeric": 840, "native": "Dora re Amerika", "localized": "미국 달러" },
-    "so": { "code": "SOS", "numeric": 706, "native": "Shilingka Soomaaliya", "localized": "소말리아 실링" },
-    "sq": { "code": "ALL", "numeric": 8, "native": "Leku shqiptar", "localized": "알바니아 레크" },
-    "sr_Cyrl": { "code": "RSD", "numeric": 941, "native": "српски динар", "localized": "세르비아 디나르" },
-    "sr_Latn": { "code": "RSD", "numeric": 941, "native": "srpski dinar", "localized": "세르비아 디나르" },
-    "sr_Latn_ME": { "code": "EUR", "numeric": 978, "native": "Evro", "localized": "유로" },
-    "su": { "code": "IDR", "numeric": 360, "native": "Rupee Indonésia", "localized": "인도네시아 루피아" },
-    "sv": { "code": "SEK", "numeric": 752, "native": "svensk krona", "localized": "스웨덴 크로나" },
-    "sw": { "code": "TZS", "numeric": 834, "native": "Shilingi ya Tanzania", "localized": "탄자니아 실링" },
-    "ta": { "code": "INR", "numeric": 356, "native": "இந்திய ரூபாய்", "localized": "인도 루피" },
-    "te": { "code": "INR", "numeric": 356, "native": "భారతదేశ రూపాయి", "localized": "인도 루피" },
-    "tg": { "code": "TJS", "numeric": 972, "native": "Сомонӣ", "localized": "타지키스탄 소모니" },
-    "th": { "code": "THB", "numeric": 764, "native": "บาท", "localized": "태국 바트" },
-    "ti": { "code": "ETB", "numeric": 230, "native": "ብር", "localized": "에티오피아 비르" },
-    "tk": { "code": "TMT", "numeric": 934, "native": "Türkmen manady", "localized": "투르크메니스탄 마나트" },
-    "tl": { "code": "PHP", "numeric": 608, "native": "Philippine Peso", "localized": "필리핀 페소" },
-    "tr": { "code": "TRY", "numeric": 949, "native": "Türk Lirası", "localized": "터키 리라" },
-    "tt": { "code": "RUB", "numeric": 643, "native": "Россия сумы", "localized": "러시아 루블" },
-    "ug": { "code": "CNY", "numeric": 156, "native": "جۇڭگو يۈەنى", "localized": "중국 위안화" },
-    "uk": { "code": "UAH", "numeric": 980, "native": "українська гривня", "localized": "우크라이나 그리브나" },
-    "ur": { "code": "PKR", "numeric": 586, "native": "پاکستانی روپیہ", "localized": "파키스탄 루피" },
-    "uz_Cyrl": { "code": "UZS", "numeric": 860, "native": "Ўзбекистон сўм", "localized": "우즈베키스탄 숨" },
-    "uz_Latn": { "code": "UZS", "numeric": 860, "native": "O‘zbekiston so‘mi", "localized": "우즈베키스탄 숨" },
-    "vi": { "code": "VND", "numeric": 704, "native": "Đồng Việt Nam", "localized": "베트남 동" },
-    "xh": { "code": "ZAR", "numeric": 710, "native": "IRandi yaseMzantsi Afrika", "localized": "남아프리카 랜드" },
-    "yi": { "code": "USD", "numeric": 840, "native": "", "localized": "" },
-    "yo": { "code": "NGN", "numeric": 566, "native": "Náírà Nàìjíríà", "localized": "나이지리아 나이라" },
-    "zh_CN": { "code": "CNY", "numeric": 156, "native": "人民币", "localized": "중국 위안화" },
-    "zh_HK": { "code": "HKD", "numeric": 344, "native": "港元", "localized": "홍콩 달러" },
-    "zh_TW": { "code": "TWD", "numeric": 901, "native": "新台币", "localized": "신 타이완 달러" },
-    "zu": { "code": "ZAR", "numeric": 710, "native": "i-South African Rand", "localized": "남아프리카 랜드" }
+    "ak": {
+        "native": "Akan",
+        "localized": "아칸어"
+    },
+    "am": {
+        "native": "አማርኛ",
+        "localized": "암하라어"
+    },
+    "ar": {
+        "native": "العربية",
+        "localized": "아랍어"
+    },
+    "as": {
+        "native": "অসমীয়া",
+        "localized": "아삼어"
+    },
+    "az": {
+        "native": "Azərbaycan",
+        "localized": "아제르바이잔어"
+    },
+    "be": {
+        "native": "Беларуская",
+        "localized": "벨라루스어"
+    },
+    "bg": {
+        "native": "Български",
+        "localized": "불가리아어"
+    },
+    "bho": {
+        "native": "भोजपुरी",
+        "localized": "호즈푸리어"
+    },
+    "bm": {
+        "native": "Bamanakan",
+        "localized": "밤바라어"
+    },
+    "bn": {
+        "native": "বাংলা",
+        "localized": "벵골어"
+    },
+    "bs": {
+        "native": "Bosanski",
+        "localized": "보스니아어"
+    },
+    "ca": {
+        "native": "Català",
+        "localized": "카탈로니아어"
+    },
+    "ceb": {
+        "native": "Cebuano",
+        "localized": "세부아노어"
+    },
+    "ckb": {
+        "native": "کوردیی ناوەندی",
+        "localized": "소라니 쿠르드어"
+    },
+    "cs": {
+        "native": "Čeština",
+        "localized": "체코어"
+    },
+    "cy": {
+        "native": "Cymraeg",
+        "localized": "웨일스어"
+    },
+    "da": {
+        "native": "Dansk",
+        "localized": "덴마크어"
+    },
+    "de": {
+        "native": "Deutsch",
+        "localized": "독일어"
+    },
+    "de_AT": {
+        "native": "Deutsch (Österreich)",
+        "localized": "독일어 (오스트리아)"
+    },
+    "de_CH": {
+        "native": "Deutsch (Schweiz)",
+        "localized": "독일어 (스위스)"
+    },
+    "doi": {
+        "native": "डोगरी",
+        "localized": "도그리어"
+    },
+    "ee": {
+        "native": "Eʋegbe",
+        "localized": "에웨어"
+    },
+    "el": {
+        "native": "Ελληνικά",
+        "localized": "그리스어"
+    },
+    "en": {
+        "native": "English",
+        "localized": "영어"
+    },
+    "en_CA": {
+        "native": "English (Canada)",
+        "localized": "영어 (캐나다)"
+    },
+    "eo": {
+        "native": "Esperanto",
+        "localized": "에스페란토어"
+    },
+    "es": {
+        "native": "Español",
+        "localized": "스페인어"
+    },
+    "et": {
+        "native": "Eesti",
+        "localized": "에스토니아어"
+    },
+    "eu": {
+        "native": "Euskara",
+        "localized": "바스크어"
+    },
+    "fa": {
+        "native": "فارسی",
+        "localized": "페르시아어"
+    },
+    "fi": {
+        "native": "Suomi",
+        "localized": "핀란드어"
+    },
+    "fil": {
+        "native": "Filipino",
+        "localized": "필리핀어"
+    },
+    "fr": {
+        "native": "Français",
+        "localized": "프랑스어"
+    },
+    "fy": {
+        "native": "Frysk",
+        "localized": "서부 프리지아어"
+    },
+    "ga": {
+        "native": "Gaeilge",
+        "localized": "아일랜드어"
+    },
+    "gd": {
+        "native": "Gàidhlig",
+        "localized": "스코틀랜드 게일어"
+    },
+    "gl": {
+        "native": "Galego",
+        "localized": "갈리시아어"
+    },
+    "gu": {
+        "native": "ગુજરાતી",
+        "localized": "구자라트어"
+    },
+    "ha": {
+        "native": "Hausa",
+        "localized": "하우사어"
+    },
+    "haw": {
+        "native": "ʻŌlelo Hawaiʻi",
+        "localized": "하와이어"
+    },
+    "he": {
+        "native": "עברית",
+        "localized": "히브리어"
+    },
+    "hi": {
+        "native": "हिन्दी",
+        "localized": "힌디어"
+    },
+    "hr": {
+        "native": "Hrvatski",
+        "localized": "크로아티아어"
+    },
+    "ht": {
+        "native": "Créole Haïtien",
+        "localized": "아이티어"
+    },
+    "hu": {
+        "native": "Magyar",
+        "localized": "헝가리어"
+    },
+    "hy": {
+        "native": "Հայերեն",
+        "localized": "아르메니아어"
+    },
+    "id": {
+        "native": "Indonesia",
+        "localized": "인도네시아어"
+    },
+    "ig": {
+        "native": "Igbo",
+        "localized": "이그보어"
+    },
+    "is": {
+        "native": "Íslenska",
+        "localized": "아이슬란드어"
+    },
+    "it": {
+        "native": "Italiano",
+        "localized": "이탈리아어"
+    },
+    "ja": {
+        "native": "日本語",
+        "localized": "일본어"
+    },
+    "ka": {
+        "native": "ქართული",
+        "localized": "조지아어"
+    },
+    "kk": {
+        "native": "Қазақ Тілі",
+        "localized": "카자흐어"
+    },
+    "km": {
+        "native": "ខ្មែរ",
+        "localized": "크메르어"
+    },
+    "kn": {
+        "native": "ಕನ್ನಡ",
+        "localized": "칸나다어"
+    },
+    "ko": {
+        "native": "한국어",
+        "localized": "한국어"
+    },
+    "ku": {
+        "native": "Kurdî",
+        "localized": "쿠르드어"
+    },
+    "ky": {
+        "native": "Кыргызча",
+        "localized": "키르기스어"
+    },
+    "lb": {
+        "native": "Lëtzebuergesch",
+        "localized": "룩셈부르크어"
+    },
+    "lg": {
+        "native": "Luganda",
+        "localized": "간다어"
+    },
+    "ln": {
+        "native": "Lingála",
+        "localized": "링갈라어"
+    },
+    "lo": {
+        "native": "ລາວ",
+        "localized": "라오어"
+    },
+    "lt": {
+        "native": "Lietuvių",
+        "localized": "리투아니아어"
+    },
+    "lv": {
+        "native": "Latviešu",
+        "localized": "라트비아어"
+    },
+    "mai": {
+        "native": "मैथिली",
+        "localized": "마이틸리어"
+    },
+    "mg": {
+        "native": "Malagasy",
+        "localized": "말라가시어"
+    },
+    "mi": {
+        "native": "Māori",
+        "localized": "마오리어"
+    },
+    "mk": {
+        "native": "Македонски",
+        "localized": "마케도니아어"
+    },
+    "ml": {
+        "native": "മലയാളം",
+        "localized": "말라얄람어"
+    },
+    "mn": {
+        "native": "Монгол",
+        "localized": "몽골어"
+    },
+    "mni_Mtei": {
+        "native": "Manipuri",
+        "localized": "마니푸리어"
+    },
+    "mr": {
+        "native": "मराठी",
+        "localized": "마라티어"
+    },
+    "ms": {
+        "native": "Melayu",
+        "localized": "말레이어"
+    },
+    "mt": {
+        "native": "Malti",
+        "localized": "몰타어"
+    },
+    "my": {
+        "native": "မြန်မာ",
+        "localized": "버마어"
+    },
+    "nb": {
+        "native": "Norsk Bokmål",
+        "localized": "노르웨이어(보크말)"
+    },
+    "ne": {
+        "native": "नेपाली",
+        "localized": "네팔어"
+    },
+    "nl": {
+        "native": "Nederlands",
+        "localized": "네덜란드어"
+    },
+    "nn": {
+        "native": "Norsk Nynorsk",
+        "localized": "노르웨이어(니노르스크)"
+    },
+    "oc": {
+        "native": "Occitan",
+        "localized": "오크어"
+    },
+    "om": {
+        "native": "Oromoo",
+        "localized": "오로모어"
+    },
+    "or": {
+        "native": "ଓଡ଼ିଆ",
+        "localized": "오리야어"
+    },
+    "pa": {
+        "native": "ਪੰਜਾਬੀ",
+        "localized": "펀잡어"
+    },
+    "pl": {
+        "native": "Polski",
+        "localized": "폴란드어"
+    },
+    "ps": {
+        "native": "پښتو",
+        "localized": "파슈토어"
+    },
+    "pt": {
+        "native": "Português",
+        "localized": "포르투갈어"
+    },
+    "pt_BR": {
+        "native": "Português (Brasil)",
+        "localized": "포르투갈어 (브라질)"
+    },
+    "qu": {
+        "native": "Runasimi",
+        "localized": "케추아어"
+    },
+    "ro": {
+        "native": "Română",
+        "localized": "루마니아어"
+    },
+    "ru": {
+        "native": "Русский",
+        "localized": "러시아어"
+    },
+    "rw": {
+        "native": "Kinyarwanda",
+        "localized": "르완다어"
+    },
+    "sa": {
+        "native": "संस्कृत भाषा",
+        "localized": "산스크리트어"
+    },
+    "sc": {
+        "native": "Sardu",
+        "localized": "사르디니아어"
+    },
+    "sd": {
+        "native": "سنڌي",
+        "localized": "신디어"
+    },
+    "si": {
+        "native": "සිංහල",
+        "localized": "싱할라어"
+    },
+    "sk": {
+        "native": "Slovenčina",
+        "localized": "슬로바키아어"
+    },
+    "sl": {
+        "native": "Slovenščina",
+        "localized": "슬로베니아어"
+    },
+    "sn": {
+        "native": "Chishona",
+        "localized": "쇼나어"
+    },
+    "so": {
+        "native": "Soomaali",
+        "localized": "소말리아어"
+    },
+    "sq": {
+        "native": "Shqip",
+        "localized": "알바니아어"
+    },
+    "sr_Cyrl": {
+        "native": "Српски",
+        "localized": "세르비아어"
+    },
+    "sr_Latn": {
+        "native": "Srpski",
+        "localized": "세르비아어"
+    },
+    "sr_Latn_ME": {
+        "native": "Srpski (Crna Gora)",
+        "localized": "세르비아어 (몬테네그로)"
+    },
+    "su": {
+        "native": "Basa Sunda",
+        "localized": "순다어"
+    },
+    "sv": {
+        "native": "Svenska",
+        "localized": "스웨덴어"
+    },
+    "sw": {
+        "native": "Kiswahili",
+        "localized": "스와힐리어"
+    },
+    "ta": {
+        "native": "தமிழ்",
+        "localized": "타밀어"
+    },
+    "te": {
+        "native": "తెలుగు",
+        "localized": "텔루구어"
+    },
+    "tg": {
+        "native": "Тоҷикӣ",
+        "localized": "타지크어"
+    },
+    "th": {
+        "native": "ไทย",
+        "localized": "태국어"
+    },
+    "ti": {
+        "native": "ትግርኛ",
+        "localized": "티그리냐어"
+    },
+    "tk": {
+        "native": "Türkmen Dili",
+        "localized": "투르크멘어"
+    },
+    "tl": {
+        "native": "Tagalog",
+        "localized": "타갈로그어"
+    },
+    "tr": {
+        "native": "Türkçe",
+        "localized": "터키어"
+    },
+    "tt": {
+        "native": "Татар",
+        "localized": "타타르어"
+    },
+    "ug": {
+        "native": "ئۇيغۇرچە",
+        "localized": "위구르어"
+    },
+    "uk": {
+        "native": "Українська",
+        "localized": "우크라이나어"
+    },
+    "ur": {
+        "native": "اردو",
+        "localized": "우르두어"
+    },
+    "uz_Cyrl": {
+        "native": "Ўзбекча",
+        "localized": "우즈베크어"
+    },
+    "uz_Latn": {
+        "native": "O‘zbek",
+        "localized": "우즈베크어"
+    },
+    "vi": {
+        "native": "Tiếng Việt",
+        "localized": "베트남어"
+    },
+    "xh": {
+        "native": "Isixhosa",
+        "localized": "코사어"
+    },
+    "yi": {
+        "native": "ייִדיש",
+        "localized": "이디시어"
+    },
+    "yo": {
+        "native": "Èdè Yorùbá",
+        "localized": "요루바어"
+    },
+    "zh_CN": {
+        "native": "中文 (中国)",
+        "localized": "중국어 (중국)"
+    },
+    "zh_HK": {
+        "native": "中文 (中国香港特别行政区)",
+        "localized": "중국어 (홍콩(중국 특별행정구))"
+    },
+    "zh_TW": {
+        "native": "中文 (台湾)",
+        "localized": "중국어 (대만)"
+    },
+    "zu": {
+        "native": "Isizulu",
+        "localized": "줄루어"
+    }
 }
