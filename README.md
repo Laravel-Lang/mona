@@ -1,6 +1,8 @@
 # Laravel Lang
 
-<p align="center"><a href="https://laravel-lang.com" target="_blank"><img src="https://raw.githubusercontent.com/Laravel-Lang/art/main/socials/hero.png"></a></p>
+<p align="center">
+    <a href="https://laravel-lang.com" target="_blank"><img src="https://raw.githubusercontent.com/Laravel-Lang/art/main/socials/hero.png"></a>
+</p>
 
 [![Stable Version](https://img.shields.io/github/v/release/laravel-lang/mona?label=stable&style=flat-square)](https://packagist.org/packages/laravel-lang/lang)
 [![Total Downloads](https://img.shields.io/packagist/dt/laravel-lang/lang.svg?style=flat-square)](https://packagist.org/packages/laravel-lang/lang)
@@ -10,9 +12,7 @@
 
 ## Documentation
 
-See the Laravel-Lang [documentation](https://laravel-lang.com/start) for installation and usage,
-the [upgrade guide](https://laravel-lang.com/upgrade) for existing applications, and
-the [legacy documentation](https://laravel-lang.com/legacy) for earlier package versions.
+See the [documentation](https://laravel-lang.com/start) for detailed information.
 
 ## Contributing
 
