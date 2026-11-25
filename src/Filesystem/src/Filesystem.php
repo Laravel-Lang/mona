@@ -49,8 +49,15 @@ readonly class Filesystem
         return $paths;
     }
 
+    /** @return list<\Symfony\Component\Finder\SplFileInfo> */
+    public function files(string $path): array
+    {
+        return $this->filesystem->allFiles($path);
+    }
+
     /**
      * @param  array<array-key, mixed>  $default
+     *
      * @return array<array-key, mixed>
      */
     public function read(string $path, ?string $key = null, array $default = []): array
@@ -62,6 +69,7 @@ readonly class Filesystem
 
     /**
      * @param  array<array-key, mixed>  $default
+     *
      * @return array<array-key, mixed>
      */
     public function fromJson(string $path, ?string $key = null, array $default = []): array
@@ -77,6 +85,10 @@ readonly class Filesystem
     /** @param  array<array-key, mixed>  $items */
     public function storeArray(string $path, array $items, bool $merge = false): void
     {
+        if (! $items) {
+            return;
+        }
+
         $this->filesystem->ensureDirectoryExists(
             dirname($path)
         );
@@ -90,13 +102,21 @@ readonly class Filesystem
      * @param  array<array-key, mixed>  $items
      * @param  list<string>  $trailingKeys
      */
-    public function storePhpArrayWithTrailingKeys(string $path, array $items, array $trailingKeys, bool $merge = false): void
-    {
+    public function storePhpArrayWithTrailingKeys(
+        string $path,
+        array $items,
+        array $trailingKeys,
+        bool $merge = false,
+    ): void {
         $this->store($path, $this->phpProcessor->renderWithTrailingKeys($path, $items, $trailingKeys, $merge));
     }
 
     public function store(string $path, string $content): void
     {
+        if (! $content) {
+            return;
+        }
+
         $this->filesystem->ensureDirectoryExists(
             dirname($path)
         );
@@ -111,6 +131,7 @@ readonly class Filesystem
 
     /**
      * @param  array<array-key, mixed>  $default
+     *
      * @return array<array-key, mixed>
      */
     public function fromPhp(string $path, ?string $key = null, array $default = []): array
@@ -120,7 +141,9 @@ readonly class Filesystem
 
     public function ensureDelete(string $path): void
     {
-        $this->filesystem->deleteDirectory($path);
+        $this->filesystem->isFile($path)
+            ? $this->filesystem->delete($path)
+            : $this->filesystem->deleteDirectory($path);
     }
 
     /** @param  array<array-key, mixed>  $content */

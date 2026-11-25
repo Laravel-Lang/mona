@@ -15,7 +15,11 @@ use function ksort;
 
 class JsonProcessor extends Processor
 {
-    protected int $flags = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR;
+    protected int $flags = JSON_PRETTY_PRINT
+    | JSON_UNESCAPED_SLASHES
+    | JSON_UNESCAPED_UNICODE
+    | JSON_THROW_ON_ERROR
+    | JSON_FORCE_OBJECT;
 
     protected function getContent(string $path): array
     {
@@ -35,7 +39,7 @@ class JsonProcessor extends Processor
     protected function encode(array $data): string
     {
         try {
-            $encoded = json_encode($data, $this->flags | JSON_FORCE_OBJECT);
+            $encoded = json_encode($data, $this->flags);
         } catch (JsonException $exception) {
             throw InvalidJsonEncodeException::from($exception);
         }
