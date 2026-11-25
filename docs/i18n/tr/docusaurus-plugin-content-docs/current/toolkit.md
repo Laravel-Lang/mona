@@ -17,7 +17,13 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 php src/Toolkit/bin/toolkit status src/Library
 ```
 
-Komut, proje içinde `locales/<locale>/_status.json` dosyasını yazar. Kaydedilen çevirisi kaynak ifadeyle aynı olan girdileri listeler ve stile göre gruplar. `locales/_settings.json` ile `locales/<locale>/_settings.json` dosyalarındaki hariç tutma listelerini birleştirir ve boş raporları siler. Sözlükte hiç bulunmayan ifadeleri bulmak için sözlüğü paketin kaynak dosyalarıyla karşılaştırın.
+Komut varsayılan olarak proje içinde `locales/<locale>/_status.json` dosyasını yazar. Kaydedilen çevirisi kaynak ifadeyle aynı olan girdileri listeler ve stile göre gruplar. `locales/_settings.json` ile `locales/<locale>/_settings.json` dosyalarındaki hariç tutma listelerini birleştirir ve boş raporları siler. Sözlükte hiç bulunmayan ifadeleri bulmak için sözlüğü paketin kaynak dosyalarıyla karşılaştırın.
+
+Raporları `<locale>.json` dosya adlarıyla ayrı bir dizine yazmak için `--output-dir` seçeneğini kullanın. Komut, göreli yolları geçerli çalışma dizinine göre çözümler ve yazılacak bir rapor olduğunda hedef dizini oluşturur.
+
+```bash
+php src/Toolkit/bin/toolkit status src/Library --output-dir=workbench/status
+```
 
 ## Yerel ayar dizinlerini yönetme {#manage-locale-directories}
 

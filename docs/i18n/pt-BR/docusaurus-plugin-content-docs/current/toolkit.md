@@ -17,7 +17,13 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 php src/Toolkit/bin/toolkit status src/Library
 ```
 
-O comando grava `locales/<locale>/_status.json` no projeto. Ele lista entradas cuja tradução salva corresponde à frase de origem e as agrupa por estilo. Combina as exclusões de `locales/_settings.json` e `locales/<locale>/_settings.json` e exclui relatórios vazios. Para encontrar frases inteiramente ausentes de um dicionário, compare-o com os arquivos de origem do pacote.
+Por padrão, o comando grava `locales/<locale>/_status.json` no projeto. Ele lista entradas cuja tradução salva corresponde à frase de origem e as agrupa por estilo. Combina as exclusões de `locales/_settings.json` e `locales/<locale>/_settings.json` e exclui relatórios vazios. Para encontrar frases inteiramente ausentes de um dicionário, compare-o com os arquivos de origem do pacote.
+
+Use `--output-dir` para gravar os relatórios com o nome `<locale>.json` em um diretório separado. O comando resolve caminhos relativos a partir do diretório de trabalho atual e cria o diretório de destino quando há um relatório a gravar.
+
+```bash
+php src/Toolkit/bin/toolkit status src/Library --output-dir=workbench/status
+```
 
 ## Gerenciar diretórios de localidades {#manage-locale-directories}
 

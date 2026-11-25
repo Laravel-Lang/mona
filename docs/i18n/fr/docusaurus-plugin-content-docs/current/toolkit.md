@@ -17,7 +17,13 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 php src/Toolkit/bin/toolkit status src/Library
 ```
 
-La commande écrit `locales/<locale>/_status.json` dans le projet. Elle répertorie par style les entrées dont la traduction enregistrée correspond au texte source. Elle combine les exclusions de `locales/_settings.json` et de `locales/<locale>/_settings.json`, puis supprime les rapports vides. Pour repérer les expressions totalement absentes d’un dictionnaire, comparez-le avec les fichiers sources du pack.
+Par défaut, la commande écrit `locales/<locale>/_status.json` dans le projet. Elle répertorie par style les entrées dont la traduction enregistrée correspond au texte source. Elle combine les exclusions de `locales/_settings.json` et de `locales/<locale>/_settings.json`, puis supprime les rapports vides. Pour repérer les expressions totalement absentes d’un dictionnaire, comparez-le avec les fichiers sources du pack.
+
+Utilisez `--output-dir` pour écrire les rapports nommés `<locale>.json` dans un répertoire distinct. La commande résout les chemins relatifs à partir du répertoire de travail courant et crée le répertoire de destination lorsqu’elle a un rapport à écrire.
+
+```bash
+php src/Toolkit/bin/toolkit status src/Library --output-dir=workbench/status
+```
 
 ## Gérer les répertoires de langues {#manage-locale-directories}
 

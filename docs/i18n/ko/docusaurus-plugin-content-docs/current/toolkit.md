@@ -17,7 +17,13 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 php src/Toolkit/bin/toolkit status src/Library
 ```
 
-이 명령은 프로젝트 안에 `locales/<locale>/_status.json`을 작성합니다. 저장한 번역이 원문과 일치하는 항목을 나열하고 스타일별로 묶습니다. `locales/_settings.json`과 `locales/<locale>/_settings.json`의 제외 항목을 합치고 빈 보고서를 지웁니다. 사전에 아예 없는 문구를 찾으려면 팩의 소스 파일과 비교하세요.
+기본적으로 이 명령은 프로젝트 안에 `locales/<locale>/_status.json`을 작성합니다. 저장한 번역이 원문과 일치하는 항목을 나열하고 스타일별로 묶습니다. `locales/_settings.json`과 `locales/<locale>/_settings.json`의 제외 항목을 합치고 빈 보고서를 지웁니다. 사전에 아예 없는 문구를 찾으려면 팩의 소스 파일과 비교하세요.
+
+`--output-dir`을 지정하면 별도의 디렉터리에 `<locale>.json` 보고서를 작성합니다. 상대 경로는 현재 작업 디렉터리를 기준으로 해석하며, 작성할 보고서가 있을 때 대상 디렉터리를 만듭니다.
+
+```bash
+php src/Toolkit/bin/toolkit status src/Library --output-dir=workbench/status
+```
 
 ## 로캘 디렉터리 관리하기 {#manage-locale-directories}
 

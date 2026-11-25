@@ -17,7 +17,13 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 php src/Toolkit/bin/toolkit status src/Library
 ```
 
-Der Befehl schreibt `locales/<locale>/_status.json` in das Projekt. Der Bericht führt nach Stil gruppiert die Einträge auf, deren gespeicherte Übersetzung dem Quelltext entspricht. Der Befehl fasst die Ausnahmen aus `locales/_settings.json` und `locales/<locale>/_settings.json` zusammen und löscht leere Berichte. Um Texte zu finden, die in einem Wörterbuch ganz fehlen, vergleiche es mit den Quelldateien des Pakets.
+Standardmäßig schreibt der Befehl `locales/<locale>/_status.json` in das Projekt. Der Bericht führt nach Stil gruppiert die Einträge auf, deren gespeicherte Übersetzung dem Quelltext entspricht. Der Befehl fasst die Ausnahmen aus `locales/_settings.json` und `locales/<locale>/_settings.json` zusammen und löscht leere Berichte. Um Texte zu finden, die in einem Wörterbuch ganz fehlen, vergleiche es mit den Quelldateien des Pakets.
+
+Mit `--output-dir` schreibst du die Berichte als `<locale>.json` in ein separates Verzeichnis. Der Befehl löst relative Pfade ausgehend vom aktuellen Arbeitsverzeichnis auf und legt das Zielverzeichnis an, sobald er einen Bericht schreibt.
+
+```bash
+php src/Toolkit/bin/toolkit status src/Library --output-dir=workbench/status
+```
 
 ## Locale-Verzeichnisse verwalten {#manage-locale-directories}
 

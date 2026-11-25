@@ -17,7 +17,13 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 php src/Toolkit/bin/toolkit status src/Library
 ```
 
-Buyruq loyiha ichiga `locales/<locale>/_status.json` faylini yozadi. Unda saqlangan tarjimasi manba iboraga mos keladigan yozuvlar uslub bo‘yicha guruhlanadi. Buyruq `locales/_settings.json` va `locales/<locale>/_settings.json` dagi istisnolarni birlashtiradi hamda bo‘sh hisobotlarni o‘chiradi. Lug‘atda umuman yo‘q iboralarni topish uchun lug‘atni paket manba fayllari bilan taqqoslang.
+Standart holatda buyruq loyiha ichiga `locales/<locale>/_status.json` faylini yozadi. Unda saqlangan tarjimasi manba iboraga mos keladigan yozuvlar uslub bo‘yicha guruhlanadi. Buyruq `locales/_settings.json` va `locales/<locale>/_settings.json` dagi istisnolarni birlashtiradi hamda bo‘sh hisobotlarni o‘chiradi. Lug‘atda umuman yo‘q iboralarni topish uchun lug‘atni paket manba fayllari bilan taqqoslang.
+
+Hisobotlarni alohida katalogga `<locale>.json` fayllari sifatida yozish uchun `--output-dir` parametrini ko‘rsating. Joriy ish katalogi nisbiy yo‘llar uchun asos bo‘ladi. Agar belgilangan katalog hali mavjud bo‘lmasa, buyruq uni birinchi hisobotni yozayotganda yaratadi.
+
+```bash
+php src/Toolkit/bin/toolkit status src/Library --output-dir=workbench/status
+```
 
 ## Lokal kataloglarini boshqarish {#manage-locale-directories}
 

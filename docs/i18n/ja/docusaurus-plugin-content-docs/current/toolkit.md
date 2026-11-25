@@ -17,7 +17,13 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 php src/Toolkit/bin/toolkit status src/Library
 ```
 
-このコマンドはプロジェクト内に `locales/<locale>/_status.json` を書き出します。保存された翻訳が原文と同じエントリをスタイル別に列挙します。`locales/_settings.json` と `locales/<locale>/_settings.json` の除外設定を組み合わせ、空のレポートは削除します。辞書にまったく含まれない文言を見つけるには、パックのソースファイルと比較してください。
+デフォルトでは、このコマンドはプロジェクト内に `locales/<locale>/_status.json` を書き出します。保存された翻訳が原文と同じエントリをスタイル別に列挙します。`locales/_settings.json` と `locales/<locale>/_settings.json` の除外設定を組み合わせ、空のレポートは削除します。辞書にまったく含まれない文言を見つけるには、パックのソースファイルと比較してください。
+
+レポートを別のディレクトリに `<locale>.json` として書き出すには、`--output-dir` を指定します。相対パスは現在の作業ディレクトリを基準に解決され、書き出すレポートがある場合に出力先ディレクトリが作成されます。
+
+```bash
+php src/Toolkit/bin/toolkit status src/Library --output-dir=workbench/status
+```
 
 ## ロケールのディレクトリを管理する {#manage-locale-directories}
 

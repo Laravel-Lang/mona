@@ -17,7 +17,13 @@ php src/Toolkit/bin/toolkit migrate-locales --help
 php src/Toolkit/bin/toolkit status src/Library
 ```
 
-该命令在项目内写入 `locales/<locale>/_status.json`。报告会列出译文与源短语相同的条目，并按风格分组。命令会合并 `locales/_settings.json` 和 `locales/<locale>/_settings.json` 中的排除项，并删除空报告。要找出词典完全没有收录的短语，请将词典与翻译包的源文件对照。
+默认情况下，该命令在项目内写入 `locales/<locale>/_status.json`。报告会列出译文与源短语相同的条目，并按风格分组。命令会合并 `locales/_settings.json` 和 `locales/<locale>/_settings.json` 中的排除项，并删除空报告。要找出词典完全没有收录的短语，请将词典与翻译包的源文件对照。
+
+传入 `--output-dir` 可将 `<locale>.json` 报告写入单独的目录。命令以当前工作目录为基准解析相对路径，并在有报告需要写入时创建目标目录。
+
+```bash
+php src/Toolkit/bin/toolkit status src/Library --output-dir=workbench/status
+```
 
 ## 管理语言区域目录 {#manage-locale-directories}
 
