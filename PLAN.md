@@ -182,6 +182,19 @@
     - [x] Найти auto-labeler
 - [x] Обновить файлы переводов через утилиту миграции.
 - [x] Очистить проект от технических файлов.
+- [ ] Создать и настроить репозитории:
+    - [ ] Заархивировать
+        - [ ] Native Country Names
+        - [ ] Native Currency Names
+        - [ ] Native Locale Names
+    - [ ] Создать:
+        - [ ] Country Names
+        - [ ] Currency Names
+        - [ ] Exceptions
+        - [ ] Filesystem
+        - [ ] Library
+        - [ ] Locale Names
+        - [ ] Toolkit
 - [ ] Реализовать split репозитории (посмотреть как это сделано в
   MoonShine https://github.com/moonshine-software/moonshine/blob/5.x/repair-monorepo.sh).
 - [ ] Перевести Mona в публичную область видимости.
