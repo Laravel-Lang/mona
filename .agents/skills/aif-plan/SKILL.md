@@ -320,7 +320,7 @@ Options:
 
 **Original request contract:**
 
-- If the user explicitly supplied a planning request (for example `/aif-plan ТУТ ЗАПРОС НА ПЛАН`, `/aif-plan full ТУТ ЗАПРОС НА ПЛАН`, `/aif-plan ultra ТУТ ЗАПРОС НА ПЛАН`, or an answer to the description prompt), the generated plan entrypoint MUST include `## Original Request`.
+- If the user explicitly supplied a planning request (for example `/aif-plan <description>`, `/aif-plan full <description>`, `/aif-plan ultra <description>`, or an answer to the description prompt), the generated plan entrypoint MUST include `## Original Request`.
 - `## Original Request` contains the exact user-provided request text after only recognized command tokens are removed and only outer whitespace is trimmed. Do not rewrite, summarize, translate, or normalize its wording, even when `artifact_language` differs.
 - If the description was derived only from a selected `RESEARCH.md` because the user did not provide a request, omit `## Original Request`; the committed source is `## Research Context` instead.
 - If the user supplied a request and selected research also influenced the plan, include both `## Original Request` and `## Research Context`.

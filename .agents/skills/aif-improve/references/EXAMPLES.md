@@ -29,7 +29,7 @@ Apply? → Yes → Changes applied
 ## Example 2: With user prompt
 
 ```
-User: /aif-improve добавь обработку ошибок и валидацию входных данных
+User: /aif-improve add error handling and input validation
 
 → Found plan: <resolved fast plan path>
 → 4 tasks in plan

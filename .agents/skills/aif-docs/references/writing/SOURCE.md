@@ -17,7 +17,7 @@ the rules to prompts, issues, commits, application messages, and all chat
 answers. Meaning preservation and project dictionary decisions take priority
 over sentence length and vocabulary heuristics.
 
-The source describes ГОСТ Р 58049-2017 and ASD-STE100. This adaptation is an
+The source describes GOST R 58049-2017 and ASD-STE100. This adaptation is an
 unofficial editorial aid; it makes no certification or endorsement claim and
 does not reproduce either official standard or the ASD dictionary. The proposal's
 reported −71% EN / −55% RU lint-hit reductions are upstream heuristic metrics,

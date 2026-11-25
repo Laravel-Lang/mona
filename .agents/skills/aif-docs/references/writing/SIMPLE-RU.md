@@ -1,31 +1,32 @@
-# Правила редактирования русского текста
+# Editorial rules for Russian text
 
-Применяйте после выбора языка и проверки условий из `../WRITING-PROFILE.md`.
-Это практическая адаптация SimpleEn-RU с опорой на ГОСТ Р 58049-2017.
-Она не подтверждает соответствие стандарту.
+Apply these rules after selecting the language and checking the conditions in
+`../WRITING-PROFILE.md`. They adapt SimpleEn-RU guidance based on
+GOST R 58049-2017. This adaptation does not establish compliance with the
+standard.
 
-- Различайте инструкции и описания. Примечание сообщает сведения; оно не
-  добавляет команду.
-- В уже разрешённых инструкциях предпочитайте повелительное наклонение
-  множественного числа и одно действие в предложении. Условие ставьте перед
-  действием. Сохраняйте область действия условия и исключений.
-- Стремитесь к пределу 20 слов для инструкций и описаний. Делите предложение
-  только при сохранении исполнителя, порядка действий и всех ограничений.
-- Используйте прямой порядок слов. Заменяйте длинные цепочки существительных
-  и сложные обороты, если это не меняет термин или смысл.
-- Один абзац посвящайте одной теме; ориентир — не больше шести предложений.
-  Сохраняйте связность между шагами и пояснениями.
-- Убирайте вводные слова только тогда, когда они не передают факт, условие
-  или неопределённость. Сохраняйте «может», «следует», «должен» и их различия.
-  Не превращайте рекомендацию или возможность в обязательную команду.
-- Сохраняйте термины словаря проекта. Без словарного решения не объединяйте
-  «проверить», «верифицировать», «валидировать» и другие разные операции.
-  Не переводите принятый термин ради общего запрета заимствований.
-- Предупреждение размещайте перед соответствующим шагом. Сохраняйте уровень
-  риска, последствия и границы разрешённых действий.
-- Проверьте три самых длинных предложения, условия и термины. Если сокращение
-  меняет смысл, сохраните исходный текст и укажите исключение по стилю.
+- Distinguish instructions from descriptions. Keep notes informational.
+- For authorized instructions, prefer the plural imperative and one action per
+  sentence. Put the condition before the action. Preserve the scope of conditions
+  and exceptions.
+- Aim for at most 20 words per sentence in instructions and descriptions. Split
+  a sentence only if the split preserves the actor, order of actions, and all
+  constraints.
+- Use direct word order. Simplify long noun chains and complex phrases when the
+  terminology and meaning can be preserved.
+- Cover one topic per paragraph and aim for at most six sentences. Keep steps and
+  explanations connected.
+- Remove introductory phrases only if they carry no fact, condition, or
+  uncertainty. Preserve the distinctions among `может`, `следует`, and `должен`.
+  Keep recommendations and possibilities at their original level of obligation.
+- Follow the project glossary. Keep operations such as `проверить`,
+  `верифицировать`, and `валидировать` distinct unless the glossary equates them.
+  Keep established terms even if they are loanwords.
+- Put warnings before the affected step. Preserve the level of risk,
+  consequences, and scope of authorized actions.
+- Review the three longest sentences, conditions, and terms. If shortening would
+  change the meaning, keep the original text and report a style exception.
 
-Код, команды, идентификаторы, цитируемые ошибки и строки журнала не меняйте.
-Перед принятием правки сравните каждый изменённый фрагмент с источником.
-Происхождение и лицензия MIT: `SOURCE.md`, `LICENSE.md`.
+Preserve code, commands, identifiers, quoted errors, and log lines verbatim.
+Compare every changed passage with the source before accepting the revision.
+See `SOURCE.md` and `LICENSE.md` for provenance and MIT license terms.
