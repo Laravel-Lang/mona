@@ -206,7 +206,7 @@
 - [ ] Реализовать split репозитории (посмотреть как это сделано в
   MoonShine https://github.com/moonshine-software/moonshine/blob/5.x/repair-monorepo.sh).
 - [x] Перевести Mona в публичную область видимости.
-- [ ] Включить "Require actions to be pinned to a full-length commit SHA" в настройках
+- [x] Включить "Require actions to be pinned to a full-length commit SHA" в настройках
   (https://github.com/organizations/Laravel-Lang/settings/actions)
 - [x] Отключить Issue во всех репозиториях.
 - [ ] Удалить `PLAN.md`
