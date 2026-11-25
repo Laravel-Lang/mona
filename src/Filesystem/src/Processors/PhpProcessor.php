@@ -85,26 +85,9 @@ class PhpProcessor extends Processor
     }
 
     /** @param array<array-key, mixed> $data */
-    protected function exportArray(array $data, string $indent = ''): string
+    protected function exportArray(array $data): string
     {
-        if ($data === []) {
-            return '[]';
-        }
-
-        $entryIndent = $indent . '    ';
-        $result      = "[\n";
-
-        // Brick omits list indexes and writes integer keys without quotes.
-        foreach ($data as $key => $value) {
-            $exportedKey   = VarExporter::export((string) $key);
-            $exportedValue = is_array($value)
-                ? $this->exportArray($value, $entryIndent)
-                : VarExporter::export($value, VarExporter::TRAILING_COMMA_IN_ARRAY);
-
-            $result .= $entryIndent . $exportedKey . ' => ' . $exportedValue . ",\n";
-        }
-
-        return $result . $indent . ']';
+        return VarExporter::export($data, VarExporter::TRAILING_COMMA_IN_ARRAY);
     }
 
     /**
