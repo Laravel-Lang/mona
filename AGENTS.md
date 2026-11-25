@@ -24,6 +24,7 @@
 ## Documentation
 
 - Update the documentation for every configured documentation locale as part of each code change.
+- In the current version of the documentation, omit version constraints from dependency installation commands unless the user explicitly requests them. For example, use `composer require laravel-lang/models` instead of `composer require "laravel-lang/models:20.*"`.
 
 ## Testing
 
