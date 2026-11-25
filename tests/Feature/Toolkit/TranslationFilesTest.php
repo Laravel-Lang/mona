@@ -23,7 +23,7 @@ test('JSON translations preserve nested values and sort associative keys', funct
         'z' => '00123',
         'a' => [
             'z' => [true, false, null, 42, -3, 1.0, 1.25, PHP_INT_MIN, PHP_INT_MAX],
-            'a' => "It's a \\path with \"quotes\", \$variables,\nnew lines,\t tabs and \0 bytes: Привет / world",
+            'a' => "It's a \\path with \"quotes\", \$variables,\nnew lines,\t tabs and \0 bytes: Hello from the café",
             'm' => ['001' => '002', '10.50' => '10.50', 'empty' => []],
         ],
     ];
