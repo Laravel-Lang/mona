@@ -31,6 +31,8 @@ Publisher detecta las configuraciones regionales a partir de la actual y la de r
 
 Los paquetes de traducción declaran los paquetes, las versiones y los archivos de destino compatibles en los [manifiestos de complementos](./plugins.md). Publisher combina los diccionarios compartidos y los de cada paquete, e incorpora sus traducciones en cada archivo de destino. Conserva las claves ajenas a la actualización y reemplaza las claves coincidentes, incluidas las numéricas. Si una frase no existe en los diccionarios, Publisher escribe la frase original. Mantén las traducciones personalizadas en archivos separados o [excluye](./configure.md#skip-files-and-force-integrations) los destinos generados que mantienes tú mismo.
 
+En los archivos `validation.php` de la aplicación, Publisher coloca las claves de nivel superior `custom` y `attributes` al final, en ese orden, cuando están presentes. Las demás claves de nivel superior se ordenan alfabéticamente.
+
 Ejecuta `lang:update` después de cambiar las dependencias de Composer o la [configuración de publicación](./configure.md). Revisa el diff generado.
 
 En una copia recién descargada, ejecuta `composer install` antes de publicar traducciones. Despliega los archivos generados con la aplicación o créalos durante el despliegue si el directorio de traducciones admite escritura. Si faltan los archivos, ejecuta `php artisan lang:add fr de_CH --no-interaction` con los códigos necesarios. Si ya existen, actualízalos con `php artisan lang:update --no-interaction`.

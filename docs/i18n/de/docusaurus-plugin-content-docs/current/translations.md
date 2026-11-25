@@ -31,6 +31,8 @@ Der Publisher ermittelt Locales anhand der aktuellen Locale und der Fallback-Loc
 
 Übersetzungspakete geben unterstützte Pakete, Versionen und Zieldateien in [Plugin-Manifesten](./plugins.md) an. Der Publisher kombiniert die gemeinsamen Wörterbücher und die Paketwörterbücher und führt ihre Übersetzungen mit jeder Zieldatei zusammen. Dabei behält er andere Schlüssel bei und ersetzt übereinstimmende Schlüssel, auch numerische. Fehlt ein Text in den Wörterbüchern, schreibt der Publisher den Quelltext. Lege eigene Überschreibungen in separaten Übersetzungsdateien ab oder [schließe](./configure.md#skip-files-and-force-integrations) die von dir selbst gepflegten generierten Ziele aus.
 
+In den `validation.php`-Dateien der Anwendung setzt der Publisher die Schlüssel `custom` und `attributes` auf oberster Ebene in dieser Reihenfolge ans Ende, sofern sie vorhanden sind. Die übrigen Schlüssel auf oberster Ebene werden alphabetisch sortiert.
+
 Führe `lang:update` nach Änderungen an Composer-Abhängigkeiten oder [Veröffentlichungseinstellungen](./configure.md) aus. Prüfe die generierten Änderungen.
 
 Führe in einem frischen Checkout vor dem Veröffentlichen `composer install` aus. Liefere die generierten Dateien mit der Anwendung aus oder erstelle sie bei der Bereitstellung, sofern das Sprachverzeichnis beschreibbar ist. Wenn die Dateien fehlen, führe `php artisan lang:add fr de_CH --no-interaction` mit den benötigten Codes aus. Aktualisiere vorhandene Dateien mit `php artisan lang:update --no-interaction`.

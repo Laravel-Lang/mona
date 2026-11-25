@@ -31,6 +31,8 @@ Publisher lokallarni ilovaning joriy va zaxira lokali, til katalogi ildizidagi f
 
 Tarjima paketlari qo‘llab-quvvatlanadigan paket va versiyalarni, shuningdek maqsad fayllarini [plagin manifestlarida](./plugins.md) e’lon qiladi. Publisher umumiy va paket lug‘atlarini birlashtiradi, so‘ng tarjimalarni har bir maqsad fayliga qo‘shadi. U aloqasiz kalitlarni saqlaydi va mos keladigan kalitlarning qiymatini almashtiradi, bu sonli kalitlarga ham tegishli. Lug‘atlarda ibora topilmasa, Publisher manba iborani yozadi. O‘zingizga xos almashtirishlarni alohida tarjima fayllarida saqlang yoki mustaqil yuritadigan maqsad fayllarini [nashrdan chiqarib tashlang](./configure.md#skip-files-and-force-integrations).
 
+Ilovaning `validation.php` fayllarida Publisher yuqori darajadagi `custom` va `attributes` kalitlari mavjud bo‘lsa, ularni shu tartibda fayl oxiriga joylashtiradi. Yuqori darajadagi qolgan kalitlar alifbo tartibida saralanadi.
+
 Composer bog‘liqliklari yoki [nashr sozlamalari](./configure.md) o‘zgargach, `lang:update` buyrug‘ini bajaring. Hosil bo‘lgan farqlarni ko‘rib chiqing.
 
 Loyihaning yangi nusxasida tarjimalarni nashr qilishdan oldin `composer install` buyrug‘ini bajaring. Yaratilgan fayllarni ilova bilan birga joylashtiring yoki yozish mumkin bo‘lgan tarjima katalogida joylashtirish vaqtida yarating. Fayllar hali yo‘q bo‘lsa, kerakli kodlar bilan `php artisan lang:add fr de_CH --no-interaction` buyrug‘ini bajaring. Mavjud fayllarni `php artisan lang:update --no-interaction` bilan yangilang.

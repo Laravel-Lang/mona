@@ -31,6 +31,8 @@ Publisher, uygulamanın geçerli ve yedek yerel ayarlarına, dil dizininin kök�
 
 Çeviri paketleri, desteklenen paket ve sürümleri ve hedef dosyaları [eklenti manifestlerinde](./plugins.md) bildirir. Publisher, ortak sözlüklerle paket sözlüklerini birleştirir ve ardından çevirileri her hedef dosyaya işler. İlgisiz anahtarları korur ve sayısal anahtarlar da dâhil olmak üzere eşleşen anahtarların değerlerini değiştirir. Bir ifade sözlüklerde yoksa kaynak ifadeyi yazar. Kendi değişikliklerinizi ayrı dosyalarda tutun veya bakımını üstlendiğiniz hedefleri [yayım dışında bırakın](./configure.md#skip-files-and-force-integrations).
 
+Publisher, uygulamanın `validation.php` dosyalarında `custom` ve `attributes` üst düzey anahtarlarını, mevcut olduklarında, bu sırayla dosyanın sonuna yerleştirir. Diğer üst düzey anahtarlar alfabetik olarak sıralanır.
+
 Composer bağımlılıklarını veya [yayım ayarlarını](./configure.md) değiştirdikten sonra `lang:update` komutunu çalıştırın. Oluşan değişiklikleri inceleyin.
 
 Projenin yeni bir kopyasında çevirileri yayımlamadan önce `composer install` çalıştırın. Oluşturulan dosyaları uygulamayla birlikte dağıtın veya çeviri dizini yazılabilirken dağıtım sırasında oluşturun. Dosyalar yoksa gereken kodlarla `php artisan lang:add fr de_CH --no-interaction` çalıştırın. Var olan dosyaları `php artisan lang:update --no-interaction` ile güncelleyin.

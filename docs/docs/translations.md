@@ -25,6 +25,8 @@ php artisan lang:update
 
 Translation packs declare supported packages, versions, and target files in [plugin manifests](./plugins.md). The Publisher combines shared and package dictionaries, then merges their translations into each target file. It keeps unrelated keys and replaces matching keys, including numeric keys such as `404` in `http-statuses.php`. When a phrase is missing from the dictionaries, the Publisher writes the source phrase. Keep custom overrides in separate translation files or [skip](./configure.md#skip-files-and-force-integrations) the generated targets that you maintain yourself.
 
+In the application's `validation.php` files, the Publisher places any top-level `custom` and `attributes` keys last, in that order. The other top-level keys are sorted alphabetically.
+
 Run `lang:update` after changing Composer dependencies or [publication settings](./configure.md). Review the generated diff.
 
 On a fresh checkout, run `composer install` before publishing. Deploy the generated language files with the application or generate them during deployment, when the language directory is writable. If the files are absent, run `php artisan lang:add fr de_CH --no-interaction` with the application's locale codes to create and populate their directories. If the files are already present, run `php artisan lang:update --no-interaction` to refresh them.

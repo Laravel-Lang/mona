@@ -31,6 +31,8 @@ Publisher는 애플리케이션의 현재 및 대체 로캘, 언어 디렉터리
 
 번역 팩은 [플러그인 매니페스트](./plugins.md)에서 지원 패키지, 버전, 대상 파일을 선언합니다. Publisher는 공용 사전과 패키지 사전을 결합한 뒤 각 대상 파일에 번역을 병합합니다. 관계없는 키는 보존하고 숫자 키를 포함해 일치하는 키를 교체합니다. 사전에 문구가 없으면 원문을 기록합니다. 직접 관리하는 재정의는 별도의 번역 파일에 두거나, 직접 유지하는 생성 대상을 [제외](./configure.md#skip-files-and-force-integrations)하세요.
 
+애플리케이션의 `validation.php` 파일에 최상위 키인 `custom`과 `attributes`가 있으면 Publisher는 해당 키를 이 순서대로 파일 끝에 배치합니다. 나머지 최상위 키는 알파벳순으로 정렬합니다.
+
 Composer 의존성이나 [게시 설정](./configure.md)을 바꾼 뒤에는 `lang:update`를 실행합니다. 생성된 변경 사항을 검토하세요.
 
 프로젝트를 새로 체크아웃했다면 번역을 게시하기 전에 `composer install`을 실행하세요. 생성한 파일을 애플리케이션과 함께 배포하거나 번역 디렉터리에 쓰기 권한이 있을 때 배포 중에 생성하세요. 파일이 없으면 필요한 코드로 `php artisan lang:add fr de_CH --no-interaction`을 실행하세요. 기존 파일은 `php artisan lang:update --no-interaction`으로 갱신하세요.

@@ -31,6 +31,8 @@ O Publisher identifica localidades a partir das localidades atual e de fallback 
 
 Os pacotes de tradução declaram os pacotes, versões e arquivos de destino compatíveis em [manifestos de plugins](./plugins.md). O Publisher combina os dicionários compartilhados e os dos pacotes, depois mescla as traduções em cada arquivo de destino. Ele preserva as chaves sem correspondência e substitui as chaves correspondentes, inclusive as numéricas. Quando uma frase está ausente dos dicionários, o Publisher grava a frase de origem. Mantenha suas substituições em arquivos de tradução separados ou [ignore](./configure.md#skip-files-and-force-integrations) os destinos gerados que você mantém.
 
+Nos arquivos `validation.php` da aplicação, o Publisher coloca as chaves de nível superior `custom` e `attributes` no fim do arquivo, nessa ordem, quando presentes. As demais chaves de nível superior ficam em ordem alfabética.
+
 Execute `lang:update` depois de alterar dependências do Composer ou [configurações de publicação](./configure.md). Revise as diferenças geradas.
 
 Em uma cópia nova do projeto, execute `composer install` antes de publicar traduções. Implante os arquivos gerados com a aplicação ou gere-os durante a implantação se houver permissão de escrita no diretório de traduções. Se os arquivos estiverem ausentes, execute `php artisan lang:add fr de_CH --no-interaction` com os códigos necessários. Para atualizar arquivos existentes, execute `php artisan lang:update --no-interaction`.
