@@ -1,0 +1,7 @@
+{
+    "excludes": [
+        "role",
+        "student",
+        "text"
+    ]
+}

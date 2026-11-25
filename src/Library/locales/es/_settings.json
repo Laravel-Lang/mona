@@ -1,5 +1,7 @@
 {
     "excludes": [
-        "No"
+        "No",
+        "color",
+        "slug"
     ]
 }

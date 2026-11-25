@@ -3,6 +3,13 @@
         "Details",
         "Open",
         "Start",
-        "Stop"
+        "Stop",
+        "concept",
+        "filter",
+        "login",
+        "portfolio",
+        "slug",
+        "status",
+        "type"
     ]
 }

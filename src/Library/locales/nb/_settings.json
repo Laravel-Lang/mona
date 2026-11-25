@@ -1,6 +1,10 @@
 {
     "excludes": [
         "Admin",
-        "Start"
+        "Start",
+        "filter",
+        "status",
+        "student",
+        "type"
     ]
 }
