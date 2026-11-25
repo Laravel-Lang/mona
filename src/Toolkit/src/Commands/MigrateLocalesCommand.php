@@ -72,6 +72,10 @@ final class MigrateLocalesCommand
 
             ksort($data);
 
+            if (! $data) {
+                continue;
+            }
+
             $this->filesystem->store($target . '/' . $locale . '/_settings.json', $this->encode(['excludes' => $data]));
 
             $this->filesystem->ensureDelete($sourcePath);
@@ -99,8 +103,13 @@ final class MigrateLocalesCommand
             ksort($dataDefault);
             ksort($dataInline);
 
-            $this->filesystem->store($targetDefaultPath, $this->encode($dataDefault));
-            $this->filesystem->store($targetInlinePath, $this->encode($dataInline));
+            if ($dataDefault) {
+                $this->filesystem->store($targetDefaultPath, $this->encode($dataDefault));
+            }
+
+            if ($dataInline) {
+                $this->filesystem->store($targetInlinePath, $this->encode($dataInline));
+            }
 
             $this->filesystem->ensureDelete($sourceDefaultPath);
             $this->filesystem->ensureDelete($sourceInlinePath);
@@ -128,33 +137,34 @@ final class MigrateLocalesCommand
         }
 
         foreach (Locale::values() as $locale) {
+            ///
             $sourceDefaultPath = $source . '/locales/' . $locale . '/php.json';
             $sourceInlinePath  = $source . '/locales/' . $locale . '/php-inline.json';
 
             $targetDefaultPath = $target . '/' . $locale . '/default.json';
             $targetInlinePath  = $target . '/' . $locale . '/inline.json';
 
-            $sourceDataDefault = $this->filesystem->read($sourceDefaultPath);
-            $sourceDataInline  = $this->filesystem->read($sourceInlinePath);
-
-            $targetDataDefault = $this->filesystem->read($targetDefaultPath);
-            $targetDataInline  = $this->filesystem->read($targetInlinePath);
-
-            $dataDefault = array_replace($targetDataDefault, $sourceDataDefault);
-            $dataInline  = array_replace($targetDataInline, $sourceDataInline);
-
-            $combinedDefault = $this->combine($sourceData, $dataDefault);
-            $combinedInline  = $this->combine($sourceData, $dataInline);
-
-            ksort($combinedDefault);
-            ksort($combinedInline);
-
-            $this->filesystem->store($targetDefaultPath, $this->encode($combinedDefault));
-            $this->filesystem->store($targetInlinePath, $this->encode($combinedInline));
-
-            $this->filesystem->ensureDelete($sourceDefaultPath);
-            $this->filesystem->ensureDelete($sourceInlinePath);
+            $this->processPhp($sourceDefaultPath, $targetDefaultPath, $sourceData);
+            $this->processPhp($sourceInlinePath, $targetInlinePath, $sourceData);
         }
+    }
+
+    protected function processPhp(string $sourcePath, string $targetPath, array $keys): void
+    {
+        $sourceData = $this->filesystem->read($sourcePath);
+        $targetData = $this->filesystem->read($targetPath);
+
+        $combinedData = $this->combine($keys, $sourceData);
+
+        if (! $combinedData) {
+            return;
+        }
+
+        $data = array_replace($targetData, $combinedData);
+
+        ksort($data);
+
+        $this->filesystem->store($targetPath, $this->encode($data));
     }
 
     protected function combine(array $source, array $target): array
