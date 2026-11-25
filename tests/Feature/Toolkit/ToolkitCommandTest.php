@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Filesystem\Filesystem;
 use LaravelLang\Exceptions\InvalidJsonEncodeException;
 use LaravelLang\Exceptions\InvalidTranslationStatusException;
+use LaravelLang\Exceptions\TranslationFileException;
 use LaravelLang\LocaleList\Locale;
 use LaravelLang\Toolkit\Commands\CreateLocaleCommand;
 use LaravelLang\Toolkit\Commands\DeleteLocaleCommand;
@@ -15,6 +16,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Tester\ApplicationTester;
+use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Process\Process;
 
 beforeEach(function (): void {
@@ -220,6 +222,37 @@ it('writes and removes per-locale reports in the chosen status directory', funct
         ->and($this->toolkitFilesystem->exists($reports . '/pt_BR.json'))->toBeTrue()
         ->and($this->toolkitFilesystem->get($locales . '/fr/_status.json'))->toBe($default);
 });
+
+it('rejects an explicitly empty status output directory', function (): void {
+    $root = $this->toolkitDirectory;
+    toolkitFile($root . '/locales/fr/messages.json', '{"Hello":"Hello"}');
+
+    $tester = runToolkit('status', ['directory' => $root, '--output-dir' => '']);
+
+    expect($tester->getStatusCode())->toBe(Command::INVALID)
+        ->and($tester->getDisplay())->toContain('The output directory cannot be empty.')
+        ->and($this->toolkitFilesystem->exists($root . '/locales/fr/_status.json'))->toBeFalse();
+});
+
+it('reports the destination when a status report cannot be written in full', function (false|int $bytesWritten): void {
+    $root        = $this->toolkitDirectory;
+    $destination = $root . '/reports';
+    $report      = $destination . '/fr.json';
+    toolkitFile($root . '/locales/fr/messages.json', '{"Hello":"Hello"}');
+
+    $filesystem = Mockery::mock(Filesystem::class)->makePartial();
+    $filesystem->shouldReceive('put')->once()->with($report, Mockery::type('string'))->andReturn($bytesWritten);
+
+    $application = new Application;
+    $application->addCommand(new StatusCommand($filesystem));
+    $tester = new CommandTester($application->find('status'));
+
+    expect(fn (): int => $tester->execute(['directory' => $root, '--output-dir' => $destination]))
+        ->toThrow(TranslationFileException::class, "Unable to write translation file [$report]: The translation file could not be written.");
+})->with([
+    'failed write' => [false],
+    'short write'  => [1],
+]);
 
 it('reports an error when the locales directory is missing', function (): void {
     $tester = runToolkit('status', ['directory' => $this->toolkitDirectory]);
