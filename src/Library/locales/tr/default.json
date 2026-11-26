@@ -974,7 +974,7 @@
     "The :attribute field has invalid image dimensions.": ":Attribute geçersiz resim boyutlarına sahip.",
     "The :attribute field is invalid.": ":Attribute alanı geçersiz.",
     "The :attribute field is missing a required value.": ":attribute alanında gerekli bir değer eksik.",
-    "The :attribute field is prohibited unless :other is in :values.": ":Other alanı :value değerlerinden birisi değilse :attribute alanına veri girişi yapılamaz.",
+    "The :attribute field is prohibited unless :other is in :values.": ":Other alanı :values değerlerinden birisi değilse :attribute alanına veri girişi yapılamaz.",
     "The :attribute field is prohibited when :other is :value.": ":Other alanının değeri :value ise :attribute alanına veri girişi yapılamaz.",
     "The :attribute field is prohibited when :other is accepted.": ":other kabul edildiğinde :attribute alanına veri girişi yapılamaz.",
     "The :attribute field is prohibited when :other is declined.": ":other reddedildiğinde :attribute alanına veri girişi yapılamaz.",
