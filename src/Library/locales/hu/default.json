@@ -1195,7 +1195,7 @@
     "The provided VAT number is invalid.": "A megadott adószám érvénytelen.",
     "The provided coupon code is invalid.": "A megadott kuponkód érvénytelen.",
     "The provided password does not match your current password.": "A megadott jelszó nem egyezik meg az aktuális jelszóval.",
-    "The provided password is incorrect.": "A(z) :attribute jelszónak kell, hogy legyen!",
+    "The provided password is incorrect.": "A megadott jelszó helytelen.",
     "The provided password was incorrect.": "A megadott jelszó helytelen volt.",
     "The provided two factor authentication code was invalid.": "A megadott kéttényezős hitelesítési kód érvénytelen volt.",
     "The provided two factor recovery code was invalid.": "A megadott kéttényezős helyreállítási kód érvénytelen.",
