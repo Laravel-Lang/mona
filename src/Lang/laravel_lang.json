@@ -104,6 +104,10 @@
             "version": "dev-master",
             "files": [
                 {
+                    "source": "framework/extended.json",
+                    "target": "{locale}.json"
+                },
+                {
                     "source": "framework/master/framework.json",
                     "target": "{locale}.json"
                 },
@@ -130,6 +134,10 @@
             "version": "^12.0",
             "files": [
                 {
+                    "source": "framework/extended.json",
+                    "target": "{locale}.json"
+                },
+                {
                     "source": "framework/12.x/framework.json",
                     "target": "{locale}.json"
                 },
@@ -155,6 +163,10 @@
             "vendor": "laravel/framework",
             "version": "^13.0",
             "files": [
+                {
+                    "source": "framework/extended.json",
+                    "target": "{locale}.json"
+                },
                 {
                     "source": "framework/13.x/framework.json",
                     "target": "{locale}.json"
@@ -211,10 +223,6 @@
             "files": [
                 {
                     "source": "passkeys/main/passkeys.json",
-                    "target": "{locale}.json"
-                },
-                {
-                    "source": "passkeys/extended.json",
                     "target": "{locale}.json"
                 }
             ]
