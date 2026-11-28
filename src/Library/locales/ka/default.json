@@ -1191,7 +1191,7 @@
     "The image could not be loaded": "სურათის ჩატვირთვა ვერ მოხერხდა",
     "The image could not be loaded.": "სურათის ჩატვირთვა ვერ მოხერხდა.",
     "The invoice emails must be valid email addresses.": "ინვოისის ელ.წერილი უნდა იყოს ელექტრონული ფოსტის მისამართები.",
-    "The password is incorrect.": "ველი :attribute შეიცავს არასწორ პაროლს.",
+    "The password is incorrect.": "პაროლი არასწორია.",
     "The provided VAT number is invalid.": "მოწოდებული დღგ ნომერი არასწორია.",
     "The provided coupon code is invalid.": "მოწოდებული კუპონის კოდი არასწორია.",
     "The provided password does not match your current password.": "გათვალისწინებული პაროლი არ ემთხვევა თქვენი მიმდინარე პაროლი.",

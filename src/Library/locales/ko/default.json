@@ -974,7 +974,7 @@
     "The :attribute field has invalid image dimensions.": ":attribute은(는) 올바르지 않는 이미지 크기입니다.",
     "The :attribute field is invalid.": ":attribute은(는) 유효하지 않습니다.",
     "The :attribute field is missing a required value.": ":attribute 필드에 필수 값이 누락되었습니다.",
-    "The :attribute field is prohibited unless :other is in :values.": ":attribute (은)는 :other 이(가) :value 이(가) 아닌 경우 금지되어 있습니다.",
+    "The :attribute field is prohibited unless :other is in :values.": ":attribute (은)는 :other 이(가) :values 이(가) 아닌 경우 금지되어 있습니다.",
     "The :attribute field is prohibited when :other is :value.": ":attribute (은)는 :other 이(가) :value 인 경우 금지되어 있습니다.",
     "The :attribute field is prohibited when :other is accepted.": ":attribute 필드는 :other이 허용되면 금지됩니다.",
     "The :attribute field is prohibited when :other is declined.": ":other이 감소 할 때 :attribute 필드는 금지됩니다.",

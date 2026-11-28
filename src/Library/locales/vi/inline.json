@@ -12,7 +12,7 @@
     "The :attribute field has a duplicate value.": "Trường này có giá trị trùng lặp.",
     "The :attribute field has invalid image dimensions.": "Trường này có kích thước không hợp lệ.",
     "The :attribute field is invalid.": "Trường này không hợp lệ.",
-    "The :attribute field is missing a required value.": "Trường này phải chứa một trong các giá trị sau: :values.",
+    "The :attribute field is missing a required value.": "Trường này thiếu một giá trị bắt buộc.",
     "The :attribute field is prohibited unless :other is in :values.": "Trường này bị cấm trừ khi :other là một trong :values.",
     "The :attribute field is prohibited when :other is :value.": "Trường này bị cấm khi :other là :value.",
     "The :attribute field is prohibited when :other is accepted.": "Trường này bị cấm khi :other được chấp nhận.",
